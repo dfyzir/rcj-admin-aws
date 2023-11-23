@@ -38,13 +38,9 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
         ? await getUrl({ key: trailer.registrationFile })
         : null;
 
-      inspectionLink
-        ? setInspectionUrl(inspectionLink as unknown as string)
-        : null;
+      inspectionLink ? setInspectionUrl(inspectionLink.url.href) : null;
 
-      registrationLink
-        ? setRegistrationUrl(registrationLink as unknown as string)
-        : null;
+      registrationLink ? setRegistrationUrl(registrationLink.url.href) : null;
     };
     getSignedLinks();
   }, [trailer.inspectionFile, trailer.registrationFile]);

@@ -25,7 +25,6 @@ import TopContent from "@/components/table/TopContent";
 import SubscriptionDummy from "@/components/table/SubscriptionDummy";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
-import { EditIcon } from "../icons/EditIcon";
 
 const ChassisTable = () => {
   const [trailers, setTrailers] = useState<Array<TrailerRCJ>>([]);
