@@ -49,7 +49,7 @@ const ExpiredButton = ({
 
     return expiredTrailers;
   }, [isExpired, trailers]);
-  console.log("EXPIRED", expiredItems);
+
   return (
     <div>
       {expiredItems.length > 0 ? (

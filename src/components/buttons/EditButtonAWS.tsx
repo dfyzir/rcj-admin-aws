@@ -25,7 +25,7 @@ const EditButtonAWS = ({
   const processFile = ({ file, key }: { file: File; key: string }) => {
     const fileParts = key.split(".");
     const ext = fileParts.pop();
-    console.log("inside processFile", key);
+
     return {
       file,
       key: `${fileParts.join(".").toUpperCase()}.${ext}`,

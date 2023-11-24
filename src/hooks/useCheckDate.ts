@@ -5,7 +5,6 @@ export const useCheckDate = () => {
     sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 7)
   ).toISOString();
 
-  console.log(currentDate < "2023-11-11", sevenDaysFromNow);
   const isExpired = (date: string) => {
     return date < currentDate;
   };
