@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format, parseISO } from "date-fns";
 import { getUrl } from "aws-amplify/storage";
 import { TrailerRCJ } from "@/API";
@@ -18,6 +18,8 @@ import { ViewIcon } from "../icons/ViewIcon";
 import EditButtonAWS from "./EditButtonAWS";
 
 import dynamic from "next/dynamic";
+import QrCodeButton from "./QRCodeButton";
+import { useCheckDate } from "@/hooks/useCheckDate";
 
 const DynamicPDFViewer = dynamic(() => import("../PDFViewer"), {
   ssr: false,
@@ -27,6 +29,7 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inspectionUrl, setInspectionUrl] = useState<string>();
   const [registrationUrl, setRegistrationUrl] = useState<string>();
+  const { isExpired } = useCheckDate();
 
   useEffect(() => {
     const getSignedLinks = async () => {
@@ -44,6 +47,18 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
     };
     getSignedLinks();
   }, [trailer.inspectionFile, trailer.registrationFile]);
+
+  const EmptyDiv = useMemo(() => {
+    return (
+      <>
+        {!inspectionUrl && !registrationUrl && (
+          <div className="my-auto  text-red-500 mx-auto p-5 h-auto items-center text-center text-xl md:text-4xl rounded-xl">
+            No files to show
+          </div>
+        )}
+      </>
+    );
+  }, [inspectionUrl, registrationUrl]);
 
   return (
     <div className="container">
@@ -91,15 +106,11 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
                     </p>
                   </div>
                   <div className="flex flex-col md:flex-row gap-20 md:gap-10 mt-5 mx-auto">
-                    {!inspectionUrl && !registrationUrl && (
-                      <div className="my-auto flex shadow-lg bg-gradient-to-t from-red-600 to-red-500/70 mx-auto p-5 h-auto items-center text-center text-4xl rounded-xl text-white">
-                        This chassis does not have files to show
-                      </div>
-                    )}
+                    {EmptyDiv}
                     {inspectionUrl && (
                       <div className=" mx-auto">
                         <div className="flex justify-evenly">
-                          <h3 className="text-center mb-4 text-xl font-semibold">
+                          <h3 className="text-center mb-4 text-xl font-semibold uppercase">
                             Inspection
                           </h3>
                           <Link
@@ -111,21 +122,27 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
                           </Link>
                         </div>
                         <DynamicPDFViewer pdfUrl={inspectionUrl} />
-                        <h3 className="text-center mt-4 text-xl font-semibold">
-                          Expires on{" "}
-                          {trailer.inspectionExpiresAt
-                            ? format(
-                                parseISO(trailer.inspectionExpiresAt),
-                                "PP"
-                              )
-                            : null}
-                        </h3>
+                        {trailer.inspectionExpiresAt ? (
+                          <h3
+                            className={`text-center mt-4 text-xl font-semibold ${
+                              isExpired(trailer.inspectionExpiresAt)
+                                ? "text-red-500"
+                                : null
+                            }`}>
+                            {isExpired(trailer.inspectionExpiresAt!)
+                              ? "Expired"
+                              : `Expires on ${format(
+                                  parseISO(trailer.inspectionExpiresAt),
+                                  "PP"
+                                )}`}
+                          </h3>
+                        ) : null}
                       </div>
                     )}
                     {registrationUrl && (
                       <div className=" mx-auto ">
                         <div className="flex justify-evenly">
-                          <h3 className="text-center mb-4 text-xl font-semibold">
+                          <h3 className="text-center mb-4 text-xl font-semibold uppercase">
                             Registration
                           </h3>
                           <Link
@@ -138,15 +155,16 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
                         </div>
                         <div className="w-full h-full rounded-xl">
                           <DynamicPDFViewer pdfUrl={registrationUrl} />
-                          <h3 className="text-center mt-4 text-xl font-semibold">
-                            Expires on{" "}
-                            {trailer.registrationExpiresAt
-                              ? format(
-                                  parseISO(trailer.registrationExpiresAt),
-                                  "PP"
-                                )
-                              : null}
-                          </h3>
+                          {trailer.registrationExpiresAt ? (
+                            <h3 className="text-center mt-4 text-xl font-semibold">
+                              {isExpired(trailer.registrationExpiresAt!)
+                                ? "Expired"
+                                : `Expires on ${format(
+                                    parseISO(trailer.registrationExpiresAt),
+                                    "PP"
+                                  )}`}
+                            </h3>
+                          ) : null}
                         </div>
                       </div>
                     )}
@@ -163,6 +181,9 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
                     Close
                   </Button>
                   <EditButtonAWS trailer={trailer} isView={true} />
+                  <QrCodeButton
+                    text={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${trailer.chassisNumber}`}
+                  />
                 </div>
               </ModalFooter>
             </>

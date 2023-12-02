@@ -1,7 +1,7 @@
 import React from "react";
 import { IconSvgProps } from "../../lib/types";
 
-export const DownloadIcon = ({
+export const CloseIcon = ({
   size = 24,
   width,
   height,
@@ -12,12 +12,14 @@ export const DownloadIcon = ({
     fill="none"
     viewBox="0 0 24 24"
     strokeWidth="1.5"
-    stroke="blue"
+    stroke="currentColor"
     className="w-6 h-6">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
     />
   </svg>
 );
+
+export default CloseIcon;
