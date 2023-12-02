@@ -19,7 +19,7 @@ const QrCodeButton = ({ text }: { text: string }) => {
     domtoimage.toBlob(qrCodeContainer!).then((blob) => {
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "qrcode.png";
+      link.download = `${text}_qrcode.png`;
       link.click();
     });
   };
@@ -56,7 +56,9 @@ const QrCodeButton = ({ text }: { text: string }) => {
             </Button>
           </div>
           <div id="qrCodeContainer">
-            <QRCode bgColor="white" value={text} />
+            <QRCode
+              value={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${text}`}
+            />
           </div>
         </div>
       )}

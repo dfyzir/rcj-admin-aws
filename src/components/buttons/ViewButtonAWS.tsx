@@ -181,9 +181,7 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
                     Close
                   </Button>
                   <EditButtonAWS trailer={trailer} isView={true} />
-                  <QrCodeButton
-                    text={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${trailer.chassisNumber}`}
-                  />
+                  <QrCodeButton text={trailer.chassisNumber as string} />
                 </div>
               </ModalFooter>
             </>
