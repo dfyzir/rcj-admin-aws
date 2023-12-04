@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -10,16 +9,21 @@ import {
 import { PlusIcon } from "../icons/PlusIcon";
 import TrailerRCJCreateForm from "@/ui-components/TrailerRCJCreateForm";
 
+//AddTrailerButtonAWS Component:
+
+//This component represents a button to add a new trailer, triggering the display of a modal
+//with a form for creating a new trailer using TRailerRCJCreateForm  AWS UI component. It uses NextUI components and AWS services.
+
 const AddTrailerButtonAWS = () => {
+  // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  //processFile processes and formats file data before submission.
   const processFile = ({ file, key }: { file: File; key: string }) => {
     const fileParts = key.split(".");
     const ext = fileParts.pop();
     return {
       file,
-      // This will prepend a unix timestamp
-      // to ensure all files uploaded are unique
       key: `${fileParts.join(".").toUpperCase()}.${ext}`,
     };
   };

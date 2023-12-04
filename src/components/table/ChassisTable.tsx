@@ -13,18 +13,23 @@ import {
   TableHeader,
   TableRow,
   getKeyValue,
-  useDisclosure,
 } from "@nextui-org/react";
 
 import DeleteButtonAWS from "@/components/buttons/DeleteButtonAWS";
 import EditButtonAWS from "@/components/buttons/EditButtonAWS";
 import ViewButtonAWS from "@/components/buttons/ViewButtonAWS";
 import { ExpiredWarningIcon } from "@/components/icons/ExpiredWarningIcon";
-import BottomContent from "@/components/table/BottomContent";
+import BottomContent from "@/components/table/TablePagination";
 import TopContent from "@/components/table/TopContent";
-import SubscriptionDummy from "@/components/table/SubscriptionDummy";
+import AWSSubscriptionEvents from "@/components/table/AWSSubscriptionEvents";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
+import { classNamesForTable } from "../../lib/classNamesForTable";
+
+//ChassisTable Component:
+
+//This component is responsible for displaying a list of trailer data in a table format.
+//It incorporates functionality for creating, reading, updating, and deleting trailer records.
 
 const ChassisTable = () => {
   const [trailers, setTrailers] = useState<Array<TrailerRCJ>>([]);
@@ -33,9 +38,9 @@ const ChassisTable = () => {
   const [filterValue, setFilterValue] = useState("");
   const hasSearchFilter = Boolean(filterValue);
 
-  const { isExpired, isExpireSoon } = useCheckDate();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isExpired, isExpireSoon } = useCheckDate(); // Custom hook to check expiration and soon-to-expire dates
 
+  // Fetch trailers on component mount using GrapQL API
   useEffect(() => {
     const getTrailersRCJ = async () => {
       const client = generateClient();
@@ -50,6 +55,7 @@ const ChassisTable = () => {
     getTrailersRCJ();
   }, []);
 
+  // Memoized filtered trailers based on search filter
   const filteredItems = useMemo(() => {
     let filteredTrailers = trailers?.map((trailer: TrailerRCJ) => ({
       __typename: trailer.__typename,
@@ -74,35 +80,20 @@ const ChassisTable = () => {
     return filteredTrailers;
   }, [trailers, hasSearchFilter, filterValue]);
 
+  // Calculate the total number of pages based on filtered items and rows per page
   let pages: number = Math.ceil(filteredItems?.length / rowsPerPage);
 
+  // Memoized items to be displayed on the current page
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
     return filteredItems?.slice(start, end);
   }, [filteredItems, page, rowsPerPage]);
-  const classNames = useMemo(
-    () => ({
-      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-      td: [
-        "text-2xl",
-        "py-5",
-        "pb-10",
-        "group-data-[first=true]:first:before:rounded-none",
-        "group-data-[first=true]:last:before:rounded-none",
-
-        "group-data-[middle=true]:before:rounded-none",
-
-        "group-data-[last=true]:first:before:rounded-none",
-        "group-data-[last=true]:last:before:rounded-none",
-      ],
-    }),
-    []
-  );
+  const classNames = useMemo(() => classNamesForTable, []);
   return (
     <div className="mb-16 container mx-auto mt-5">
-      <SubscriptionDummy
+      <AWSSubscriptionEvents
         setTrailers={setTrailers}
         setFilterValue={setFilterValue}
       />

@@ -1,9 +1,12 @@
-// components/PDFViewer.js
-
 import React, { useEffect } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 
+//PDFViewer Component:
+
+//This component is responsible for rendering a PDF document using the react-pdf library.
+
 const PDFViewer = ({ pdfUrl }: { pdfUrl: string }) => {
+  // Set up PDF.js worker source during component mount
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
       "pdfjs-dist/build/pdf.worker.min.js",

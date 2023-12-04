@@ -17,15 +17,28 @@ import {
   onDeleteTrailerRCJ,
 } from "@/graphql/subscriptions";
 
-type SubscriptionDummyProps = {
+/**
+ * AWSSubscriptionEvents Component
+ *
+ * This component is responsible for setting up and managing real-time subscriptions
+ * to receive updates from the AppSync AWS service. It utilizes the useEffect hook to
+ * handle the subscription setup and cleanup.
+ *
+ * Note: This component doesn't render any UI as it focuses on the subscription logic.
+ * Instead, it might trigger state updates or other side effects in response to
+ * incoming subscription data.
+ */
+
+type AWSSubscriptionEventsProps = {
   setTrailers: (value: SetStateAction<TrailerRCJ[]>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
 };
 
-const SubscriptionDummy = ({
+const AWSSubscriptionEvents = ({
   setTrailers,
   setFilterValue,
-}: SubscriptionDummyProps) => {
+}: AWSSubscriptionEventsProps) => {
+  // Set up AppSync subscription when the component mounts
   useEffect(() => {
     const client = generateClient();
     const createSubscription = client
@@ -79,14 +92,16 @@ const SubscriptionDummy = ({
           toast.success("Trailer deleted successfully");
         },
       });
-
+    // Clean up the subscription when the component unmounts
     return () => {
       createSubscription.unsubscribe();
       updateSubscription.unsubscribe();
       deleteSubscription.unsubscribe();
     };
   }, [setFilterValue, setTrailers]);
+
+  // This component doesn't return any UI elements
   return null;
 };
 
-export default SubscriptionDummy;
+export default AWSSubscriptionEvents;

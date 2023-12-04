@@ -13,15 +13,21 @@ import {
 import { EditIcon } from "../icons/EditIcon";
 import TrailerRCJUpdateForm from "@/ui-components/TrailerRCJUpdateForm";
 
-const EditButtonAWS = ({
-  trailer,
-  isView,
-}: {
+//EditButtonAWS Component:
+
+//This component represents a button for editing a trailer. It triggers a modal
+//for updating the trailer details and utilizes AWS Amplify for storage operations.
+
+type EditButtonAWSProps = {
   trailer: TrailerRCJ;
   isView: boolean;
-}) => {
+};
+
+const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
+  // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  // Function for processing file during form submission
   const processFile = ({ file, key }: { file: File; key: string }) => {
     const fileParts = key.split(".");
     const ext = fileParts.pop();
@@ -58,7 +64,8 @@ const EditButtonAWS = ({
                   trailerRCJ={trailer}
                   onSubmit={(fields: any) => {
                     const updatedFields: any = {};
-
+                    //override built in submit functionality:
+                    //capitalize chassisNumber, VIN, plateNumber
                     Object.keys(fields).forEach((key) => {
                       if (
                         typeof fields[key] === "string" &&
@@ -70,6 +77,7 @@ const EditButtonAWS = ({
                         updatedFields[key] = fields[key];
                       }
                     });
+                    //if updatedFiles dont match previous files - delete previous files from storage
                     trailer.inspectionFile &&
                     trailer.inspectionFile !== updatedFields.inspectionFile
                       ? remove({ key: trailer.inspectionFile })

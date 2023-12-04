@@ -14,18 +14,26 @@ import {
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { ExpiredWarningIcon } from "../icons/ExpiredWarningIcon";
 
-const DeleteButtonAWS = ({
-  id,
-  chassisNumber,
-}: {
+//DeleteButtonAWS Component:
+
+//This component represents a button for deleting a trailer. It triggers a modal
+//for confirming the deletion, and utilizes AWS Amplify for mutation
+type DeleteButtonAWSProps = {
   id: string;
   chassisNumber: string;
-}) => {
+};
+
+const DeleteButtonAWS = ({ id, chassisNumber }: DeleteButtonAWSProps) => {
+  // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  // Object containing details required for deletion
   const deleteDetails = {
     id: id,
   };
+
+  //Function: handleDeleteTrailer
+  //Handles the deletion of the trailer by making a GraphQL mutation using AWS Amplify.
 
   const handleDeleteTrailer = async () => {
     const client = generateClient();

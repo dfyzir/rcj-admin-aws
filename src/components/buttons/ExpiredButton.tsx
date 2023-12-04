@@ -11,6 +11,13 @@ import {
   divider,
 } from "@nextui-org/react";
 
+//ExpiredButton Component:
+
+//This component represents a button that triggers a dropdown menu showing trailers
+//with expired inspection or registration. It uses the useCheckDate hook to determine
+//whether a trailer is expired. The dropdown allows the user to filter the table by
+//selecting a specific expired trailer.
+
 type ExpiredButtonProps = {
   trailers: TrailerRCJ[];
   setFilterValue: (value: SetStateAction<string>) => void;
@@ -22,8 +29,10 @@ const ExpiredButton = ({
   setFilterValue,
   setPage,
 }: ExpiredButtonProps) => {
+  // Use the useCheckDate hook to determine whether a trailer is expired
   const { isExpired } = useCheckDate();
 
+  // Use useMemo to filter and memoize the list of expired trailers
   const expiredItems = useMemo(() => {
     let expiredTrailers = trailers?.map((trailer: TrailerRCJ) => ({
       __typename: trailer.__typename,

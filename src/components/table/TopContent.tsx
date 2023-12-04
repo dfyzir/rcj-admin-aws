@@ -7,6 +7,11 @@ import { SearchIcon } from "../icons/SearchIcon";
 import ExpiredTable from "../buttons/ExpiredButton";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
 
+/*TopContent Component
+ This component represents the top section of a table, including search functionality,
+ filter buttons for expiring trailers, adding a new trailer button.
+*/
+
 type TopContentProps = {
   filterValue: string;
   trailers: TrailerRCJ[];

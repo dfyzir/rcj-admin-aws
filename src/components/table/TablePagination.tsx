@@ -1,13 +1,18 @@
 import { SetStateAction, useCallback } from "react";
 import { Button, Divider, Pagination } from "@nextui-org/react";
 
-type BottomContentProps = {
+/*
+  TablePagination Component
+  This component provides pagination controls for a table.
+*/
+
+type TablePaginationProps = {
   page: number;
   pages: number;
   setPage: (value: SetStateAction<number>) => void;
 };
 
-const BottomContent = ({ page, pages, setPage }: BottomContentProps) => {
+const TablePagination = ({ page, pages, setPage }: TablePaginationProps) => {
   const onNextPage = useCallback(() => {
     if (page < pages) {
       setPage(page + 1);
@@ -19,6 +24,7 @@ const BottomContent = ({ page, pages, setPage }: BottomContentProps) => {
       setPage(page - 1);
     }
   }, [page, setPage]);
+
   return (
     <div>
       <Divider className="mb-10" />
@@ -52,4 +58,4 @@ const BottomContent = ({ page, pages, setPage }: BottomContentProps) => {
   );
 };
 
-export default BottomContent;
+export default TablePagination;

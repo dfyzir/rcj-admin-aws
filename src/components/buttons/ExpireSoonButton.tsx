@@ -11,6 +11,13 @@ import {
   divider,
 } from "@nextui-org/react";
 
+/*ExpireSoonButton Component:
+ 
+This component represents a button that triggers a dropdown menu showing trailers
+with inspections or registrations expiring soon. It uses the useCheckDate hook to
+determine whether a trailer is expiring soon. The dropdown allows the user to filter
+the table by selecting a specific trailer that will expire soon.*/
+
 type ExpireSoonButtonProps = {
   trailers: TrailerRCJ[];
   setFilterValue: (value: SetStateAction<string>) => void;
@@ -22,8 +29,9 @@ const ExpireSoonButton = ({
   setFilterValue,
   setPage,
 }: ExpireSoonButtonProps) => {
+  // Use the useCheckDate hook to determine whether a trailer is expiring soon
   const { isExpireSoon } = useCheckDate();
-
+  // Use useMemo to filter and memoize the list of trailers expiring soon
   const expiredItems = useMemo(() => {
     let expiredTrailers = trailers?.map((trailer: TrailerRCJ) => ({
       __typename: trailer.__typename,

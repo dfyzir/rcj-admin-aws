@@ -21,16 +21,28 @@ import dynamic from "next/dynamic";
 import QrCodeButton from "./QRCodeButton";
 import { useCheckDate } from "@/hooks/useCheckDate";
 
-const DynamicPDFViewer = dynamic(() => import("../PDFViewer"), {
+/*ViewButtonAWS Component:
+ 
+ This component represents a button that, when clicked, opens a modal displaying details
+ of a trailer. It includes information such as chassis number, VIN, plate number, and
+ file attachments for inspection and registration. Users can view PDF files, download
+ attachments, and access actions like editing and generating a QR code for the trailer.*/
+
+const DynamicPDFViewer = dynamic(() => import("../pdfViewer/PDFViewer"), {
   ssr: false,
 });
 
-const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
+type ViewButtonAWSProps = {
+  trailer: TrailerRCJ;
+};
+
+const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inspectionUrl, setInspectionUrl] = useState<string>();
   const [registrationUrl, setRegistrationUrl] = useState<string>();
   const { isExpired } = useCheckDate();
 
+  //Getting signed links for pdf files from storage
   useEffect(() => {
     const getSignedLinks = async () => {
       const inspectionLink = trailer.inspectionFile
@@ -47,7 +59,7 @@ const ViewButtonAWS = ({ trailer }: { trailer: TrailerRCJ }) => {
     };
     getSignedLinks();
   }, [trailer.inspectionFile, trailer.registrationFile]);
-
+  //EmptyDiv is used when no files in storage for current chassis
   const EmptyDiv = useMemo(() => {
     return (
       <>
