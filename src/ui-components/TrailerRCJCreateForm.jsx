@@ -79,8 +79,8 @@ export default function TrailerRCJCreateForm(props) {
       },
       {
         type: "LessThanChar",
-        numValues: [11],
-        validationMessage: "The value must be 10 characters ",
+        numValues: [10],
+        validationMessage: "The value must be 10 characters or fewer",
       },
     ],
     vinNumber: [
@@ -92,8 +92,8 @@ export default function TrailerRCJCreateForm(props) {
       },
       {
         type: "LessThanChar",
-        numValues: [18],
-        validationMessage: "The value must be 17 characters ",
+        numValues: [17],
+        validationMessage: "The value must be 17 characters or fewer",
       },
     ],
     plateNumber: [],

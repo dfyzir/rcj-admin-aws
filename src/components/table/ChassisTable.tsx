@@ -5,7 +5,6 @@ import { listTrailerRCJS } from "../../graphql/queries";
 import { generateClient } from "aws-amplify/api";
 
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -24,6 +23,7 @@ import TopContent from "@/components/table/TopContent";
 import AWSSubscriptionEvents from "@/components/table/AWSSubscriptionEvents";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
+import { classNamesForTable } from "@/lib/classNamesForTable";
 
 //ChassisTable Component:
 
@@ -90,21 +90,22 @@ const ChassisTable = () => {
     return filteredItems?.slice(start, end);
   }, [filteredItems, page, rowsPerPage]);
   const classNames = useMemo(
-    () => ({
-      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-      td: [
-        "text-2xl",
-        "py-5",
-        "pb-10",
-        "group-data-[first=true]:first:before:rounded-none",
-        "group-data-[first=true]:last:before:rounded-none",
+    () => classNamesForTable,
+    //   {
+    //   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+    //   td: [
+    //     "text-2xl",
+    //     "py-5",
+    //     "pb-10",
+    //     "group-data-[first=true]:first:before:rounded-none",
+    //     "group-data-[first=true]:last:before:rounded-none",
 
-        "group-data-[middle=true]:before:rounded-none",
+    //     "group-data-[middle=true]:before:rounded-none",
 
-        "group-data-[last=true]:first:before:rounded-none",
-        "group-data-[last=true]:last:before:rounded-none",
-      ],
-    }),
+    //     "group-data-[last=true]:first:before:rounded-none",
+    //     "group-data-[last=true]:last:before:rounded-none",
+    //   ],
+    // }
     []
   );
   return (
