@@ -10,6 +10,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { ToastContainer } from "react-toastify";
 import { NextUIProvider } from "@nextui-org/react";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 Amplify.configure(config, {
   ssr: true,
@@ -20,6 +21,18 @@ function App({ Component, pageProps }: AppProps) {
     <Authenticator.Provider>
       <NextUIProvider>
         <ToastContainer />
+        <Head>
+          {/* Add other global metadata tags here */}
+          <title>RCJ Admin</title>
+          <meta
+            name="description"
+            content="Add, update, delete RCJ's chassis here"
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+        </Head>
         <Component {...pageProps} />
       </NextUIProvider>
     </Authenticator.Provider>
