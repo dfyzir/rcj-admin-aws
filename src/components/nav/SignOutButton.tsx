@@ -26,10 +26,6 @@ const SignOutButton = () => {
             className="ml-auto">
             Sign Out
           </Button>
-          <h1 className="text-xs md:text-xl text-zinc-600/60 ml-auto">
-            {" "}
-            Signed in as {user.username}
-          </h1>
         </div>
       ) : null}
     </div>

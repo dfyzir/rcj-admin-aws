@@ -26,6 +26,7 @@ export default function TrailerRCJUpdateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onCancel,
     onValidate,
     onChange,
     overrides,
@@ -142,9 +143,9 @@ export default function TrailerRCJUpdateForm(props) {
   return (
     <Grid
       as="form"
-      rowGap={tokens.space.xs.value}
-      columnGap={tokens.space.xxxl.value}
-      padding={tokens.space.medium.value}
+      rowGap={tokens.space.medium.value}
+      columnGap={tokens.space.medium.value}
+      padding={tokens.space.xs.value}
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
@@ -204,8 +205,7 @@ export default function TrailerRCJUpdateForm(props) {
         }
       }}
       {...getOverrideProps(overrides, "TrailerRCJUpdateForm")}
-      {...rest}
-    >
+      {...rest}>
       <TextField
         label="Chassis #"
         isRequired={false}
@@ -234,8 +234,7 @@ export default function TrailerRCJUpdateForm(props) {
         onBlur={() => runValidationTasks("chassisNumber", chassisNumber)}
         errorMessage={errors.chassisNumber?.errorMessage}
         hasError={errors.chassisNumber?.hasError}
-        {...getOverrideProps(overrides, "chassisNumber")}
-      ></TextField>
+        {...getOverrideProps(overrides, "chassisNumber")}></TextField>
       <TextField
         label="VIN"
         isRequired={false}
@@ -264,8 +263,7 @@ export default function TrailerRCJUpdateForm(props) {
         onBlur={() => runValidationTasks("vinNumber", vinNumber)}
         errorMessage={errors.vinNumber?.errorMessage}
         hasError={errors.vinNumber?.hasError}
-        {...getOverrideProps(overrides, "vinNumber")}
-      ></TextField>
+        {...getOverrideProps(overrides, "vinNumber")}></TextField>
       <TextField
         label="Plate #"
         isRequired={false}
@@ -294,8 +292,7 @@ export default function TrailerRCJUpdateForm(props) {
         onBlur={() => runValidationTasks("plateNumber", plateNumber)}
         errorMessage={errors.plateNumber?.errorMessage}
         hasError={errors.plateNumber?.hasError}
-        {...getOverrideProps(overrides, "plateNumber")}
-      ></TextField>
+        {...getOverrideProps(overrides, "plateNumber")}></TextField>
       <TextField
         label="Inspection expiration date"
         isRequired={false}
@@ -327,15 +324,13 @@ export default function TrailerRCJUpdateForm(props) {
         }
         errorMessage={errors.inspectionExpiresAt?.errorMessage}
         hasError={errors.inspectionExpiresAt?.hasError}
-        {...getOverrideProps(overrides, "inspectionExpiresAt")}
-      ></TextField>
+        {...getOverrideProps(overrides, "inspectionExpiresAt")}></TextField>
       <Field
         errorMessage={errors.inspectionFile?.errorMessage}
         hasError={errors.inspectionFile?.hasError}
         label={"Inspection File"}
         isRequired={false}
-        isReadOnly={false}
-      >
+        isReadOnly={false}>
         {trailerRCJRecord && (
           <StorageManager
             defaultFiles={[{ key: trailerRCJRecord.inspectionFile }]}
@@ -383,8 +378,7 @@ export default function TrailerRCJUpdateForm(props) {
             isResumable={false}
             showThumbnails={true}
             maxFileCount={1}
-            {...getOverrideProps(overrides, "inspectionFile")}
-          ></StorageManager>
+            {...getOverrideProps(overrides, "inspectionFile")}></StorageManager>
         )}
       </Field>
       <TextField
@@ -418,15 +412,13 @@ export default function TrailerRCJUpdateForm(props) {
         }
         errorMessage={errors.registrationExpiresAt?.errorMessage}
         hasError={errors.registrationExpiresAt?.hasError}
-        {...getOverrideProps(overrides, "registrationExpiresAt")}
-      ></TextField>
+        {...getOverrideProps(overrides, "registrationExpiresAt")}></TextField>
       <Field
         errorMessage={errors.registrationFile?.errorMessage}
         hasError={errors.registrationFile?.hasError}
         label={"Registration File"}
         isRequired={false}
-        isReadOnly={false}
-      >
+        isReadOnly={false}>
         {trailerRCJRecord && (
           <StorageManager
             defaultFiles={[{ key: trailerRCJRecord.registrationFile }]}
@@ -474,14 +466,15 @@ export default function TrailerRCJUpdateForm(props) {
             isResumable={false}
             showThumbnails={true}
             maxFileCount={1}
-            {...getOverrideProps(overrides, "registrationFile")}
-          ></StorageManager>
+            {...getOverrideProps(
+              overrides,
+              "registrationFile"
+            )}></StorageManager>
         )}
       </Field>
       <Flex
         justifyContent="space-between"
-        {...getOverrideProps(overrides, "CTAFlex")}
-      >
+        {...getOverrideProps(overrides, "CTAFlex")}>
         <Button
           children="Reset"
           type="reset"
@@ -490,12 +483,17 @@ export default function TrailerRCJUpdateForm(props) {
             resetStateValues();
           }}
           isDisabled={!(idProp || trailerRCJModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
-        ></Button>
+          {...getOverrideProps(overrides, "ResetButton")}></Button>
         <Flex
-          gap={tokens.space.xxxl.value}
-          {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
-        >
+          gap={tokens.space.medium.value}
+          {...getOverrideProps(overrides, "RightAlignCTASubFlex")}>
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}></Button>
           <Button
             children="Update"
             type="submit"
@@ -504,8 +502,7 @@ export default function TrailerRCJUpdateForm(props) {
               !(idProp || trailerRCJModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
-            {...getOverrideProps(overrides, "SubmitButton")}
-          ></Button>
+            {...getOverrideProps(overrides, "SubmitButton")}></Button>
         </Flex>
       </Flex>
     </Grid>

@@ -18,8 +18,8 @@ export const RCJIcon = (props: IconSvgProps) => (
         fx="0.75"
         fy="0.75"
         spreadMethod="pad">
-        <stop offset="0%" stop-color="red" />
-        <stop offset="100%" stop-color="blue" />
+        <stop offset="0%" stopColor="red" />
+        <stop offset="100%" stopColor="blue" />
       </radialGradient>
       <radialGradient
         id="GradientRepeat"
@@ -29,8 +29,8 @@ export const RCJIcon = (props: IconSvgProps) => (
         fx="0.75"
         fy="0.75"
         spreadMethod="repeat">
-        <stop offset="0%" stop-color="red" />
-        <stop offset="100%" stop-color="blue" />
+        <stop offset="0%" stopColor="red" />
+        <stop offset="100%" stopColor="blue" />
       </radialGradient>
       <radialGradient
         id="GradientReflect"
@@ -40,8 +40,8 @@ export const RCJIcon = (props: IconSvgProps) => (
         fx="0.75"
         fy="0.75"
         spreadMethod="reflect">
-        <stop offset="0%" stop-color="cyan" />
-        <stop offset="100%" stop-color="blue" />
+        <stop offset="0%" stopColor="cyan" />
+        <stop offset="100%" stopColor="blue" />
       </radialGradient>
     </defs>
     <g

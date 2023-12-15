@@ -24,6 +24,7 @@ export default function TrailerRCJCreateForm(props) {
     onSuccess,
     onError,
     onSubmit,
+    onCancel,
     onValidate,
     onChange,
     overrides,
@@ -122,9 +123,9 @@ export default function TrailerRCJCreateForm(props) {
   return (
     <Grid
       as="form"
-      rowGap={tokens.space.xs.value}
-      columnGap={tokens.space.xxxl.value}
-      padding={tokens.space.medium.value}
+      rowGap={tokens.space.medium.value}
+      columnGap={tokens.space.medium.value}
+      padding={tokens.space.xl.value}
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
@@ -468,9 +469,17 @@ export default function TrailerRCJCreateForm(props) {
           {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
-          gap={tokens.space.xxxl.value}
+          gap={tokens.space.medium.value}
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
+          <Button
+            children="Cancel"
+            type="button"
+            onClick={() => {
+              onCancel && onCancel();
+            }}
+            {...getOverrideProps(overrides, "CancelButton")}
+          ></Button>
           <Button
             children="Create"
             type="submit"

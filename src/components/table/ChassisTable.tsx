@@ -89,27 +89,25 @@ const ChassisTable = () => {
 
     return filteredItems?.slice(start, end);
   }, [filteredItems, page, rowsPerPage]);
-  const classNames = useMemo(
-    () => classNamesForTable,
-    //   {
-    //   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-    //   td: [
-    //     "text-2xl",
-    //     "py-5",
-    //     "pb-10",
-    //     "group-data-[first=true]:first:before:rounded-none",
-    //     "group-data-[first=true]:last:before:rounded-none",
-
-    //     "group-data-[middle=true]:before:rounded-none",
-
-    //     "group-data-[last=true]:first:before:rounded-none",
-    //     "group-data-[last=true]:last:before:rounded-none",
-    //   ],
-    // }
-    []
-  );
+  const classNames = {
+    th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+    td: [
+      "text-2xl",
+      "py-5",
+      "pb-10",
+      // changing the rows border radius
+      // first
+      "group-data-[first=true]:first:before:rounded-none",
+      "group-data-[first=true]:last:before:rounded-none",
+      // middle
+      "group-data-[middle=true]:before:rounded-none",
+      // last
+      "group-data-[last=true]:first:before:rounded-none",
+      "group-data-[last=true]:last:before:rounded-none",
+    ],
+  };
   return (
-    <div className="mb-16 container mx-auto mt-5">
+    <div className="mb-16 container mx-auto mt-16">
       <AWSSubscriptionEvents
         setTrailers={setTrailers}
         setFilterValue={setFilterValue}

@@ -20,6 +20,7 @@ import EditButtonAWS from "./EditButtonAWS";
 import dynamic from "next/dynamic";
 import QrCodeButton from "./QRCodeButton";
 import { useCheckDate } from "@/hooks/useCheckDate";
+import ShareButton from "./ShareButton";
 
 /*ViewButtonAWS Component:
  
@@ -87,12 +88,12 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
         onOpenChange={onOpenChange}
         placement="center"
         size="5xl"
-        scrollBehavior="inside">
+        scrollBehavior="outside">
         <ModalContent>
           {(onClose) => (
             <>
               <ModalBody>
-                <div className="px-5 w-full h-full mt-5 container">
+                <div className="w-full h-full mt-5 sm:px-5 container">
                   <div className="flex flex-row items-center justify-between">
                     <h1 className="pt-8 font-semibold tracking-wider text-5xl mb-5">
                       {trailer.chassisNumber}{" "}
@@ -101,6 +102,12 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                         {format(parseISO(trailer.updatedAt), "PP")}
                       </span>
                     </h1>
+                    <div className="flex flex-col items-center">
+                      <ShareButton
+                        text={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${trailer.chassisNumber}`}
+                      />
+                      <QrCodeButton text={trailer.chassisNumber as string} />
+                    </div>
                   </div>
 
                   <div className="text-2xl font-extralight italic text-foreground-600">
@@ -193,7 +200,6 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                     Close
                   </Button>
                   <EditButtonAWS trailer={trailer} isView={true} />
-                  <QrCodeButton text={trailer.chassisNumber as string} />
                 </div>
               </ModalFooter>
             </>

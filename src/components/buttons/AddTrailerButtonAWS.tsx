@@ -8,6 +8,7 @@ import {
 } from "@nextui-org/react";
 import { PlusIcon } from "../icons/PlusIcon";
 import TrailerRCJCreateForm from "@/ui-components/TrailerRCJCreateForm";
+import { v4 as uuidv4 } from "uuid";
 
 //AddTrailerButtonAWS Component:
 
@@ -22,9 +23,10 @@ const AddTrailerButtonAWS = () => {
   const processFile = ({ file, key }: { file: File; key: string }) => {
     const fileParts = key.split(".");
     const ext = fileParts.pop();
+    const uniqueString = uuidv4().replace(/-/g, "").substring(0, 5);
     return {
       file,
-      key: `${fileParts.join(".").toUpperCase()}.${ext}`,
+      key: `${fileParts.join(".").toUpperCase()}.${uniqueString}.${ext}`,
     };
   };
 
@@ -48,7 +50,7 @@ const AddTrailerButtonAWS = () => {
           {(onClose) => (
             <>
               <ModalHeader>Create new trailer</ModalHeader>
-              <ModalBody>
+              <ModalBody className="">
                 <TrailerRCJCreateForm
                   onSubmit={(fields: any) => {
                     const updatedFields: any = {};
@@ -68,7 +70,9 @@ const AddTrailerButtonAWS = () => {
                     return updatedFields;
                   }}
                   overrides={{
-                    inspectionFile: { processFile },
+                    inspectionFile: {
+                      processFile,
+                    },
                     registrationFile: { processFile },
                     SubmitButton: {
                       onClick: () => {

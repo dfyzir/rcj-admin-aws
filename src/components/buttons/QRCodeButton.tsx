@@ -28,12 +28,43 @@ const QrCodeButton = ({ text }: QRCodeButtonProps) => {
   // Function to handle downloading the generated QR code image
   const handleDownload = () => {
     const qrCodeContainer = document.getElementById("qrCodeContainer");
+
     // Convert the container to a Blob and create a download link
     domtoimage.toBlob(qrCodeContainer!).then((blob) => {
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `${text}_qrcode.png`;
-      link.click();
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Create an image from the blob
+      const img = new Image();
+      img.onload = () => {
+        // Set canvas size to match the image size
+        canvas.width = img.width;
+        canvas.height = img.height + 30;
+
+        // Draw the image on the canvas
+        ctx?.drawImage(img, 0, 0);
+
+        // Add text to the canvas
+        if (ctx != null) {
+          ctx.fillStyle = "#000"; // Text color
+          ctx.font = "20px Arial"; // Font size and type
+          ctx.textAlign = "center";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(text, canvas.width / 2, canvas.height);
+        }
+        // Adjust text position
+
+        // Create a new Blob from the canvas
+        canvas.toBlob((newBlob) => {
+          const link = document.createElement("a");
+          newBlob != null ? (link.href = URL.createObjectURL(newBlob)) : null;
+          link.download = `${text}_qrcode.png`;
+          link.click();
+        });
+      };
+
+      // Set the image source
+      img.src = URL.createObjectURL(blob);
     });
   };
 
