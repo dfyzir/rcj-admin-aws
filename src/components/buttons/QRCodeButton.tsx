@@ -39,10 +39,11 @@ const QrCodeButton = ({ text }: QRCodeButtonProps) => {
       img.onload = () => {
         // Set canvas size to match the image size
         canvas.width = img.width;
-        canvas.height = img.height + 30;
+        canvas.height = img.height + 90;
+        console.log("image height", img.height);
 
         // Draw the image on the canvas
-        ctx?.drawImage(img, 0, 0);
+        ctx?.drawImage(img, 0, 55);
 
         // Add text to the canvas
         if (ctx != null) {
@@ -50,7 +51,9 @@ const QrCodeButton = ({ text }: QRCodeButtonProps) => {
           ctx.font = "20px Arial"; // Font size and type
           ctx.textAlign = "center";
           ctx.textBaseline = "bottom";
-          ctx.fillText(text, canvas.width / 2, canvas.height);
+          ctx.fillText("SCAN FOR", canvas.width / 2, 25);
+          ctx.fillText("DOCS", canvas.width / 2, 50);
+          ctx.fillText(text, canvas.width / 2, canvas.height - 5);
         }
         // Adjust text position
 
