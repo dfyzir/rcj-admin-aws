@@ -125,7 +125,7 @@ export default function TrailerRCJCreateForm(props) {
       as="form"
       rowGap={tokens.space.medium.value}
       columnGap={tokens.space.medium.value}
-      padding={tokens.space.xl.value}
+      padding={tokens.space.medium.value}
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
