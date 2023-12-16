@@ -1,5 +1,5 @@
 import SignOutButton from "@/components/nav/SignOutButton";
-import ChassisTable from "@/components/table/ChassisTable";
+import ChassisTable from "@/components/chassisTable/ChassisTable";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { Inter } from "next/font/google";
 

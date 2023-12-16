@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Autocomplete,
+  Button,
+  Flex,
+  Grid,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getChassisLocation } from "../graphql/queries";
@@ -26,7 +32,7 @@ export default function ChassisLocationUpdateForm(props) {
   } = props;
   const initialValues = {
     chassisNumber: "",
-    location: "",
+    location: undefined,
     container: "",
   };
   const [chassisNumber, setChassisNumber] = React.useState(
@@ -63,7 +69,19 @@ export default function ChassisLocationUpdateForm(props) {
   }, [idProp, chassisLocationModelProp]);
   React.useEffect(resetStateValues, [chassisLocationRecord]);
   const validations = {
-    chassisNumber: [{ type: "Required" }],
+    chassisNumber: [
+      { type: "Required" },
+      {
+        type: "GreaterThanChar",
+        numValues: [9],
+        validationMessage: "The value must be at least 9 characters",
+      },
+      {
+        type: "LessThanChar",
+        numValues: [10],
+        validationMessage: "The value must be 10 characters or fewer",
+      },
+    ],
     location: [],
     container: [],
   };
@@ -84,6 +102,7 @@ export default function ChassisLocationUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  React.useEffect(() => {}, []);
   return (
     <Grid
       as="form"
@@ -173,11 +192,28 @@ export default function ChassisLocationUpdateForm(props) {
         hasError={errors.chassisNumber?.hasError}
         {...getOverrideProps(overrides, "chassisNumber")}
       ></TextField>
-      <TextField
+      <Autocomplete
         label="Location"
         isRequired={false}
         isReadOnly={false}
-        value={location}
+        options={[
+          {
+            id: "Liberty Yard",
+            label: "Liberty Yard",
+          },
+          {
+            id: "Bay Area Yard",
+            label: "Bay Area Yard",
+          },
+        ]}
+        onSelect={({ id, label }) => {
+          setLocation(id);
+          runValidationTasks("location", id);
+        }}
+        onClear={() => {
+          setLocation("");
+        }}
+        defaultValue={location}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -197,8 +233,9 @@ export default function ChassisLocationUpdateForm(props) {
         onBlur={() => runValidationTasks("location", location)}
         errorMessage={errors.location?.errorMessage}
         hasError={errors.location?.hasError}
+        labelHidden={false}
         {...getOverrideProps(overrides, "location")}
-      ></TextField>
+      ></Autocomplete>
       <TextField
         label="Container"
         isRequired={false}

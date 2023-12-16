@@ -8,6 +8,60 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createChassisLocation = /* GraphQL */ `mutation CreateChassisLocation(
+  $input: CreateChassisLocationInput!
+  $condition: ModelChassisLocationConditionInput
+) {
+  createChassisLocation(input: $input, condition: $condition) {
+    id
+    chassisNumber
+    location
+    container
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChassisLocationMutationVariables,
+  APITypes.CreateChassisLocationMutation
+>;
+export const updateChassisLocation = /* GraphQL */ `mutation UpdateChassisLocation(
+  $input: UpdateChassisLocationInput!
+  $condition: ModelChassisLocationConditionInput
+) {
+  updateChassisLocation(input: $input, condition: $condition) {
+    id
+    chassisNumber
+    location
+    container
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChassisLocationMutationVariables,
+  APITypes.UpdateChassisLocationMutation
+>;
+export const deleteChassisLocation = /* GraphQL */ `mutation DeleteChassisLocation(
+  $input: DeleteChassisLocationInput!
+  $condition: ModelChassisLocationConditionInput
+) {
+  deleteChassisLocation(input: $input, condition: $condition) {
+    id
+    chassisNumber
+    location
+    container
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChassisLocationMutationVariables,
+  APITypes.DeleteChassisLocationMutation
+>;
 export const createTrailerRCJ = /* GraphQL */ `mutation CreateTrailerRCJ(
   $input: CreateTrailerRCJInput!
   $condition: ModelTrailerRCJConditionInput

@@ -8,6 +8,44 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getChassisLocation = /* GraphQL */ `query GetChassisLocation($id: ID!) {
+  getChassisLocation(id: $id) {
+    id
+    chassisNumber
+    location
+    container
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetChassisLocationQueryVariables,
+  APITypes.GetChassisLocationQuery
+>;
+export const listChassisLocations = /* GraphQL */ `query ListChassisLocations(
+  $filter: ModelChassisLocationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChassisLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      chassisNumber
+      location
+      container
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListChassisLocationsQueryVariables,
+  APITypes.ListChassisLocationsQuery
+>;
 export const getTrailerRCJ = /* GraphQL */ `query GetTrailerRCJ($id: ID!) {
   getTrailerRCJ(id: $id) {
     id

@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { ChassisLocation } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -36,7 +36,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type ChassisLocationUpdateFormOverridesProps = {
     ChassisLocationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     chassisNumber?: PrimitiveOverrideProps<TextFieldProps>;
-    location?: PrimitiveOverrideProps<TextFieldProps>;
+    location?: PrimitiveOverrideProps<AutocompleteProps>;
     container?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ChassisLocationUpdateFormProps = React.PropsWithChildren<{
