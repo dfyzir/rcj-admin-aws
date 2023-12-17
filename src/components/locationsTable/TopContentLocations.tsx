@@ -14,6 +14,8 @@ import AddLocationButtonAWS from "./buttons/AddLocationButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { capitalize } from "@/lib/utils";
+import { Container } from "postcss";
+import ContainerButton from "./buttons/ContainerButton";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -93,6 +95,11 @@ const TopContentLocations = ({
               setFilterValue={setFilterValue}
               setPage={setPage}
             /> */}
+            <ContainerButton
+              locations={locations}
+              setFilterValue={setFilterValue}
+              setPage={setPage}
+            />
             <Dropdown>
               <DropdownTrigger className="flex">
                 <Button

@@ -1,11 +1,7 @@
 import LocationTable from "@/components/locationsTable/LocationTable";
 
 function Locations() {
-  return (
-    <div>
-      <LocationTable />
-    </div>
-  );
+  return <LocationTable />;
 }
 
 export default Locations;

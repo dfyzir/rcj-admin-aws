@@ -12,12 +12,9 @@ const SignOutButton = () => {
   const { user, signOut } = useAuthenticator();
 
   return (
-    <div className="flex mt-10 mx-10 justify-between items-start">
-      <div>
-        <RCJIcon />
-      </div>
+    <div>
       {user ? (
-        <div className="flex flex-col gap-3 ml-auto ">
+        <div>
           <Button
             variant="ghost"
             color="danger"

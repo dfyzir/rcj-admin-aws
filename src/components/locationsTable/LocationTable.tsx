@@ -38,7 +38,7 @@ const LocationTable = () => {
 
   const { isExpired, isExpireSoon } = useCheckDate(); // Custom hook to check expiration and soon-to-expire dates
 
-  const locationOptions = ["BAY AREA YARD", "LIBERTY YARD"];
+  const locationOptions = ["BAY AREA YARD", "LIBERTY YARD", "SELMA"];
 
   // Fetch trailers on component mount using GrapQL API
   useEffect(() => {

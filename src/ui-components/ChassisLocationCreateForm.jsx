@@ -184,6 +184,10 @@ export default function ChassisLocationCreateForm(props) {
             id: "Bay Area Yard",
             label: "Bay Area Yard",
           },
+          {
+            id: "Selma",
+            label: "Selma",
+          },
         ]}
         onSelect={({ id, label }) => {
           setLocation(id);

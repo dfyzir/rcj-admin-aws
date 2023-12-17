@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { NextUIProvider } from "@nextui-org/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import NavBar from "@/components/nav/Navbar";
 
 Amplify.configure(config, {
   ssr: true,
@@ -33,6 +34,7 @@ function App({ Component, pageProps }: AppProps) {
             content="width=device-width, initial-scale=1.0"
           />
         </Head>
+        <NavBar />
         <Component {...pageProps} />
       </NextUIProvider>
     </Authenticator.Provider>
