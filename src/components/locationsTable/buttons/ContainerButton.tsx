@@ -47,7 +47,7 @@ const ContainerButton = ({
                 <div
                   title="Show chassis in the table"
                   className="text-center font-semibold text-xl ">
-                  {item.chassisNumber}
+                  {item.container}
                 </div>
               </DropdownItem>
             ))}
