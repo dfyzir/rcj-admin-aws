@@ -89,7 +89,7 @@ export default function NavBar() {
             </NavbarMenuItem>
           ))}
         </div>
-        <div className="mb-10">
+        <div className="mb-28">
           <SignOutButton />
         </div>
       </NavbarMenu>
