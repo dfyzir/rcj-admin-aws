@@ -9,6 +9,7 @@ import {
 import { PlusIcon } from "../../icons/PlusIcon";
 import ChassisLoctionCreateForm from "@/ui-components/ChassisLocationCreateForm";
 import { v4 as uuidv4 } from "uuid";
+import useScreenWidth from "@/hooks/useScreenWidth";
 
 //AddTrailerButtonAWS Component:
 
@@ -18,6 +19,9 @@ import { v4 as uuidv4 } from "uuid";
 const AddLocationButtonAWS = () => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const screenWidth = useScreenWidth();
+
+  console.log("Screen width", screenWidth);
 
   //processFile processes and formats file data before submission.
 
@@ -29,7 +33,7 @@ const AddLocationButtonAWS = () => {
         color="primary"
         endContent={<PlusIcon />}
         onPress={onOpen}>
-        Add
+        Add {screenWidth >= 402 ? "New" : null}
       </Button>
       <Modal
         isOpen={isOpen}

@@ -18,6 +18,7 @@ import ContainerButton from "./buttons/ContainerButton";
 import useTwoDaysDifference from "@/hooks/useCheckContainerDate";
 import ExpiredContainerButton from "./buttons/ExpiredContainerButton";
 import LocationButton from "./buttons/LocationsSelectButton";
+import useScreenWidth from "@/hooks/useScreenWidth";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -47,6 +48,8 @@ const TopContentLocations = ({
 }: TopContentProps) => {
   const { isContainerExpired } = useTwoDaysDifference();
 
+  const screenWidth = useScreenWidth();
+
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
@@ -74,7 +77,7 @@ const TopContentLocations = ({
 
   return (
     <div className="flex flex-col gap-4 mt-5 w-full ">
-      <div className="flex flex-col md:flex-row justify-between gap-7 text-large ">
+      <div className="flex flex-col lg:flex-row justify-between gap-7 text-large ">
         <div className="mt-auto md:w-1/2">
           <Input
             size="sm"
@@ -87,20 +90,21 @@ const TopContentLocations = ({
             onValueChange={onSearchChange}
           />
         </div>
-        <div className="flex flex-col md:flex-row gap-7">
-          <div className="flex flex-col md:flex-row gap-3 w-full justify-start">
-            <div className="flex flex-row gap-3">
-              <ExpiredContainerButton
-                locations={locations}
-                setFilterValue={setFilterValue}
-                setPage={setPage}
-              />
-              <ContainerButton
-                locations={locations}
-                setFilterValue={setFilterValue}
-                setPage={setPage}
-              />
-            </div>
+        <div className="flex flex-col lg:flex-row gap-7">
+          <div
+            className={`flex ${
+              screenWidth < 370 ? "flex-col" : "flex-row"
+            } gap-3`}>
+            <ContainerButton
+              locations={locations}
+              setFilterValue={setFilterValue}
+              setPage={setPage}
+            />
+            <ExpiredContainerButton
+              locations={locations}
+              setFilterValue={setFilterValue}
+              setPage={setPage}
+            />
           </div>
           <div className="flex gap-3">
             <LocationButton

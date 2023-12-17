@@ -68,7 +68,7 @@ const TopContent = ({
           />
         </div>
         <div className="flex flex-col md:flex-row gap-7">
-          <div className="flex flex-row gap-3 w-full justify-start">
+          <div className="flex gap-3">
             <ExpireSoonButton
               trailers={trailers}
               setFilterValue={setFilterValue}

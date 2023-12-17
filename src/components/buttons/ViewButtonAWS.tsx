@@ -41,7 +41,7 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inspectionUrl, setInspectionUrl] = useState<string>();
   const [registrationUrl, setRegistrationUrl] = useState<string>();
-  const { isExpired } = useCheckDate();
+  const { isExpired, isExpireSoon } = useCheckDate();
 
   //Getting signed links for pdf files from storage
   useEffect(() => {
@@ -147,6 +147,10 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                               isExpired(trailer.inspectionExpiresAt)
                                 ? "text-red-500"
                                 : null
+                            } ${
+                              isExpireSoon(trailer.inspectionExpiresAt)
+                                ? "text-orange-500"
+                                : null
                             }`}>
                             {isExpired(trailer.inspectionExpiresAt!)
                               ? "Expired"
@@ -175,7 +179,16 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                         <div className="w-full h-full rounded-xl">
                           <DynamicPDFViewer pdfUrl={registrationUrl} />
                           {trailer.registrationExpiresAt ? (
-                            <h3 className="text-center mt-4 text-xl font-semibold">
+                            <h3
+                              className={`text-center mt-4 text-xl font-semibold ${
+                                isExpired(trailer.registrationExpiresAt)
+                                  ? "text-red-500"
+                                  : null
+                              } ${
+                                isExpireSoon(trailer.registrationExpiresAt)
+                                  ? "text-orange-500"
+                                  : null
+                              }`}>
                               {isExpired(trailer.registrationExpiresAt!)
                                 ? "Expired"
                                 : `Expires on ${format(
