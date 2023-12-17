@@ -14,8 +14,10 @@ import AddLocationButtonAWS from "./buttons/AddLocationButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { capitalize } from "@/lib/utils";
-import { Container } from "postcss";
 import ContainerButton from "./buttons/ContainerButton";
+import useTwoDaysDifference from "@/hooks/useCheckContainerDate";
+import ExpiredContainerButton from "./buttons/ExpiredContainerButton";
+import LocationButton from "./buttons/LocationsSelectButton";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -43,6 +45,8 @@ const TopContentLocations = ({
   setLocationFilter,
   locationOptions,
 }: TopContentProps) => {
+  const { isContainerExpired } = useTwoDaysDifference();
+
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
@@ -84,48 +88,27 @@ const TopContentLocations = ({
           />
         </div>
         <div className="flex flex-col md:flex-row gap-7">
-          <div className="flex flex-row gap-3 w-full justify-start">
-            {/* <ExpireSoonButton
-              trailers={trailers}
-              setFilterValue={setFilterValue}
-              setPage={setPage}
-            />
-            <ExpiredTable
-              trailers={trailers}
-              setFilterValue={setFilterValue}
-              setPage={setPage}
-            /> */}
-            <ContainerButton
-              locations={locations}
-              setFilterValue={setFilterValue}
-              setPage={setPage}
-            />
-            <Dropdown>
-              <DropdownTrigger className="flex">
-                <Button
-                  className="text-xl"
-                  color="secondary"
-                  size="lg"
-                  endContent={<ChevronDownIcon className="text-lg" />}>
-                  Location
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={locationFilter}
-                selectionMode="multiple"
-                onSelectionChange={setLocationFilter}>
-                {locationOptions.map((location) => (
-                  <DropdownItem key={location} className="capitalize">
-                    {capitalize(location)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+          <div className="flex flex-col md:flex-row gap-3 w-full justify-start">
+            <div className="flex flex-row gap-3">
+              <ExpiredContainerButton
+                locations={locations}
+                setFilterValue={setFilterValue}
+                setPage={setPage}
+              />
+              <ContainerButton
+                locations={locations}
+                setFilterValue={setFilterValue}
+                setPage={setPage}
+              />
+            </div>
           </div>
-          <div className="flex  ">
+          <div className="flex gap-3">
+            <LocationButton
+              locations={locations}
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              locationOptions={locationOptions}
+            />
             <AddLocationButtonAWS />
           </div>
         </div>

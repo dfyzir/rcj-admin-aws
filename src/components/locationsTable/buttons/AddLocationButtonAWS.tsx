@@ -29,7 +29,7 @@ const AddLocationButtonAWS = () => {
         color="primary"
         endContent={<PlusIcon />}
         onPress={onOpen}>
-        Add New
+        Add
       </Button>
       <Modal
         isOpen={isOpen}

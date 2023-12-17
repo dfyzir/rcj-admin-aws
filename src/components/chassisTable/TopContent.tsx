@@ -4,8 +4,8 @@ import { TrailerRCJ } from "@/API";
 import { Input } from "@nextui-org/react";
 import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
-import ExpiredTable from "../buttons/ExpiredButton";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
+import ExpiredButton from "../buttons/ExpiredButton";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -74,7 +74,7 @@ const TopContent = ({
               setFilterValue={setFilterValue}
               setPage={setPage}
             />
-            <ExpiredTable
+            <ExpiredButton
               trailers={trailers}
               setFilterValue={setFilterValue}
               setPage={setPage}
