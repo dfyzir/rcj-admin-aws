@@ -66,6 +66,7 @@ const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
                 <div className="pl-0">
                   <TrailerRCJUpdateForm
                     trailerRCJ={trailer}
+                    onSuccess={onClose}
                     onSubmit={(fields: any) => {
                       const updatedFields: any = {};
                       //override built in submit functionality:
@@ -96,14 +97,6 @@ const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
                     overrides={{
                       inspectionFile: { processFile },
                       registrationFile: { processFile },
-                      SubmitButton: {
-                        onClick: () => {
-                          const timeoutId = setTimeout(() => {
-                            onClose();
-                          }, 1000);
-                          return () => clearTimeout(timeoutId);
-                        },
-                      },
                     }}
                   />
                 </div>

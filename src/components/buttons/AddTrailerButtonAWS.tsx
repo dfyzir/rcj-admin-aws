@@ -9,6 +9,10 @@ import {
 import { PlusIcon } from "../icons/PlusIcon";
 import TrailerRCJCreateForm from "@/ui-components/TrailerRCJCreateForm";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
+import { TrailerRCJ } from "@/API";
+import { generateClient } from "aws-amplify/api";
+import { listChassisLocations } from "@/graphql/queries";
 
 //AddTrailerButtonAWS Component:
 
@@ -18,6 +22,9 @@ import { v4 as uuidv4 } from "uuid";
 const AddTrailerButtonAWS = () => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [inventory, setInventory] = useState<TrailerRCJ>();
+  const [hasMatch, setHasMatch] = useState(false);
 
   //processFile processes and formats file data before submission.
   const processFile = ({ file, key }: { file: File; key: string }) => {
@@ -52,6 +59,11 @@ const AddTrailerButtonAWS = () => {
               <ModalHeader>Create new trailer</ModalHeader>
               <ModalBody className="">
                 <TrailerRCJCreateForm
+                  onSuccess={onClose}
+                  onChange={(fields) => {
+                    setInventory(fields as TrailerRCJ);
+                    return fields;
+                  }}
                   onSubmit={(fields: any) => {
                     const updatedFields: any = {};
 
@@ -73,15 +85,45 @@ const AddTrailerButtonAWS = () => {
                     inspectionFile: {
                       processFile,
                     },
-                    registrationFile: { processFile },
-                    SubmitButton: {
-                      onClick: () => {
-                        const timeoutId = setTimeout(() => {
-                          onClose();
-                        }, 1000);
-                        return () => clearTimeout(timeoutId);
+                    chassisNumber: {
+                      hasError: hasMatch
+                        ? true
+                        : false ||
+                          (inventory?.chassisNumber != null &&
+                            inventory.chassisNumber.length < 10)
+                        ? true
+                        : false,
+                      errorMessage: hasMatch
+                        ? "Chassis already exists in the table"
+                        : inventory?.chassisNumber != null &&
+                          inventory.chassisNumber.length < 10
+                        ? "Must be 10 characters long"
+                        : "",
+                      onBlur: (e: any) => {
+                        console.log("blurrr", e.target.value);
+                        const client = generateClient();
+                        const checkIfChassisExists = async () => {
+                          const res = await client.graphql({
+                            query: listChassisLocations,
+                            variables: {
+                              filter: {
+                                chassisNumber: {
+                                  eq: e.target.value.toUpperCase(),
+                                },
+                              },
+                            },
+                          });
+                          if (res.data.listChassisLocations.items.length > 0) {
+                            setHasMatch(true);
+                          } else setHasMatch(false);
+                        };
+                        checkIfChassisExists();
                       },
                     },
+                    SubmitButton: {
+                      isDisabled: hasMatch,
+                    },
+                    registrationFile: { processFile },
                   }}
                 />
               </ModalBody>

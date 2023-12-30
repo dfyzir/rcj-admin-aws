@@ -47,14 +47,14 @@ const ExpiredContainerButton = ({
       (container) =>
         container.container != null &&
         container.updatedAt &&
-        isContainerExpired(container.updatedAt)
+        isContainerExpired(container.createdAt)
     );
 
     return expiredContainers;
   }, [isContainerExpired, locations]);
 
   return (
-    <div>
+    <>
       {expiredItems.length > 0 ? (
         <Dropdown>
           <DropdownTrigger>
@@ -85,7 +85,7 @@ const ExpiredContainerButton = ({
           </DropdownMenu>
         </Dropdown>
       ) : null}
-    </div>
+    </>
   );
 };
 

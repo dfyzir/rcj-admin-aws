@@ -61,7 +61,7 @@ const ExpireSoonButton = ({
   }, [isExpireSoon, trailers]);
 
   return (
-    <div>
+    <>
       {expiredItems.length > 0 ? (
         <Dropdown>
           <DropdownTrigger>
@@ -69,7 +69,7 @@ const ExpireSoonButton = ({
               variant="shadow"
               color="warning"
               size="lg"
-              className="text-xl font-semibold text-white">
+              className="text-xl font-semibold text-white ">
               {expiredItems.length} expire soon
             </Button>
           </DropdownTrigger>
@@ -91,7 +91,7 @@ const ExpireSoonButton = ({
           </DropdownMenu>
         </Dropdown>
       ) : null}
-    </div>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
 import ExpiredButton from "../buttons/ExpiredButton";
+import useScreenWidth from "@/hooks/useScreenWidth";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -34,6 +35,8 @@ const TopContent = ({
     },
     [setPage, setRowsPerPage]
   );
+
+  const screenWidth = useScreenWidth();
 
   const onSearchChange = useCallback(
     (value?: string) => {
@@ -68,7 +71,10 @@ const TopContent = ({
           />
         </div>
         <div className="flex flex-col md:flex-row gap-7">
-          <div className="flex gap-3">
+          <div
+            className={`flex ${
+              screenWidth < 370 ? "flex-col" : "flex-row"
+            } gap-3`}>
             <ExpireSoonButton
               trailers={trailers}
               setFilterValue={setFilterValue}

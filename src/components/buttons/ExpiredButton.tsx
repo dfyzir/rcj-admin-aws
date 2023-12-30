@@ -60,7 +60,7 @@ const ExpiredButton = ({
   }, [isExpired, trailers]);
 
   return (
-    <div>
+    <>
       {expiredItems.length > 0 ? (
         <Dropdown>
           <DropdownTrigger>
@@ -91,7 +91,7 @@ const ExpiredButton = ({
           </DropdownMenu>
         </Dropdown>
       ) : null}
-    </div>
+    </>
   );
 };
 

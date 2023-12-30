@@ -17,7 +17,7 @@ import {
 
 import BottomContent from "@/components/locationsTable/TablePagination";
 import TopContentLocations from "@/components/locationsTable/TopContentLocations";
-import { useCheckDate } from "@/hooks/useCheckDate";
+
 import AWSSubscriptionEventsLocations from "./AWSSubscriptionEventsLocations";
 import DeleteButtonAWSLocation from "./buttons/DeleteButtonAWSLocation";
 import ViewButtonAWS from "./buttons/ViewButtonAWS";
@@ -39,8 +39,6 @@ const LocationTable = () => {
   const hasSearchFilter = Boolean(filterValue);
 
   const { isCheckedIn } = useCheckedInventory();
-
-  const { isExpired, isExpireSoon } = useCheckDate(); // Custom hook to check expiration and soon-to-expire dates
 
   const locationOptions = ["BAY AREA YARD", "LIBERTY YARD", "SELMA"];
 

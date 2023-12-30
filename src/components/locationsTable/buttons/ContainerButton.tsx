@@ -22,7 +22,7 @@ const ContainerButton = ({
     (location: ChassisLocation) => location.container != null
   );
   return (
-    <div>
+    <>
       {containers.length > 0 ? (
         <Dropdown>
           <DropdownTrigger>
@@ -54,7 +54,7 @@ const ContainerButton = ({
           </DropdownMenu>
         </Dropdown>
       ) : null}
-    </div>
+    </>
   );
 };
 

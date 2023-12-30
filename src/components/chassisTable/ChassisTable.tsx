@@ -93,8 +93,9 @@ const ChassisTable = () => {
     th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
     td: [
       "text-2xl",
-      "py-5",
-      "pb-10",
+      "py-7",
+      "px-0",
+
       // changing the rows border radius
       // first
       "group-data-[first=true]:first:before:rounded-none",

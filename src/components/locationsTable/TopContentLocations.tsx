@@ -106,7 +106,10 @@ const TopContentLocations = ({
               setPage={setPage}
             />
           </div>
-          <div className="flex gap-3">
+          <div
+            className={`flex ${
+              screenWidth < 370 ? "flex-col" : "flex-row"
+            } gap-3`}>
             <LocationButton
               locations={locations}
               locationFilter={locationFilter}
