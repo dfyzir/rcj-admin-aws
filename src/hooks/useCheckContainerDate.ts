@@ -5,7 +5,7 @@ const useTwoDaysDifference = () => {
   const isContainerExpired = (date: string) => {
     const updateDate = new Date(date);
     const twoDaysFromNow = new Date(
-      updateDate.setDate(updateDate.getDate())
+      updateDate.setDate(updateDate.getDate() + 2)
     ).toISOString();
     return date >= twoDaysFromNow;
   };

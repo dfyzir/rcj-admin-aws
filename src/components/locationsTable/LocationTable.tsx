@@ -22,6 +22,8 @@ import AWSSubscriptionEventsLocations from "./AWSSubscriptionEventsLocations";
 import DeleteButtonAWSLocation from "./buttons/DeleteButtonAWSLocation";
 import ViewButtonAWS from "./buttons/ViewButtonAWS";
 import EditButtonAWS from "./buttons/EditButtonAWS";
+import useCheckedInventory from "@/hooks/useCheckedInInventory";
+import { CheckedCircleIcon } from "../icons/CheckedCIrcleIcon";
 
 //ChassisTable Component:
 
@@ -36,6 +38,8 @@ const LocationTable = () => {
   const [locationFilter, setLocationFilter] = useState<Selection>("all");
   const hasSearchFilter = Boolean(filterValue);
 
+  const { isCheckedIn } = useCheckedInventory();
+
   const { isExpired, isExpireSoon } = useCheckDate(); // Custom hook to check expiration and soon-to-expire dates
 
   const locationOptions = ["BAY AREA YARD", "LIBERTY YARD", "SELMA"];
@@ -48,7 +52,7 @@ const LocationTable = () => {
         query: listChassisLocations,
       });
       const { data } = allChassisLocation;
-      console.log("chsaloc", data);
+
       setLocations(data.listChassisLocations.items);
     };
 
@@ -57,15 +61,20 @@ const LocationTable = () => {
 
   // Memoized filtered trailers based on search filter
   const filteredItems = useMemo(() => {
-    let filteredLocations = locations?.map((location: ChassisLocation) => ({
-      __typename: location.__typename,
-      id: location.id,
-      chassisNumber: location.chassisNumber,
-      location: location.location,
-      container: location.container,
-      createdAt: location.createdAt,
-      updatedAt: location.updatedAt,
-    }));
+    let filteredLocations = locations
+      ?.map((location: ChassisLocation) => ({
+        __typename: location.__typename,
+        id: location.id,
+        chassisNumber: location.chassisNumber,
+        location: location.location,
+        container: location.container,
+        createdAt: location.createdAt,
+        updatedAt: location.updatedAt,
+      }))
+      .sort(
+        (a, b) =>
+          new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+      );
 
     if (hasSearchFilter) {
       filteredLocations = filteredLocations.filter((location) =>
@@ -92,6 +101,7 @@ const LocationTable = () => {
     locationOptions.length,
     filterValue,
   ]);
+  console.log("filterd", filteredItems);
 
   // Calculate the total number of pages based on filtered items and rows per page
   let pages: number = Math.ceil(filteredItems?.length / rowsPerPage);
@@ -104,14 +114,18 @@ const LocationTable = () => {
     return filteredItems?.slice(start, end);
   }, [filteredItems, page, rowsPerPage]);
   const classNames = {
+    table: [],
     th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+    tr: [],
     td: [
       "text-2xl",
-      "py-5",
-      "pb-10",
+      "py-7",
+      "px-2",
       // changing the rows border radius
       // first
-      "group-data-[first=true]:first:before:rounded-none",
+
+      "group-data-[odd=true]:bg-blue-200/50",
+      "group-data-[odd=true]:text-grey",
       "group-data-[first=true]:last:before:rounded-none",
       // middle
       "group-data-[middle=true]:before:rounded-none",
@@ -126,12 +140,11 @@ const LocationTable = () => {
         setLocations={setLocations}
         setFilterValue={setFilterValue}
       />
-      <div className="px-5 ">
+      <div className="px-2">
         {locations && (
           <div className="">
             <Table
               classNames={classNames}
-              isStriped
               aria-label="Example static collection table"
               topContent={
                 <TopContentLocations
@@ -149,6 +162,9 @@ const LocationTable = () => {
                 <BottomContent page={page} pages={pages} setPage={setPage} />
               }>
               <TableHeader>
+                <TableColumn key="icon" className="text-xl">
+                  {""}
+                </TableColumn>
                 <TableColumn key="chassisNumber" className="text-xl">
                   CHASSIS #
                 </TableColumn>
@@ -173,6 +189,11 @@ const LocationTable = () => {
                 {(item) => {
                   const newItem = {
                     id: item.id,
+                    icon: isCheckedIn(item.updatedAt) ? (
+                      <CheckedCircleIcon fill="green" />
+                    ) : (
+                      <CheckedCircleIcon fill="transparent" />
+                    ),
                     chassisNumber: item.chassisNumber,
                     location: item.location,
                     container: item.container != null ? item.container : "N/A",
@@ -195,7 +216,8 @@ const LocationTable = () => {
                           <TableCell
                             className={`${
                               columnKey !== "chassisNumber" &&
-                              columnKey !== "actions"
+                              columnKey !== "actions" &&
+                              columnKey !== "icon"
                                 ? "hidden"
                                 : "table-cell"
                             }  sm:${
@@ -204,6 +226,8 @@ const LocationTable = () => {
                                 ? "hidden"
                                 : "table-cell"
                             } 
+                            
+                            
                             
                             md:table-cell`}>
                             {getKeyValue(newItem, columnKey)}

@@ -10,6 +10,11 @@ import { PlusIcon } from "../../icons/PlusIcon";
 import ChassisLoctionCreateForm from "@/ui-components/ChassisLocationCreateForm";
 import { v4 as uuidv4 } from "uuid";
 import useScreenWidth from "@/hooks/useScreenWidth";
+import { useState } from "react";
+import { ChassisLocation } from "@/API";
+import { generateClient } from "aws-amplify/api";
+import { listChassisLocations } from "@/graphql/queries";
+import { set } from "date-fns";
 
 //AddTrailerButtonAWS Component:
 
@@ -17,14 +22,13 @@ import useScreenWidth from "@/hooks/useScreenWidth";
 //with a form for creating a new trailer using TRailerRCJCreateForm  AWS UI component. It uses NextUI components and AWS services.
 
 const AddLocationButtonAWS = () => {
+  const [inventory, setInventory] = useState<ChassisLocation>();
+  const [hasMatch, setHasMatch] = useState(false);
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const screenWidth = useScreenWidth();
 
-  console.log("Screen width", screenWidth);
-
   //processFile processes and formats file data before submission.
-
   return (
     <div className="container">
       <Button
@@ -47,6 +51,11 @@ const AddLocationButtonAWS = () => {
               <ModalHeader>Create new trailer</ModalHeader>
               <ModalBody className="">
                 <ChassisLoctionCreateForm
+                  onSuccess={onClose}
+                  onChange={(fields) => {
+                    setInventory(fields as ChassisLocation);
+                    return fields;
+                  }}
                   onSubmit={(fields: any) => {
                     const updatedFields: any = {};
 
@@ -65,13 +74,43 @@ const AddLocationButtonAWS = () => {
                     return updatedFields;
                   }}
                   overrides={{
-                    SubmitButton: {
-                      onClick: () => {
-                        const timeoutId = setTimeout(() => {
-                          onClose();
-                        }, 1000);
-                        return () => clearTimeout(timeoutId);
+                    chassisNumber: {
+                      hasError: hasMatch
+                        ? true
+                        : false ||
+                          (inventory?.chassisNumber != null &&
+                            inventory.chassisNumber.length < 10)
+                        ? true
+                        : false,
+                      errorMessage: hasMatch
+                        ? "Chassis already exists in the table"
+                        : inventory?.chassisNumber != null &&
+                          inventory.chassisNumber.length < 10
+                        ? "Must be 10 characters long"
+                        : "",
+                      onBlur: (e: any) => {
+                        console.log("blurrr", e.target.value);
+                        const client = generateClient();
+                        const checkIfChassisExists = async () => {
+                          const res = await client.graphql({
+                            query: listChassisLocations,
+                            variables: {
+                              filter: {
+                                chassisNumber: {
+                                  eq: e.target.value.toUpperCase(),
+                                },
+                              },
+                            },
+                          });
+                          if (res.data.listChassisLocations.items.length > 0) {
+                            setHasMatch(true);
+                          } else setHasMatch(false);
+                        };
+                        checkIfChassisExists();
                       },
+                    },
+                    SubmitButton: {
+                      isDisabled: hasMatch,
                     },
                   }}
                 />

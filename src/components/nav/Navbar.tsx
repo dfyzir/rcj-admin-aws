@@ -23,7 +23,6 @@ export default function NavBar() {
   ];
   const router = useRouter();
   const { pathname } = router;
-  console.log(pathname);
 
   return (
     <Navbar

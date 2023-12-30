@@ -51,10 +51,11 @@ const EditButtonAWS = ({ location, isView }: EditButtonAWSProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Update trailer</ModalHeader>
+              <ModalHeader>Update chassis location</ModalHeader>
               <ModalBody>
                 <div className="pl-0">
                   <ChassisLocationUpdateForm
+                    onSuccess={onClose}
                     chassisLocation={location}
                     onSubmit={(fields: any) => {
                       const updatedFields: any = {};
@@ -74,13 +75,11 @@ const EditButtonAWS = ({ location, isView }: EditButtonAWSProps) => {
                       return updatedFields;
                     }}
                     overrides={{
-                      SubmitButton: {
-                        onClick: () => {
-                          const timeoutId = setTimeout(() => {
-                            onClose();
-                          }, 1000);
-                          return () => clearTimeout(timeoutId);
-                        },
+                      chassisNumber: {
+                        isDisabled: true,
+                      },
+                      location: {
+                        value: location.location!,
                       },
                     }}
                   />
