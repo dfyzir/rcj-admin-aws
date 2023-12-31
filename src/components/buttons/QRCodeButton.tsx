@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import QRCodeIcon from "../icons/QRCodeIcon";
 import { DownloadIcon } from "../icons/DownloadIcon";
 import CloseIcon from "../icons/CloseIcon";
+import { motion } from "framer-motion";
 
 /*QrCodeButton Component:
  
@@ -102,11 +103,15 @@ const QrCodeButton = ({ text }: QRCodeButtonProps) => {
               <DownloadIcon />
             </Button>
           </div>
-          <div id="qrCodeContainer">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            id="qrCodeContainer">
             <QRCode
               value={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${text}`}
             />
-          </div>
+          </motion.div>
         </div>
       )}
     </div>

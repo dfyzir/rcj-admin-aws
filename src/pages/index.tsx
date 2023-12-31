@@ -5,6 +5,10 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 function Home() {
-  return <ChassisTable />;
+  return (
+    <>
+      <ChassisTable />
+    </>
+  );
 }
 export default withAuthenticator(Home);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { format, parseISO } from "date-fns";
 import { ChassisLocation } from "../../API";
 import { listChassisLocations } from "../../graphql/queries";
@@ -24,6 +24,7 @@ import ViewButtonAWS from "./buttons/ViewButtonAWS";
 import EditButtonAWS from "./buttons/EditButtonAWS";
 import useCheckedInventory from "@/hooks/useCheckedInInventory";
 import { CheckedCircleIcon } from "../icons/CheckedCIrcleIcon";
+import DragGesture from "../Gestures";
 
 //ChassisTable Component:
 
@@ -99,7 +100,6 @@ const LocationTable = () => {
     locationOptions.length,
     filterValue,
   ]);
-  console.log("filterd", filteredItems);
 
   // Calculate the total number of pages based on filtered items and rows per page
   let pages: number = Math.ceil(filteredItems?.length / rowsPerPage);
@@ -114,17 +114,20 @@ const LocationTable = () => {
   const classNames = {
     table: [],
     th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-    tr: [],
+
     td: [
       "text-2xl",
-      "py-7",
-      "px-2",
+      "py-1",
+      "pr-2",
+      "pl-0",
+      "h-[105px]",
       // changing the rows border radius
       // first
 
       "group-data-[odd=true]:bg-blue-200/50",
       "group-data-[odd=true]:text-grey",
       "group-data-[first=true]:last:before:rounded-none",
+
       // middle
       "group-data-[middle=true]:before:rounded-none",
       // last
@@ -138,7 +141,7 @@ const LocationTable = () => {
         setLocations={setLocations}
         setFilterValue={setFilterValue}
       />
-      <div className="px-2">
+      <div className="px-2 z">
         {locations && (
           <div className="">
             <Table
@@ -187,17 +190,28 @@ const LocationTable = () => {
                 {(item) => {
                   const newItem = {
                     id: item.id,
-                    icon: isCheckedIn(item.updatedAt) ? (
-                      <CheckedCircleIcon fill="green" />
-                    ) : (
-                      <CheckedCircleIcon fill="transparent" />
+                    icon: (
+                      <>
+                        {!isCheckedIn(item.updatedAt) && (
+                          <>
+                            <DragGesture item={item} index={item.id} />
+                          </>
+                        )}
+                        <div className=" w-5 p-0 m-0">
+                          {isCheckedIn(item.updatedAt) ? (
+                            <CheckedCircleIcon fill="rgba(60, 179, 113, 1)" />
+                          ) : (
+                            <CheckedCircleIcon fill="transparent" />
+                          )}
+                        </div>
+                      </>
                     ),
                     chassisNumber: item.chassisNumber,
                     location: item.location,
                     container: item.container != null ? item.container : "N/A",
                     updatedAt: format(parseISO(item.updatedAt), "PPpp"),
                     actions: (
-                      <div className=" flex justify-end items-center gap-1 lg:gap-5">
+                      <div className=" flex justify-end items-center gap-1 lg:gap-5 ">
                         <EditButtonAWS location={item} isView={false} />
                         <ViewButtonAWS location={item} />
                         <DeleteButtonAWSLocation
@@ -208,7 +222,7 @@ const LocationTable = () => {
                     ),
                   };
                   return (
-                    <TableRow className="" key={newItem.id}>
+                    <TableRow className="relative" key={newItem.id}>
                       {(columnKey) => {
                         return (
                           <TableCell

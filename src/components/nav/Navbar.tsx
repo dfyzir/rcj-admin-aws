@@ -11,7 +11,7 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { RCJIcon } from "../icons/RCJIcon";
+import { RCJIcon } from "../icons/RCJIconcopy";
 import SignOutButton from "./SignOutButton";
 
 export default function NavBar() {
