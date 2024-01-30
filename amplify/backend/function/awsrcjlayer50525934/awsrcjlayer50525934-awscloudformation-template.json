@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersionf4d626d0": {
+    "LambdaLayerVersion8c4b0b3b": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,13 +51,50 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivatef4d626d0": {
+    "LambdaLayerPermissionPrivate8c4b0b3b": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersionf4d626d0"
+          "Ref": "LambdaLayerVersion8c4b0b3b"
         },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion1291013f": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/awsrcjlayer50525934-LambdaLayerVersion1291013f-build.zip"
+        },
+        "Description": "Updated layer version 2023-12-31T06:05:14.583Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "awsrcjlayer50525934-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate1291013f": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:491554107211:layer:awsrcjlayer50525934-dev:32",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -67,7 +104,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersionf4d626d0"
+        "Ref": "LambdaLayerVersion8c4b0b3b"
       }
     }
   }
