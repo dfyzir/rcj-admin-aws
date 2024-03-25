@@ -12,6 +12,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import NavBar from "@/components/nav/Navbar";
+import { ThemeProvider } from "../context/themeContext";
 
 Amplify.configure(config, {
   ssr: true,
@@ -20,6 +21,7 @@ Amplify.configure(config, {
 function App({ Component, pageProps }: AppProps) {
   return (
     <Authenticator.Provider>
+      {/* <ThemeProvider> */}
       <NextUIProvider>
         <ToastContainer />
         <Head>
@@ -37,6 +39,7 @@ function App({ Component, pageProps }: AppProps) {
         <NavBar />
         <Component {...pageProps} />
       </NextUIProvider>
+      {/* </ThemeProvider> */}
     </Authenticator.Provider>
   );
 }

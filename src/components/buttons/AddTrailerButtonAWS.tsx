@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { TrailerRCJ } from "@/API";
 import { generateClient } from "aws-amplify/api";
-import { listChassisLocations } from "@/graphql/queries";
+import { listChassisLocations, listTrailerRCJS } from "@/graphql/queries";
 
 //AddTrailerButtonAWS Component:
 
@@ -104,7 +104,7 @@ const AddTrailerButtonAWS = () => {
                         const client = generateClient();
                         const checkIfChassisExists = async () => {
                           const res = await client.graphql({
-                            query: listChassisLocations,
+                            query: listTrailerRCJS,
                             variables: {
                               filter: {
                                 chassisNumber: {
@@ -113,7 +113,7 @@ const AddTrailerButtonAWS = () => {
                               },
                             },
                           });
-                          if (res.data.listChassisLocations.items.length > 0) {
+                          if (res.data.listTrailerRCJS.items.length > 0) {
                             setHasMatch(true);
                           } else setHasMatch(false);
                         };
