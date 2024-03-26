@@ -6,6 +6,15 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import {
+  Card,
+  Flex,
+  Text,
+  Divider,
+  Image,
+  Loader,
+  Icon,
+} from "@aws-amplify/ui-react";
 import { PlusIcon } from "../icons/PlusIcon";
 import TrailerRCJCreateForm from "@/ui-components/TrailerRCJCreateForm";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +22,7 @@ import { useState } from "react";
 import { TrailerRCJ } from "@/API";
 import { generateClient } from "aws-amplify/api";
 import { listChassisLocations, listTrailerRCJS } from "@/graphql/queries";
+import { useTheme } from "@/context/themeContext";
 
 //AddTrailerButtonAWS Component:
 
@@ -22,6 +32,7 @@ import { listChassisLocations, listTrailerRCJS } from "@/graphql/queries";
 const AddTrailerButtonAWS = () => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { theme } = useTheme();
 
   const [inventory, setInventory] = useState<TrailerRCJ>();
   const [hasMatch, setHasMatch] = useState(false);
@@ -82,21 +93,29 @@ const AddTrailerButtonAWS = () => {
                     return updatedFields;
                   }}
                   overrides={{
+                    TrailerRCJCreateForm: {
+                      className: "dark:!bg-[#121212]",
+                    },
                     inspectionFile: {
                       processFile,
                     },
+
+                    ClearButton: {
+                      className:
+                        "dark:!text-white dark:!bg-gray-900 dark:hover:!bg-gray-600 dark:!border-gray-950 dark:hover:!text-gray-900",
+                    },
+
                     chassisNumber: {
                       hasError: hasMatch
                         ? true
-                        : false ||
-                          (inventory?.chassisNumber != null &&
-                            inventory.chassisNumber.length < 10)
+                        : inventory?.chassisNumber != null &&
+                          inventory.chassisNumber.length !== 10
                         ? true
                         : false,
                       errorMessage: hasMatch
                         ? "Chassis already exists in the table"
                         : inventory?.chassisNumber != null &&
-                          inventory.chassisNumber.length < 10
+                          inventory.chassisNumber.length !== 10
                         ? "Must be 10 characters long"
                         : "",
                       onBlur: (e: any) => {
@@ -121,7 +140,14 @@ const AddTrailerButtonAWS = () => {
                       },
                     },
                     SubmitButton: {
+                      className:
+                        "dark:!bg-[#047d95] dark:hover:!bg-[#7dd6e8] dark:hover:!text-[#047d95]",
                       isDisabled: hasMatch,
+                    },
+                    CancelButton: {
+                      onClick: onClose,
+                      className:
+                        "dark:!bg-[#bf4040] dark:hover:!bg-[#ef8f8f] dark:hover:!text-[#bf4040]",
                     },
                     registrationFile: { processFile },
                   }}

@@ -13,6 +13,8 @@ import {
 import Link from "next/link";
 import { RCJIcon } from "../icons/RCJIconcopy";
 import SignOutButton from "./SignOutButton";
+import ThemeToggle from "./ThemeToggle";
+import { ThemeProvider } from "@/context/themeContext";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -42,6 +44,9 @@ export default function NavBar() {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-8" justify="center">
+        <NavbarItem>
+          <ThemeToggle />
+        </NavbarItem>
         <NavbarItem isActive={pathname === "/" ? true : false}>
           <Link
             href="/"
@@ -63,13 +68,18 @@ export default function NavBar() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" justify-content="between">
         <NavbarItem className=" hidden sm:flex">
           <SignOutButton />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="flex flex-col items-start justify-between">
         <div className="mt-10 flex flex-col gap-4 uppercase">
+          <NavbarMenuItem>
+            <div className="pl-3 mb-10">
+              <ThemeToggle />
+            </div>
+          </NavbarMenuItem>
           {menuItems.map((item, index) => (
             <NavbarMenuItem
               key={`${item}-${index}`}
@@ -88,6 +98,7 @@ export default function NavBar() {
             </NavbarMenuItem>
           ))}
         </div>
+
         <div className="mb-28">
           <SignOutButton />
         </div>

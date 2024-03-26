@@ -24,7 +24,7 @@ import ViewButtonAWS from "./buttons/ViewButtonAWS";
 import EditButtonAWS from "./buttons/EditButtonAWS";
 import useCheckedInventory from "@/hooks/useCheckedInInventory";
 import { CheckedCircleIcon } from "../icons/CheckedCIrcleIcon";
-import DragGesture from "../Gestures";
+import DragGesture from "./Gestures";
 
 //ChassisTable Component:
 
@@ -121,11 +121,12 @@ const LocationTable = () => {
       "pr-2",
       "pl-0",
       "h-[105px]",
+
       // changing the rows border radius
       // first
 
       "group-data-[odd=true]:bg-blue-200/50",
-      "group-data-[odd=true]:text-grey",
+      "group-data-[odd=true]:dark:bg-gray-800/50",
       "group-data-[first=true]:last:before:rounded-none",
 
       // middle
@@ -241,7 +242,7 @@ const LocationTable = () => {
                             
                             
                             
-                            md:table-cell`}>
+                            md:table-cell `}>
                             {getKeyValue(newItem, columnKey)}
                           </TableCell>
                         );

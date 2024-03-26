@@ -21,25 +21,25 @@ Amplify.configure(config, {
 function App({ Component, pageProps }: AppProps) {
   return (
     <Authenticator.Provider>
-      {/* <ThemeProvider> */}
-      <NextUIProvider>
-        <ToastContainer />
-        <Head>
-          {/* Add other global metadata tags here */}
-          <title>RCJ Admin</title>
-          <meta
-            name="description"
-            content="Add, update, delete RCJ's chassis here"
-          />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </Head>
-        <NavBar />
-        <Component {...pageProps} />
-      </NextUIProvider>
-      {/* </ThemeProvider> */}
+      <ThemeProvider>
+        <NextUIProvider>
+          <ToastContainer />
+          <Head>
+            {/* Add other global metadata tags here */}
+            <title>RCJ Admin</title>
+            <meta
+              name="description"
+              content="Add, update, delete RCJ's chassis here"
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+          </Head>
+          <NavBar />
+          <Component {...pageProps} />
+        </NextUIProvider>
+      </ThemeProvider>
     </Authenticator.Provider>
   );
 }

@@ -14,7 +14,7 @@ import { useState } from "react";
 import { ChassisLocation } from "@/API";
 import { generateClient } from "aws-amplify/api";
 import { listChassisLocations } from "@/graphql/queries";
-import { set } from "date-fns";
+import { Flex, HighlightMatch } from "@aws-amplify/ui-react";
 
 //AddTrailerButtonAWS Component:
 
@@ -27,6 +27,17 @@ const AddLocationButtonAWS = () => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const screenWidth = useScreenWidth();
+
+  const renderOptions = (options: any, value: any) => {
+    const { label } = options;
+    return (
+      <Flex
+        alignItems="center"
+        className="dark:!bg-gray-700 dark:hover:!bg-[#047d95]  dark:!text-gray-300 !-mx-3 !p-2 !-my-2">
+        <HighlightMatch query={value}>{label}</HighlightMatch>
+      </Flex>
+    );
+  };
 
   //processFile processes and formats file data before submission.
   return (
@@ -77,15 +88,14 @@ const AddLocationButtonAWS = () => {
                     chassisNumber: {
                       hasError: hasMatch
                         ? true
-                        : false ||
-                          (inventory?.chassisNumber != null &&
-                            inventory.chassisNumber.length < 10)
+                        : inventory?.chassisNumber != null &&
+                          inventory.chassisNumber.length !== 10
                         ? true
                         : false,
                       errorMessage: hasMatch
                         ? "Chassis already exists in the table"
                         : inventory?.chassisNumber != null &&
-                          inventory.chassisNumber.length < 10
+                          inventory.chassisNumber.length !== 10
                         ? "Must be 10 characters long"
                         : "",
                       onBlur: (e: any) => {
@@ -109,8 +119,17 @@ const AddLocationButtonAWS = () => {
                         checkIfChassisExists();
                       },
                     },
+                    location: {
+                      renderOption: renderOptions,
+                    },
                     SubmitButton: {
+                      className:
+                        "dark:!bg-[#047d95] dark:hover:!bg-[#7dd6e8] dark:hover:!text-[#047d95]",
                       isDisabled: hasMatch,
+                    },
+                    ClearButton: {
+                      className:
+                        "dark:!bg-[#bf4040] dark:hover:!bg-[#ef8f8f] dark:hover:!text-[#bf4040]",
                     },
                   }}
                 />

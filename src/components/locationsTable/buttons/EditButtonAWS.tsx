@@ -13,6 +13,8 @@ import {
 import { EditIcon } from "../../icons/EditIcon";
 import ChassisLocationUpdateForm from "@/ui-components/ChassisLocationUpdateForm";
 
+import { Flex, HighlightMatch } from "@aws-amplify/ui-react";
+
 //EditButtonAWS Component:
 
 //This component represents a button for editing a trailer. It triggers a modal
@@ -26,8 +28,17 @@ type EditButtonAWSProps = {
 const EditButtonAWS = ({ location, isView }: EditButtonAWSProps) => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { tokens } = useTheme();
 
+  const renderOptions = (options: any, value: any) => {
+    const { label } = options;
+    return (
+      <Flex
+        alignItems="center"
+        className="dark:!bg-gray-700 dark:hover:!bg-[#047d95]  dark:!text-gray-300 !-mx-3 !p-2 !-my-2">
+        <HighlightMatch query={value}>{label}</HighlightMatch>
+      </Flex>
+    );
+  };
   return (
     <div
       className={` ${isView ? "flex md:hidden" : ""} ${
@@ -79,7 +90,16 @@ const EditButtonAWS = ({ location, isView }: EditButtonAWSProps) => {
                         isDisabled: true,
                       },
                       location: {
+                        renderOption: renderOptions,
                         value: location.location!,
+                      },
+                      SubmitButton: {
+                        className:
+                          "dark:!bg-[#047d95] dark:hover:!bg-[#7dd6e8] dark:hover:!text-[#047d95]",
+                      },
+                      ResetButton: {
+                        className:
+                          "dark:!bg-[#bf4040] dark:hover:!bg-[#ef8f8f] dark:hover:!text-[#bf4040]",
                       },
                     }}
                   />

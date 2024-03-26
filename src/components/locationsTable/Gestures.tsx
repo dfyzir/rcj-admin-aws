@@ -3,7 +3,7 @@ import { ChassisLocation } from "@/API";
 import { updateChassisLocation } from "@/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 import { motion } from "framer-motion";
-import { CheckedCircleIcon } from "./icons/CheckedCIrcleIcon";
+import { CheckedCircleIcon } from "../icons/CheckedCIrcleIcon";
 
 const DragGesture = ({
   index,

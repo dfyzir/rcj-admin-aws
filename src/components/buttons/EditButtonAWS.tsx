@@ -97,6 +97,19 @@ const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
                     overrides={{
                       inspectionFile: { processFile },
                       registrationFile: { processFile },
+                      SubmitButton: {
+                        className:
+                          "dark:!bg-[#047d95] dark:hover:!bg-[#7dd6e8] dark:hover:!text-[#047d95]",
+                      },
+                      CancelButton: {
+                        onClick: onClose,
+                        className:
+                          "dark:!bg-[#bf4040] dark:hover:!bg-[#ef8f8f] dark:hover:!text-[#bf4040]",
+                      },
+                      ResetButton: {
+                        className:
+                          "dark:!text-white dark:!bg-gray-900 dark:hover:!bg-gray-600 dark:!border-gray-950 dark:hover:!text-gray-900",
+                      },
                     }}
                   />
                 </div>
