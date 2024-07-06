@@ -1,6 +1,4 @@
-import { fi } from "date-fns/locale";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 
 //PDFViewer Component:

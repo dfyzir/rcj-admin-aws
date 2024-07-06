@@ -126,7 +126,7 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                   </div>
                   <div className="flex flex-col md:flex-row gap-20 md:gap-10 mt-5 mx-auto">
                     {EmptyDiv}
-                    {inspectionUrl && (
+                    {trailer.inspectionFile && inspectionUrl && (
                       <div className=" mx-auto">
                         <div className="flex justify-evenly">
                           <h3 className="text-center mb-4 text-xl font-semibold uppercase">
@@ -162,7 +162,7 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                         ) : null}
                       </div>
                     )}
-                    {registrationUrl && (
+                    {registrationUrl && trailer.registrationFile && (
                       <div className=" mx-auto ">
                         <div className="flex justify-evenly">
                           <h3 className="text-center mb-4 text-xl font-semibold uppercase">
