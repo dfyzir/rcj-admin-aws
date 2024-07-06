@@ -5,6 +5,7 @@ import { listTrailerRCJS } from "../../graphql/queries";
 import { generateClient } from "aws-amplify/api";
 
 import {
+  SortDescriptor,
   Table,
   TableBody,
   TableCell,
@@ -23,7 +24,6 @@ import TopContent from "@/components/chassisTable/TopContent";
 import AWSSubscriptionEvents from "@/components/chassisTable/AWSSubscriptionEvents";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
-import { classNamesForTable } from "@/lib/classNamesForTable";
 
 //ChassisTable Component:
 
@@ -35,6 +35,12 @@ const ChassisTable = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValue, setFilterValue] = useState("");
+  const [sortDescriptor, setSortDescriptor] = useState<
+    SortDescriptor | undefined
+  >({
+    column: "registrationExpiresAt",
+    direction: "ascending",
+  });
   const hasSearchFilter = Boolean(filterValue);
 
   const { isExpired, isExpireSoon } = useCheckDate(); // Custom hook to check expiration and soon-to-expire dates
@@ -53,6 +59,11 @@ const ChassisTable = () => {
 
     getTrailersRCJ();
   }, []);
+
+  // Handle sorting
+  const handleSortChange = (descriptor: SortDescriptor | undefined) => {
+    setSortDescriptor(descriptor);
+  };
 
   // Memoized filtered trailers based on search filter
   const filteredItems = useMemo(() => {
@@ -75,9 +86,24 @@ const ChassisTable = () => {
         trailer.chassisNumber!.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
+    if (sortDescriptor !== undefined && sortDescriptor.column !== undefined) {
+      filteredTrailers = filteredTrailers.sort((a, b) => {
+        // eslint-disable-next-line
+        const column = sortDescriptor.column as keyof TrailerRCJ;
+        let first = parseISO(a[column] as string);
+        let second = parseISO(b[column] as string);
+        let cmp = first < second ? -1 : 1;
+
+        if (sortDescriptor.direction === "descending") {
+          cmp *= -1;
+        }
+
+        return cmp;
+      });
+    }
 
     return filteredTrailers;
-  }, [trailers, hasSearchFilter, filterValue]);
+  }, [trailers, hasSearchFilter, sortDescriptor, filterValue]);
 
   // Calculate the total number of pages based on filtered items and rows per page
   let pages: number = Math.ceil(filteredItems?.length / rowsPerPage);
@@ -131,7 +157,9 @@ const ChassisTable = () => {
               }
               bottomContent={
                 <BottomContent page={page} pages={pages} setPage={setPage} />
-              }>
+              }
+              sortDescriptor={sortDescriptor}
+              onSortChange={handleSortChange}>
               <TableHeader>
                 <TableColumn key="chassisNumber" className="text-xl">
                   CHASSIS #
@@ -149,12 +177,14 @@ const ChassisTable = () => {
                 </TableColumn>
                 <TableColumn
                   key="inspectionExpiresAt"
-                  className="text-xl hidden md:table-cell">
+                  className="text-xl hidden md:table-cell"
+                  allowsSorting>
                   INSPECTION
                 </TableColumn>
                 <TableColumn
                   key="registrationExpiresAt"
-                  className="text-xl hidden md:table-cell">
+                  className="text-xl hidden md:table-cell"
+                  allowsSorting>
                   REGISTRATION
                 </TableColumn>
                 <TableColumn key="actions">{""}</TableColumn>

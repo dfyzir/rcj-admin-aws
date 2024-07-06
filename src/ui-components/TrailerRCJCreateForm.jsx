@@ -360,7 +360,7 @@ export default function TrailerRCJCreateForm(props) {
           }}
           processFile={processFile}
           accessLevel={"public"}
-          acceptedFileTypes={[".pdf"]}
+          acceptedFileTypes={[".pdf", "image/*"]}
           isResumable={false}
           showThumbnails={true}
           maxFileCount={1}
@@ -448,7 +448,7 @@ export default function TrailerRCJCreateForm(props) {
           }}
           processFile={processFile}
           accessLevel={"public"}
-          acceptedFileTypes={[".pdf"]}
+          acceptedFileTypes={[".pdf", "image/*"]}
           isResumable={false}
           showThumbnails={true}
           maxFileCount={1}

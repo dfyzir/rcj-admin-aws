@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import { fi } from "date-fns/locale";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 
 //PDFViewer Component:
@@ -7,6 +9,7 @@ import { pdfjs, Document, Page } from "react-pdf";
 
 const PDFViewer = ({ pdfUrl }: { pdfUrl: string }) => {
   // Set up PDF.js worker source during component mount
+
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
       "pdfjs-dist/build/pdf.worker.min.js",
@@ -16,16 +19,25 @@ const PDFViewer = ({ pdfUrl }: { pdfUrl: string }) => {
 
   return (
     <div>
-      <Document
-        file={pdfUrl}
-        className="shadow-2xl rounded-xl overflow-hidden w-[300px] h-[400px]">
-        <Page
-          pageNumber={1}
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-          className="scale-50 -translate-y-[25%] -translate-x-[25%]"
+      {pdfUrl.includes("pdf") ? (
+        <Document
+          file={pdfUrl}
+          className="shadow-2xl rounded-xl overflow-hidden w-[300px] h-[400px]">
+          <Page
+            pageNumber={1}
+            renderTextLayer={false}
+            renderAnnotationLayer={false}
+            className="scale-50 -translate-y-[25%] -translate-x-[25%]"
+          />
+        </Document>
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={pdfUrl}
+          alt="File"
+          className="shadow-2xl rounded-xl overflow-hidden w-[300px] h-[400px] object-cover"
         />
-      </Document>
+      )}
     </div>
   );
 };
