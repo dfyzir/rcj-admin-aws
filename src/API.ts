@@ -2,20 +2,62 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateChassisLocationInput = {
+export type CreateNewDriverPersonalInfoInput = {
   id?: string | null,
-  chassisNumber: string,
-  location?: string | null,
-  container?: string | null,
+  firstName: string,
+  lastName: string,
+  middleName?: string | null,
+  datOfBirth: string,
+  socialSecurityNumber: number,
+  primaryPhoneNumber: string,
+  altPhoneNumber?: string | null,
+  licenseNumber: number,
+  licenseCategory: string,
+  licenseState: string,
+  licenseExpirationDate: string,
+  primaryAddress: string,
+  primaryCity: string,
+  primaryState: string,
+  primaryZip: number,
+  secondaryAddress?: string | null,
+  secondaryCity?: string | null,
+  secondaryState?: string | null,
+  secondaryZip?: number | null,
+  drivingExperience?: Array< string | null > | null,
+  accidentHistory?: Array< string | null > | null,
+  criminalHistory?: Array< string | null > | null,
+  employmentHistory?: Array< string | null > | null,
+  emergencyContact?: Array< string | null > | null,
 };
 
-export type ModelChassisLocationConditionInput = {
-  chassisNumber?: ModelStringInput | null,
-  location?: ModelStringInput | null,
-  container?: ModelStringInput | null,
-  and?: Array< ModelChassisLocationConditionInput | null > | null,
-  or?: Array< ModelChassisLocationConditionInput | null > | null,
-  not?: ModelChassisLocationConditionInput | null,
+export type ModelNewDriverPersonalInfoConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  middleName?: ModelStringInput | null,
+  datOfBirth?: ModelStringInput | null,
+  socialSecurityNumber?: ModelIntInput | null,
+  primaryPhoneNumber?: ModelStringInput | null,
+  altPhoneNumber?: ModelStringInput | null,
+  licenseNumber?: ModelIntInput | null,
+  licenseCategory?: ModelStringInput | null,
+  licenseState?: ModelStringInput | null,
+  licenseExpirationDate?: ModelStringInput | null,
+  primaryAddress?: ModelStringInput | null,
+  primaryCity?: ModelStringInput | null,
+  primaryState?: ModelStringInput | null,
+  primaryZip?: ModelIntInput | null,
+  secondaryAddress?: ModelStringInput | null,
+  secondaryCity?: ModelStringInput | null,
+  secondaryState?: ModelStringInput | null,
+  secondaryZip?: ModelIntInput | null,
+  drivingExperience?: ModelStringInput | null,
+  accidentHistory?: ModelStringInput | null,
+  criminalHistory?: ModelStringInput | null,
+  employmentHistory?: ModelStringInput | null,
+  emergencyContact?: ModelStringInput | null,
+  and?: Array< ModelNewDriverPersonalInfoConditionInput | null > | null,
+  or?: Array< ModelNewDriverPersonalInfoConditionInput | null > | null,
+  not?: ModelNewDriverPersonalInfoConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,6 +98,97 @@ export type ModelSizeInput = {
   ge?: number | null,
   gt?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type NewDriverPersonalInfo = {
+  __typename: "NewDriverPersonalInfo",
+  id: string,
+  firstName: string,
+  lastName: string,
+  middleName?: string | null,
+  datOfBirth: string,
+  socialSecurityNumber: number,
+  primaryPhoneNumber: string,
+  altPhoneNumber?: string | null,
+  licenseNumber: number,
+  licenseCategory: string,
+  licenseState: string,
+  licenseExpirationDate: string,
+  primaryAddress: string,
+  primaryCity: string,
+  primaryState: string,
+  primaryZip: number,
+  secondaryAddress?: string | null,
+  secondaryCity?: string | null,
+  secondaryState?: string | null,
+  secondaryZip?: number | null,
+  drivingExperience?: Array< string | null > | null,
+  accidentHistory?: Array< string | null > | null,
+  criminalHistory?: Array< string | null > | null,
+  employmentHistory?: Array< string | null > | null,
+  emergencyContact?: Array< string | null > | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateNewDriverPersonalInfoInput = {
+  id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  middleName?: string | null,
+  datOfBirth?: string | null,
+  socialSecurityNumber?: number | null,
+  primaryPhoneNumber?: string | null,
+  altPhoneNumber?: string | null,
+  licenseNumber?: number | null,
+  licenseCategory?: string | null,
+  licenseState?: string | null,
+  licenseExpirationDate?: string | null,
+  primaryAddress?: string | null,
+  primaryCity?: string | null,
+  primaryState?: string | null,
+  primaryZip?: number | null,
+  secondaryAddress?: string | null,
+  secondaryCity?: string | null,
+  secondaryState?: string | null,
+  secondaryZip?: number | null,
+  drivingExperience?: Array< string | null > | null,
+  accidentHistory?: Array< string | null > | null,
+  criminalHistory?: Array< string | null > | null,
+  employmentHistory?: Array< string | null > | null,
+  emergencyContact?: Array< string | null > | null,
+};
+
+export type DeleteNewDriverPersonalInfoInput = {
+  id: string,
+};
+
+export type CreateChassisLocationInput = {
+  id?: string | null,
+  chassisNumber: string,
+  location?: string | null,
+  container?: string | null,
+};
+
+export type ModelChassisLocationConditionInput = {
+  chassisNumber?: ModelStringInput | null,
+  location?: ModelStringInput | null,
+  container?: ModelStringInput | null,
+  and?: Array< ModelChassisLocationConditionInput | null > | null,
+  or?: Array< ModelChassisLocationConditionInput | null > | null,
+  not?: ModelChassisLocationConditionInput | null,
 };
 
 export type ChassisLocation = {
@@ -132,14 +265,35 @@ export type DeleteTrailerRCJInput = {
   id: string,
 };
 
-export type ModelChassisLocationFilterInput = {
+export type ModelNewDriverPersonalInfoFilterInput = {
   id?: ModelIDInput | null,
-  chassisNumber?: ModelStringInput | null,
-  location?: ModelStringInput | null,
-  container?: ModelStringInput | null,
-  and?: Array< ModelChassisLocationFilterInput | null > | null,
-  or?: Array< ModelChassisLocationFilterInput | null > | null,
-  not?: ModelChassisLocationFilterInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  middleName?: ModelStringInput | null,
+  datOfBirth?: ModelStringInput | null,
+  socialSecurityNumber?: ModelIntInput | null,
+  primaryPhoneNumber?: ModelStringInput | null,
+  altPhoneNumber?: ModelStringInput | null,
+  licenseNumber?: ModelIntInput | null,
+  licenseCategory?: ModelStringInput | null,
+  licenseState?: ModelStringInput | null,
+  licenseExpirationDate?: ModelStringInput | null,
+  primaryAddress?: ModelStringInput | null,
+  primaryCity?: ModelStringInput | null,
+  primaryState?: ModelStringInput | null,
+  primaryZip?: ModelIntInput | null,
+  secondaryAddress?: ModelStringInput | null,
+  secondaryCity?: ModelStringInput | null,
+  secondaryState?: ModelStringInput | null,
+  secondaryZip?: ModelIntInput | null,
+  drivingExperience?: ModelStringInput | null,
+  accidentHistory?: ModelStringInput | null,
+  criminalHistory?: ModelStringInput | null,
+  employmentHistory?: ModelStringInput | null,
+  emergencyContact?: ModelStringInput | null,
+  and?: Array< ModelNewDriverPersonalInfoFilterInput | null > | null,
+  or?: Array< ModelNewDriverPersonalInfoFilterInput | null > | null,
+  not?: ModelNewDriverPersonalInfoFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -156,6 +310,22 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type ModelNewDriverPersonalInfoConnection = {
+  __typename: "ModelNewDriverPersonalInfoConnection",
+  items:  Array<NewDriverPersonalInfo | null >,
+  nextToken?: string | null,
+};
+
+export type ModelChassisLocationFilterInput = {
+  id?: ModelIDInput | null,
+  chassisNumber?: ModelStringInput | null,
+  location?: ModelStringInput | null,
+  container?: ModelStringInput | null,
+  and?: Array< ModelChassisLocationFilterInput | null > | null,
+  or?: Array< ModelChassisLocationFilterInput | null > | null,
+  not?: ModelChassisLocationFilterInput | null,
 };
 
 export type ModelChassisLocationConnection = {
@@ -184,13 +354,34 @@ export type ModelTrailerRCJConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionChassisLocationFilterInput = {
+export type ModelSubscriptionNewDriverPersonalInfoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  chassisNumber?: ModelSubscriptionStringInput | null,
-  location?: ModelSubscriptionStringInput | null,
-  container?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionChassisLocationFilterInput | null > | null,
-  or?: Array< ModelSubscriptionChassisLocationFilterInput | null > | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  middleName?: ModelSubscriptionStringInput | null,
+  datOfBirth?: ModelSubscriptionStringInput | null,
+  socialSecurityNumber?: ModelSubscriptionIntInput | null,
+  primaryPhoneNumber?: ModelSubscriptionStringInput | null,
+  altPhoneNumber?: ModelSubscriptionStringInput | null,
+  licenseNumber?: ModelSubscriptionIntInput | null,
+  licenseCategory?: ModelSubscriptionStringInput | null,
+  licenseState?: ModelSubscriptionStringInput | null,
+  licenseExpirationDate?: ModelSubscriptionStringInput | null,
+  primaryAddress?: ModelSubscriptionStringInput | null,
+  primaryCity?: ModelSubscriptionStringInput | null,
+  primaryState?: ModelSubscriptionStringInput | null,
+  primaryZip?: ModelSubscriptionIntInput | null,
+  secondaryAddress?: ModelSubscriptionStringInput | null,
+  secondaryCity?: ModelSubscriptionStringInput | null,
+  secondaryState?: ModelSubscriptionStringInput | null,
+  secondaryZip?: ModelSubscriptionIntInput | null,
+  drivingExperience?: ModelSubscriptionStringInput | null,
+  accidentHistory?: ModelSubscriptionStringInput | null,
+  criminalHistory?: ModelSubscriptionStringInput | null,
+  employmentHistory?: ModelSubscriptionStringInput | null,
+  emergencyContact?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
+  or?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -223,6 +414,27 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionChassisLocationFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  chassisNumber?: ModelSubscriptionStringInput | null,
+  location?: ModelSubscriptionStringInput | null,
+  container?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChassisLocationFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChassisLocationFilterInput | null > | null,
+};
+
 export type ModelSubscriptionTrailerRCJFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   chassisNumber?: ModelSubscriptionStringInput | null,
@@ -234,6 +446,120 @@ export type ModelSubscriptionTrailerRCJFilterInput = {
   registrationFile?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionTrailerRCJFilterInput | null > | null,
   or?: Array< ModelSubscriptionTrailerRCJFilterInput | null > | null,
+};
+
+export type CreateNewDriverPersonalInfoMutationVariables = {
+  input: CreateNewDriverPersonalInfoInput,
+  condition?: ModelNewDriverPersonalInfoConditionInput | null,
+};
+
+export type CreateNewDriverPersonalInfoMutation = {
+  createNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateNewDriverPersonalInfoMutationVariables = {
+  input: UpdateNewDriverPersonalInfoInput,
+  condition?: ModelNewDriverPersonalInfoConditionInput | null,
+};
+
+export type UpdateNewDriverPersonalInfoMutation = {
+  updateNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteNewDriverPersonalInfoMutationVariables = {
+  input: DeleteNewDriverPersonalInfoInput,
+  condition?: ModelNewDriverPersonalInfoConditionInput | null,
+};
+
+export type DeleteNewDriverPersonalInfoMutation = {
+  deleteNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateChassisLocationMutationVariables = {
@@ -350,6 +676,86 @@ export type DeleteTrailerRCJMutation = {
   } | null,
 };
 
+export type GetNewDriverPersonalInfoQueryVariables = {
+  id: string,
+};
+
+export type GetNewDriverPersonalInfoQuery = {
+  getNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListNewDriverPersonalInfosQueryVariables = {
+  filter?: ModelNewDriverPersonalInfoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNewDriverPersonalInfosQuery = {
+  listNewDriverPersonalInfos?:  {
+    __typename: "ModelNewDriverPersonalInfoConnection",
+    items:  Array< {
+      __typename: "NewDriverPersonalInfo",
+      id: string,
+      firstName: string,
+      lastName: string,
+      middleName?: string | null,
+      datOfBirth: string,
+      socialSecurityNumber: number,
+      primaryPhoneNumber: string,
+      altPhoneNumber?: string | null,
+      licenseNumber: number,
+      licenseCategory: string,
+      licenseState: string,
+      licenseExpirationDate: string,
+      primaryAddress: string,
+      primaryCity: string,
+      primaryState: string,
+      primaryZip: number,
+      secondaryAddress?: string | null,
+      secondaryCity?: string | null,
+      secondaryState?: string | null,
+      secondaryZip?: number | null,
+      drivingExperience?: Array< string | null > | null,
+      accidentHistory?: Array< string | null > | null,
+      criminalHistory?: Array< string | null > | null,
+      employmentHistory?: Array< string | null > | null,
+      emergencyContact?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetChassisLocationQueryVariables = {
   id: string,
 };
@@ -431,6 +837,117 @@ export type ListTrailerRCJSQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateNewDriverPersonalInfoSubscriptionVariables = {
+  filter?: ModelSubscriptionNewDriverPersonalInfoFilterInput | null,
+};
+
+export type OnCreateNewDriverPersonalInfoSubscription = {
+  onCreateNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateNewDriverPersonalInfoSubscriptionVariables = {
+  filter?: ModelSubscriptionNewDriverPersonalInfoFilterInput | null,
+};
+
+export type OnUpdateNewDriverPersonalInfoSubscription = {
+  onUpdateNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteNewDriverPersonalInfoSubscriptionVariables = {
+  filter?: ModelSubscriptionNewDriverPersonalInfoFilterInput | null,
+};
+
+export type OnDeleteNewDriverPersonalInfoSubscription = {
+  onDeleteNewDriverPersonalInfo?:  {
+    __typename: "NewDriverPersonalInfo",
+    id: string,
+    firstName: string,
+    lastName: string,
+    middleName?: string | null,
+    datOfBirth: string,
+    socialSecurityNumber: number,
+    primaryPhoneNumber: string,
+    altPhoneNumber?: string | null,
+    licenseNumber: number,
+    licenseCategory: string,
+    licenseState: string,
+    licenseExpirationDate: string,
+    primaryAddress: string,
+    primaryCity: string,
+    primaryState: string,
+    primaryZip: number,
+    secondaryAddress?: string | null,
+    secondaryCity?: string | null,
+    secondaryState?: string | null,
+    secondaryZip?: number | null,
+    drivingExperience?: Array< string | null > | null,
+    accidentHistory?: Array< string | null > | null,
+    criminalHistory?: Array< string | null > | null,
+    employmentHistory?: Array< string | null > | null,
+    emergencyContact?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 

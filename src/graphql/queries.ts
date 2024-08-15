@@ -8,6 +8,90 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getNewDriverPersonalInfo = /* GraphQL */ `query GetNewDriverPersonalInfo($id: ID!) {
+  getNewDriverPersonalInfo(id: $id) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetNewDriverPersonalInfoQueryVariables,
+  APITypes.GetNewDriverPersonalInfoQuery
+>;
+export const listNewDriverPersonalInfos = /* GraphQL */ `query ListNewDriverPersonalInfos(
+  $filter: ModelNewDriverPersonalInfoFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listNewDriverPersonalInfos(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      firstName
+      lastName
+      middleName
+      datOfBirth
+      socialSecurityNumber
+      primaryPhoneNumber
+      altPhoneNumber
+      licenseNumber
+      licenseCategory
+      licenseState
+      licenseExpirationDate
+      primaryAddress
+      primaryCity
+      primaryState
+      primaryZip
+      secondaryAddress
+      secondaryCity
+      secondaryState
+      secondaryZip
+      drivingExperience
+      accidentHistory
+      criminalHistory
+      employmentHistory
+      emergencyContact
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListNewDriverPersonalInfosQueryVariables,
+  APITypes.ListNewDriverPersonalInfosQuery
+>;
 export const getChassisLocation = /* GraphQL */ `query GetChassisLocation($id: ID!) {
   getChassisLocation(id: $id) {
     id

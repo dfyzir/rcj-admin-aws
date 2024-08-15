@@ -8,6 +8,120 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateNewDriverPersonalInfo = /* GraphQL */ `subscription OnCreateNewDriverPersonalInfo(
+  $filter: ModelSubscriptionNewDriverPersonalInfoFilterInput
+) {
+  onCreateNewDriverPersonalInfo(filter: $filter) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateNewDriverPersonalInfoSubscriptionVariables,
+  APITypes.OnCreateNewDriverPersonalInfoSubscription
+>;
+export const onUpdateNewDriverPersonalInfo = /* GraphQL */ `subscription OnUpdateNewDriverPersonalInfo(
+  $filter: ModelSubscriptionNewDriverPersonalInfoFilterInput
+) {
+  onUpdateNewDriverPersonalInfo(filter: $filter) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateNewDriverPersonalInfoSubscriptionVariables,
+  APITypes.OnUpdateNewDriverPersonalInfoSubscription
+>;
+export const onDeleteNewDriverPersonalInfo = /* GraphQL */ `subscription OnDeleteNewDriverPersonalInfo(
+  $filter: ModelSubscriptionNewDriverPersonalInfoFilterInput
+) {
+  onDeleteNewDriverPersonalInfo(filter: $filter) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteNewDriverPersonalInfoSubscriptionVariables,
+  APITypes.OnDeleteNewDriverPersonalInfoSubscription
+>;
 export const onCreateChassisLocation = /* GraphQL */ `subscription OnCreateChassisLocation(
   $filter: ModelSubscriptionChassisLocationFilterInput
 ) {

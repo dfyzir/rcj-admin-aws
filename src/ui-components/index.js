@@ -6,6 +6,8 @@
 
 export { default as ChassisLocationCreateForm } from "./ChassisLocationCreateForm";
 export { default as ChassisLocationUpdateForm } from "./ChassisLocationUpdateForm";
+export { default as NewDriverPersonalInfoCreateForm } from "./NewDriverPersonalInfoCreateForm";
+export { default as NewDriverPersonalInfoUpdateForm } from "./NewDriverPersonalInfoUpdateForm";
 export { default as TrailerRCJCreateForm } from "./TrailerRCJCreateForm";
 export { default as TrailerRCJUpdateForm } from "./TrailerRCJUpdateForm";
 export { default as studioTheme } from "./studioTheme";

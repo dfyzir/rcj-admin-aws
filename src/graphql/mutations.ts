@@ -8,6 +8,123 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createNewDriverPersonalInfo = /* GraphQL */ `mutation CreateNewDriverPersonalInfo(
+  $input: CreateNewDriverPersonalInfoInput!
+  $condition: ModelNewDriverPersonalInfoConditionInput
+) {
+  createNewDriverPersonalInfo(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateNewDriverPersonalInfoMutationVariables,
+  APITypes.CreateNewDriverPersonalInfoMutation
+>;
+export const updateNewDriverPersonalInfo = /* GraphQL */ `mutation UpdateNewDriverPersonalInfo(
+  $input: UpdateNewDriverPersonalInfoInput!
+  $condition: ModelNewDriverPersonalInfoConditionInput
+) {
+  updateNewDriverPersonalInfo(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateNewDriverPersonalInfoMutationVariables,
+  APITypes.UpdateNewDriverPersonalInfoMutation
+>;
+export const deleteNewDriverPersonalInfo = /* GraphQL */ `mutation DeleteNewDriverPersonalInfo(
+  $input: DeleteNewDriverPersonalInfoInput!
+  $condition: ModelNewDriverPersonalInfoConditionInput
+) {
+  deleteNewDriverPersonalInfo(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    middleName
+    datOfBirth
+    socialSecurityNumber
+    primaryPhoneNumber
+    altPhoneNumber
+    licenseNumber
+    licenseCategory
+    licenseState
+    licenseExpirationDate
+    primaryAddress
+    primaryCity
+    primaryState
+    primaryZip
+    secondaryAddress
+    secondaryCity
+    secondaryState
+    secondaryZip
+    drivingExperience
+    accidentHistory
+    criminalHistory
+    employmentHistory
+    emergencyContact
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteNewDriverPersonalInfoMutationVariables,
+  APITypes.DeleteNewDriverPersonalInfoMutation
+>;
 export const createChassisLocation = /* GraphQL */ `mutation CreateChassisLocation(
   $input: CreateChassisLocationInput!
   $condition: ModelChassisLocationConditionInput
