@@ -20,6 +20,7 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
+    { name: "Find Chassis", href: "/" },
     { name: "Chassis List", href: "/chassis-list" },
     { name: "Yard Inventory", href: "/yard-inventory" },
   ];

@@ -138,7 +138,6 @@ const ChassisTable = () => {
   const [selectedKeys, setSelectedKeys] = useState<
     "all" | Iterable<Key> | undefined
   >(new Set<Key>([]));
-  console.log(selectedKeys);
 
   const handleSelectionChange = (keys: "all" | Iterable<Key> | undefined) => {
     if (keys === "all") {

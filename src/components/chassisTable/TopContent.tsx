@@ -61,7 +61,7 @@ const TopContent = ({
   const selectedKeysArray: string[] = selectedKeys
     ? Array.from(selectedKeys as Set<Key>).map((key) => String(key))
     : [];
-  console.log("selectedKeys:", selectedKeysArray);
+
   return (
     <div className="flex flex-col gap-4 mt-5 w-full ">
       <div className="flex flex-col md:flex-row justify-between gap-7 text-large ">
