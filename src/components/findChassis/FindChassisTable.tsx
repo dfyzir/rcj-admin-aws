@@ -15,23 +15,20 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 
-import DeleteButtonAWS from "@/components/buttons/DeleteButtonAWS";
-import EditButtonAWS from "@/components/buttons/EditButtonAWS";
-import ViewButtonAWS from "@/components/buttons/ViewButtonAWS";
+import ViewButtonAWS from "./buttons/ViewButtonAWS";
 import { ExpiredWarningIcon } from "@/components/icons/ExpiredWarningIcon";
 import BottomContent from "@/components/chassisTable/TablePagination";
-import TopContent from "@/components/chassisTable/TopContent";
+import TopContent from "./TopContent";
 import AWSSubscriptionEvents from "@/components/chassisTable/AWSSubscriptionEvents";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
-import { Key } from "@react-types/shared";
 
 //ChassisTable Component:
 
 //This component is responsible for displaying a list of trailer data in a table format.
 //It incorporates functionality for creating, reading, updating, and deleting trailer records.
 
-const ChassisTable = () => {
+const FindChassisTable = () => {
   const [trailers, setTrailers] = useState<Array<TrailerRCJ>>([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -121,13 +118,12 @@ const ChassisTable = () => {
     td: [
       "text-2xl",
       "py-7",
-      "px-1",
+      "px-0",
 
       // changing the rows border radius
       // first
       "group-data-[first=true]:first:before:rounded-none",
       "group-data-[first=true]:last:before:rounded-none",
-
       // middle
       "group-data-[middle=true]:before:rounded-none",
       // last
@@ -135,38 +131,19 @@ const ChassisTable = () => {
       "group-data-[last=true]:last:before:rounded-none",
     ],
   };
-  const [selectedKeys, setSelectedKeys] = useState<
-    "all" | Iterable<Key> | undefined
-  >(new Set<Key>([]));
-  console.log(selectedKeys);
-
-  const handleSelectionChange = (keys: "all" | Iterable<Key> | undefined) => {
-    if (keys === "all") {
-      const allKeys = new Set(
-        filteredItems.map((trailer) => trailer.chassisNumber)
-      ) as "all" | Iterable<Key> | undefined;
-      setSelectedKeys(allKeys);
-    } else {
-      setSelectedKeys(keys);
-    }
-  };
   return (
     <div className="mb-16 container mx-auto mt-16">
       <AWSSubscriptionEvents
         setTrailers={setTrailers}
         setFilterValue={setFilterValue}
       />
-      <div className=" ">
+      <div className="px-5 ">
         {trailers && (
           <div className="">
             <Table
               classNames={classNames}
               isStriped
               aria-label="Example static collection table"
-              selectionMode="multiple"
-              selectionBehavior="toggle"
-              onSelectionChange={handleSelectionChange}
-              selectedKeys={selectedKeys}
               topContent={
                 <TopContent
                   filterValue={filterValue}
@@ -174,7 +151,6 @@ const ChassisTable = () => {
                   setPage={setPage}
                   setFilterValue={setFilterValue}
                   setRowsPerPage={setRowsPerPage}
-                  selectedKeys={selectedKeys}
                 />
               }
               bottomContent={
@@ -271,16 +247,16 @@ const ChassisTable = () => {
                     actions: (
                       <div className="relative flex justify-end items-center gap-1 sm:gap-5">
                         <ViewButtonAWS trailer={item} />
-                        <EditButtonAWS trailer={item} isView={false} />
+                        {/* <EditButtonAWS trailer={item} isView={false} />
                         <DeleteButtonAWS
                           id={item.id}
                           chassisNumber={item.chassisNumber as string}
-                        />
+                        /> */}
                       </div>
                     ),
                   };
                   return (
-                    <TableRow key={newItem.chassisNumber}>
+                    <TableRow className="" key={newItem.id}>
                       {(columnKey) => {
                         return (
                           <TableCell
@@ -315,4 +291,4 @@ const ChassisTable = () => {
   );
 };
 
-export default ChassisTable;
+export default FindChassisTable;

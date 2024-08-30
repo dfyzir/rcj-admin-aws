@@ -1,75 +1,94 @@
 import React, { useState } from "react";
 import QRCode from "qrcode.react";
-import domtoimage from "dom-to-image";
-import { Button } from "@nextui-org/react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { Button, Spinner } from "@nextui-org/react";
 import QRCodeIcon from "../icons/QRCodeIcon";
 import { DownloadIcon } from "../icons/DownloadIcon";
-import CloseIcon from "../icons/CloseIcon";
-import { motion } from "framer-motion";
-
-/*QrCodeButton Component:
- 
- This component represents a button that generates a QR code based on the provided text.
- Users can click the button to display the generated QR code, and additional options
- to close or download the QR code image. The generated QR code is a link to a search
- page with the specified text.*/
+import ReactDOM from "react-dom/client";
 
 type QRCodeButtonProps = {
-  text: string;
+  chassisNumber: string;
 };
 
-const QrCodeButton = ({ text }: QRCodeButtonProps) => {
-  // State to track whether the QR code should be displayed
-  const [showQrCode, setShowQrCode] = useState(false);
+const QrCodeButton = ({ chassisNumber }: QRCodeButtonProps) => {
+  const [loading, setLoading] = useState(false); // State to track loading
 
-  const handleGenerateQrCode = () => {
-    setShowQrCode(true);
-  };
+  const handleDownload = async () => {
+    setLoading(true); // Start loading
 
-  // Function to handle downloading the generated QR code image
-  const handleDownload = () => {
-    const qrCodeContainer = document.getElementById("qrCodeContainer");
-
-    // Convert the container to a Blob and create a download link
-    domtoimage.toBlob(qrCodeContainer!).then((blob) => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      // Create an image from the blob
-      const img = new Image();
-      img.onload = () => {
-        // Set canvas size to match the image size
-        canvas.width = img.width;
-        canvas.height = img.height + 90;
-        console.log("image height", img.height);
-
-        // Draw the image on the canvas
-        ctx?.drawImage(img, 0, 55);
-
-        // Add text to the canvas
-        if (ctx != null) {
-          ctx.fillStyle = "#000"; // Text color
-          ctx.font = "20px Arial"; // Font size and type
-          ctx.textAlign = "center";
-          ctx.textBaseline = "bottom";
-          ctx.fillText("SCAN FOR", canvas.width / 2, 25);
-          ctx.fillText("DOCS", canvas.width / 2, 50);
-          ctx.fillText(text, canvas.width / 2, canvas.height - 5);
-        }
-        // Adjust text position
-
-        // Create a new Blob from the canvas
-        canvas.toBlob((newBlob) => {
-          const link = document.createElement("a");
-          newBlob != null ? (link.href = URL.createObjectURL(newBlob)) : null;
-          link.download = `${text}_qrcode.png`;
-          link.click();
-        });
-      };
-
-      // Set the image source
-      img.src = URL.createObjectURL(blob);
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "px",
+      format: "a4", // standard page size
     });
+
+    const qrCodeContainerId = "qrCodeContainerSingle";
+    let qrCodeContainer = document.getElementById(qrCodeContainerId);
+
+    if (!qrCodeContainer) {
+      qrCodeContainer = document.createElement("div");
+      qrCodeContainer.id = qrCodeContainerId;
+      qrCodeContainer.style.width = "200px";
+      qrCodeContainer.style.height = "200px";
+      qrCodeContainer.style.position = "absolute";
+      qrCodeContainer.style.top = "-9999px"; // Hide it offscreen
+      document.body.appendChild(qrCodeContainer);
+    }
+
+    // Clean up any existing React root and recreate it
+    const root = ReactDOM.createRoot(qrCodeContainer);
+    root.render(
+      <QRCode
+        value={`https://master.d883d4yx0dfjd.amplifyapp.com/?search=${chassisNumber}`}
+        size={200}
+      />
+    );
+
+    // Wait for rendering to complete
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Capture the QR code as an image
+    const canvas = await html2canvas(qrCodeContainer);
+    const imgData = canvas.toDataURL("image/png");
+
+    // Check if imgData is valid before adding to PDF
+    if (imgData && imgData.startsWith("data:image/png;base64,")) {
+      pdf.setFontSize(20);
+      pdf.text("SCAN FOR DOCS", pdf.internal.pageSize.getWidth() / 2, 30, {
+        align: "center",
+      });
+
+      const qrCodeYPosition = 40;
+
+      pdf.addImage(
+        imgData,
+        "PNG",
+        (pdf.internal.pageSize.getWidth() - 200) / 2,
+        qrCodeYPosition,
+        200,
+        200
+      );
+
+      pdf.text(
+        chassisNumber,
+        pdf.internal.pageSize.getWidth() / 2,
+        qrCodeYPosition + 200 + 20, // Place the chassis number right below the QR code
+        {
+          align: "center",
+        }
+      );
+
+      pdf.save(`${chassisNumber}_qrcode.pdf`);
+    } else {
+      console.error("Invalid image data:", imgData);
+    }
+
+    // Clean up the container element and unmount the React root
+    root.unmount();
+    document.body.removeChild(qrCodeContainer);
+
+    setLoading(false); // End loading
   };
 
   return (
@@ -77,43 +96,13 @@ const QrCodeButton = ({ text }: QRCodeButtonProps) => {
       <Button
         color="secondary"
         variant="light"
-        className={`${showQrCode ? "hidden" : null}`}
-        title="Generate QR Code"
+        title="Download QR Code as PDF"
         isIconOnly
-        onPress={handleGenerateQrCode}>
-        <QRCodeIcon />
+        onPress={handleDownload}
+        disabled={loading} // Disable button while loading
+      >
+        {loading ? <Spinner size="sm" /> : <QRCodeIcon />}
       </Button>
-      {showQrCode && (
-        <div>
-          <div className="flex justify-between">
-            <Button
-              color="danger"
-              variant="light"
-              title="Close"
-              isIconOnly
-              onPress={() => setShowQrCode(false)}>
-              <CloseIcon />
-            </Button>
-            <Button
-              color="secondary"
-              variant="light"
-              title="Download"
-              isIconOnly
-              onPress={handleDownload}>
-              <DownloadIcon />
-            </Button>
-          </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2 }}
-            id="qrCodeContainer">
-            <QRCode
-              value={`https://master.d2wh8h5fxb8ur2.amplifyapp.com/?search=${text}`}
-            />
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 };

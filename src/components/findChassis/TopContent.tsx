@@ -1,13 +1,13 @@
-import { SetStateAction, useCallback } from "react";
+import { SetStateAction, useCallback, useEffect } from "react";
 import { TrailerRCJ } from "@/API";
-import { Key } from "@react-types/shared";
+
 import { Input } from "@nextui-org/react";
 import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
 import ExpiredButton from "../buttons/ExpiredButton";
 import useScreenWidth from "@/hooks/useScreenWidth";
-import MultiQrCodePdf from "../buttons/MultipleQRCodeButtonAWS";
+import { useRouter } from "next/router";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -20,7 +20,6 @@ type TopContentProps = {
   setPage: (value: SetStateAction<number>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
   setRowsPerPage: (value: SetStateAction<number>) => void;
-  selectedKeys: "all" | Iterable<Key> | undefined;
 };
 
 const TopContent = ({
@@ -29,7 +28,6 @@ const TopContent = ({
   setPage,
   setFilterValue,
   setRowsPerPage,
-  selectedKeys,
 }: TopContentProps) => {
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,6 +36,13 @@ const TopContent = ({
     },
     [setPage, setRowsPerPage]
   );
+  const router = useRouter();
+  const { replace } = useRouter();
+  const { search } = router.query;
+
+  useEffect(() => {
+    search != null ? setFilterValue(search as string) : "";
+  }, [search, setFilterValue]);
 
   const screenWidth = useScreenWidth();
 
@@ -46,26 +51,25 @@ const TopContent = ({
       if (value) {
         setFilterValue(value);
         setPage(1);
+        replace(`/?search=${value.replace(/\s/g, "")}`);
       } else {
         setFilterValue("");
+        replace(`/`);
       }
     },
-    [setFilterValue, setPage]
+    [replace, setFilterValue, setPage]
   );
 
   const onClear = useCallback(() => {
     setFilterValue("");
     setPage(1);
-  }, [setFilterValue, setPage]);
+    replace("/");
+  }, [replace, setFilterValue, setPage]);
 
-  const selectedKeysArray: string[] = selectedKeys
-    ? Array.from(selectedKeys as Set<Key>).map((key) => String(key))
-    : [];
-  console.log("selectedKeys:", selectedKeysArray);
   return (
     <div className="flex flex-col gap-4 mt-5 w-full ">
       <div className="flex flex-col md:flex-row justify-between gap-7 text-large ">
-        <div className="mt-auto md:w-1/2 flex  flex-row gap-3">
+        <div className="mt-auto md:w-1/2">
           <Input
             size="sm"
             isClearable
@@ -76,9 +80,6 @@ const TopContent = ({
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          {selectedKeysArray.length > 0 && (
-            <MultiQrCodePdf chassisNumbers={selectedKeysArray} />
-          )}
         </div>
         <div className="flex flex-col md:flex-row gap-7">
           <div

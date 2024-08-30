@@ -20,7 +20,7 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
-    { name: "Chassis List", href: "/" },
+    { name: "Chassis List", href: "/chassis-list" },
     { name: "Yard Inventory", href: "/yard-inventory" },
   ];
   const router = useRouter();
@@ -53,6 +53,16 @@ export default function NavBar() {
             aria-current="page"
             className={`uppercase ${
               pathname === "/" ? "text-blue-500 underline" : ""
+            }`}>
+            Find Chassis
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={pathname === "/chassis-list" ? true : false}>
+          <Link
+            href="/chassis-list"
+            aria-current="page"
+            className={`uppercase ${
+              pathname === "/chassis-list" ? "text-blue-500 underline" : ""
             }`}>
             Chassis List
           </Link>

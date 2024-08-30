@@ -1,4 +1,5 @@
 import LocationTable from "@/components/locationsTable/LocationTable";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 function Locations() {
   return (
@@ -8,4 +9,4 @@ function Locations() {
   );
 }
 
-export default Locations;
+export default withAuthenticator(Locations);

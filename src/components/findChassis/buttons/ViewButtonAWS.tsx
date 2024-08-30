@@ -13,14 +13,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { DownloadIcon } from "../icons/DownloadIcon";
-import { ViewIcon } from "../icons/ViewIcon";
-import EditButtonAWS from "./EditButtonAWS";
+import { DownloadIcon } from "../../icons/DownloadIcon";
 
 import dynamic from "next/dynamic";
-import QrCodeButton from "./QRCodeButton";
+
 import { useCheckDate } from "@/hooks/useCheckDate";
-import ShareButton from "./ShareButton";
+import ShareButton from "../../buttons/ShareButton";
+import { ViewIcon } from "@/components/icons/ViewIcon";
 
 /*ViewButtonAWS Component:
  
@@ -29,7 +28,7 @@ import ShareButton from "./ShareButton";
  file attachments for inspection and registration. Users can view PDF files, download
  attachments, and access actions like editing and generating a QR code for the trailer.*/
 
-const DynamicPDFViewer = dynamic(() => import("../pdfViewer/PDFViewer"), {
+const DynamicPDFViewer = dynamic(() => import("../../pdfViewer/PDFViewer"), {
   ssr: false,
 });
 
@@ -104,10 +103,7 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                     </h1>
                     <div className="flex flex-col items-center">
                       <ShareButton
-                        text={`https://master.d883d4yx0dfjd.amplifyapp.com/?search=${trailer.chassisNumber}`}
-                      />
-                      <QrCodeButton
-                        chassisNumber={trailer.chassisNumber as string}
+                        text={`https://master.d883d4yx0dfjd.amplifyapp.com//?search=${trailer.chassisNumber}`}
                       />
                     </div>
                   </div>
@@ -214,7 +210,6 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
                     onPress={onClose}>
                     Close
                   </Button>
-                  <EditButtonAWS trailer={trailer} isView={true} />
                 </div>
               </ModalFooter>
             </>

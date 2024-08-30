@@ -43,4 +43,4 @@ function App({ Component, pageProps }: AppProps) {
     </Authenticator.Provider>
   );
 }
-export default withAuthenticator(App);
+export default App;
