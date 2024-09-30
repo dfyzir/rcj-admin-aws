@@ -38,3 +38,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Updating API key try this solution:
+
+open this folder inside your project amplify/backend/<api>/parameters.json
+
+add these lines:
+
+"APIKeyExpirationEpoch": -1, "CreateAPIKey": -1
+
+From terminal run amplify push.
+
+This should delete the API key from the stack. Now, remove APIKeyExpirationEpoch and CreateAPIKey from parameters.json, and create a new key using the CLI:
+
+amplify update api
+Here, in most cases, you have to select:
+
+? Select from one of the below mentioned services: -> GraphQL (or rest API, it depends on your needs)
+? Select a setting to edit -> Authorization modes
+? Choose the default authorization type for the API -> API key
+✔ After how many days from now the API key should expire (1-365): ->365
+? Configure additional auth types? ->No
+And finally run:
+
+amplify push
+With this solution you can renew your API key for 1 year.
