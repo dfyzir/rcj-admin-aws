@@ -21,7 +21,7 @@ export const RCJIcon = (props: IconSvgProps) => (
   <motion.svg
     version="1.0"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[90px] h-[40px] md:w-[180px] md:h-[80px] "
+    className="w-[90px] h-[40px]"
     viewBox="0 0 391.000000 161.000000"
     preserveAspectRatio="xMidYMid meet"
     initial="hidden"
