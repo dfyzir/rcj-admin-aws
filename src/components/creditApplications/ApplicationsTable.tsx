@@ -203,7 +203,6 @@ const ApplicationsTable = () => {
     if (sortDescriptor.column !== column) return null;
     return sortDescriptor.direction === "ascending" ? " ▲" : " ▼";
   };
-  console.log("files", files);
 
   return (
     <div className="my-16 mx-auto container">

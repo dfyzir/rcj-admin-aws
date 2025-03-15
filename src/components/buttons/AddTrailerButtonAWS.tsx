@@ -119,7 +119,6 @@ const AddTrailerButtonAWS = () => {
                         ? "Must be 10 characters long"
                         : "",
                       onBlur: (e: any) => {
-                        console.log("blurrr", e.target.value);
                         const client = generateClient();
                         const checkIfChassisExists = async () => {
                           const res = await client.graphql({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { format, parseISO } from "date-fns";
-import { getUrl } from "aws-amplify/storage";
+import { getUrl, GetUrlWithPathInput } from "aws-amplify/storage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
@@ -37,10 +37,7 @@ const ViewFileButton: React.FC<{ file: FileMetadata }> = ({ file }) => {
         try {
           const result = await getUrl({
             path: file.key,
-            contentType: "application/pdf",
-            contentDisposition: "inline",
-          });
-          console.log("result", result);
+          } as GetUrlWithPathInput);
           setFileUrl(result.url.href);
         } catch (error) {
           console.error("Error fetching file URL:", error);
