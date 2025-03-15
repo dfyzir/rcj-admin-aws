@@ -19,7 +19,7 @@ import BottomContent from "@/components/chassisTable/TablePagination";
 import TopContent from "./TableSearch";
 import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
-
+import { parseKeyFallback } from "@/utils/stringMod";
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
   td: [
@@ -246,9 +246,16 @@ const ApplicationsTable = () => {
             const submittedAt = file.lastModified
               ? format(new Date(file.lastModified), "PP")
               : "N/A";
-            const author = file.metadata?.author || "N/A";
-            const businessName = file.metadata?.businessname || "N/A";
-            const formOfBusiness = file.metadata?.formofbusiness || "N/A";
+            let businessName = file.metadata?.businessname;
+            let formOfBusiness = file.metadata?.formofbusiness;
+            let author = file.metadata?.author;
+            if (!businessName || !formOfBusiness) {
+              const fallback = parseKeyFallback(file.key);
+              businessName = businessName || fallback.businessName || "N/A";
+              formOfBusiness =
+                formOfBusiness || fallback.formOfBusiness || "N/A";
+            }
+            author = author || "N/A";
 
             return (
               <TableRow key={file.id}>
