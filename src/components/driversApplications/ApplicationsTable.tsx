@@ -134,15 +134,6 @@ const ApplicationsTable = () => {
         const fallback = parseKeyFallbackForDriversApplications(file.key);
         lastName = fallback.lastName?.toLowerCase() || "N/A";
       }
-      console.log(
-        "SEARCHING",
-        submittedAt,
-        firstName,
-        lastName,
-        submittedAt.includes(searchLower),
-        firstName.includes(searchLower),
-        lastName.includes(searchLower)
-      );
       return (
         submittedAt.includes(searchLower) ||
         firstName.includes(searchLower) ||
@@ -190,7 +181,7 @@ const ApplicationsTable = () => {
     const start = (page - 1) * rowsPerPage;
     return sortedFiles.slice(start, start + rowsPerPage);
   }, [sortedFiles, page, rowsPerPage]);
-  console.log(sortedFiles, filteredFiles);
+
   // Handle sorting when clicking on a column header.
   const handleSort = useCallback((column: string) => {
     setPage(1);
