@@ -132,19 +132,38 @@ export default function NavBar() {
                   "Rmelendez@rcjtransport.com".toLowerCase() ||
                 currentUser.email?.toLowerCase() ===
                   "accounting@rcjtransport.com".toLowerCase()) && (
-                <NavbarItem
-                  isActive={pathname === "/credit-applications" ? true : false}>
-                  <Link
-                    href="/credit-applications"
-                    aria-current="page"
-                    className={`uppercase ${
-                      pathname === "/credit-applications"
-                        ? "text-blue-500 underline"
-                        : ""
-                    }`}>
-                    Credit Applications
-                  </Link>
-                </NavbarItem>
+                <>
+                  <NavbarItem
+                    isActive={
+                      pathname === "/credit-applications" ? true : false
+                    }>
+                    <Link
+                      href="/credit-applications"
+                      aria-current="page"
+                      className={`uppercase ${
+                        pathname === "/credit-applications"
+                          ? "text-blue-500 underline"
+                          : ""
+                      }`}>
+                      Credit Applications
+                    </Link>
+                  </NavbarItem>
+                  <NavbarItem
+                    isActive={
+                      pathname === "/driver-applications" ? true : false
+                    }>
+                    <Link
+                      href="/driver-applications"
+                      aria-current="page"
+                      className={`uppercase ${
+                        pathname === "/driver-applications"
+                          ? "text-blue-500 underline"
+                          : ""
+                      }`}>
+                      Driver Applications
+                    </Link>
+                  </NavbarItem>
+                </>
               )}
           </>
         )}
