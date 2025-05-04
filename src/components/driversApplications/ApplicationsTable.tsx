@@ -20,6 +20,8 @@ import TopContent from "./TableSearch";
 import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
 import { parseKeyFallbackForDriversApplications } from "@/utils/stringMod";
+import { useRouter } from "next/router";
+
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
   td: [
@@ -47,13 +49,26 @@ type SortDescriptor = {
 };
 
 const ApplicationsTable = () => {
+  const { query } = useRouter();
+  // router.query.key will be the *once*-decoded* value
+  // i.e. "applications%2Fdrivers%2Ftest.pdf"
+  const rawKey = Array.isArray(query.key)
+    ? query.key[0]
+    : (query.key as string);
+  const decoded = rawKey ? decodeURIComponent(rawKey) : "";
+  const parts = decoded.split(".pdf");
+  const s3Key = parts[0] + ".pdf";
+
+  const [initialPreviewKey, setInitialPreviewKey] = useState<string | null>(
+    null
+  );
   const [files, setFiles] = useState<FileMetadata[]>([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValue, setFilterValue] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "firstName",
-    direction: "ascending",
+    column: "submitedAt",
+    direction: "descending",
   });
 
   const fetchFilesAndMetadata = useCallback(async () => {
@@ -66,7 +81,7 @@ const ApplicationsTable = () => {
     });
 
     try {
-      // List objects in the "applications/" folder.
+      // List objects in the "applications/drivers/" folder.
       const listResponse = await client.send(
         new ListObjectsCommand({
           Bucket: config.aws_user_files_s3_bucket,
@@ -206,6 +221,13 @@ const ApplicationsTable = () => {
     return sortDescriptor.direction === "ascending" ? " ▲" : " ▼";
   };
 
+  useEffect(() => {
+    // once we have our query param, and after mount, trigger initial preview
+    if (s3Key) {
+      setInitialPreviewKey(s3Key);
+    }
+  }, [s3Key]);
+
   return (
     <div className="my-16 mx-auto container">
       <Table
@@ -250,6 +272,7 @@ const ApplicationsTable = () => {
               firstName = firstName || fallback.firstName || "N/A";
               lastName = lastName || fallback.lastName || "N/A";
             }
+            const isMatch = file.key === initialPreviewKey;
 
             return (
               <TableRow key={file.id}>
@@ -265,7 +288,7 @@ const ApplicationsTable = () => {
                       fileName={`${firstName} ${lastName} Application`}
                       onDelete={handleFileDeleted}
                     />
-                    <ViewFileButton file={file} />
+                    <ViewFileButton file={file} autoOpen={isMatch} />
                   </div>
                 </TableCell>
               </TableRow>
@@ -278,3 +301,5 @@ const ApplicationsTable = () => {
 };
 
 export default ApplicationsTable;
+
+//https://75tp5l3t.r.us-east-1.awstrack.me/L0/https:%2F%2Fmaster.d883d4yx0dfjd.amplifyapp.com%2Fdriver-applications%3Fkey=applications%252Fdrivers%252FJohn_ddfdf_RCJ_Driver_Application_1746319110086.pdf/1/0100019698bb0148-4b0b5461-65d6-4e62-9e45-0280011ad95a-000000/93bd1WocZRIzD5WKRnSBjuCZuFM=424

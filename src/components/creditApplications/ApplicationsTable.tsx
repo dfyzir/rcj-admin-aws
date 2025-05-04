@@ -20,6 +20,7 @@ import TopContent from "./TableSearch";
 import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
 import { parseKeyFallback } from "@/utils/stringMod";
+import { useRouter } from "next/router";
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
   td: [
@@ -47,13 +48,26 @@ type SortDescriptor = {
 };
 
 const ApplicationsTable = () => {
+  const { query } = useRouter();
+  // router.query.key will be the *once*-decoded* value
+  // i.e. "applications%2Fdrivers%2Ftest.pdf"
+  const rawKey = Array.isArray(query.key)
+    ? query.key[0]
+    : (query.key as string);
+  const decoded = rawKey ? decodeURIComponent(rawKey) : "";
+  const parts = decoded.split(".pdf");
+  const s3Key = parts[0] + ".pdf";
+
+  const [initialPreviewKey, setInitialPreviewKey] = useState<string | null>(
+    null
+  );
   const [files, setFiles] = useState<FileMetadata[]>([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValue, setFilterValue] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "businessName",
-    direction: "ascending",
+    column: "submittedAt",
+    direction: "descending",
   });
 
   const fetchFilesAndMetadata = useCallback(async () => {
@@ -66,18 +80,18 @@ const ApplicationsTable = () => {
     });
 
     try {
-      // List objects in the "applications/" folder.
+      // List objects in the "applications/credit/" folder.
       const listResponse = await client.send(
         new ListObjectsCommand({
           Bucket: config.aws_user_files_s3_bucket,
-          Prefix: "applications/",
+          Prefix: "applications/credit/",
           Delimiter: "/",
         })
       );
 
       // Filter out folder placeholder objects.
       const fileObjects = (listResponse.Contents || []).filter(
-        (obj) => obj.Key !== "applications/"
+        (obj) => obj.Key !== "applications/credit/"
       );
 
       const fileMetadataPromises = fileObjects.map(async (file) => {
@@ -203,6 +217,12 @@ const ApplicationsTable = () => {
     if (sortDescriptor.column !== column) return null;
     return sortDescriptor.direction === "ascending" ? " ▲" : " ▼";
   };
+  useEffect(() => {
+    // once we have our query param, and after mount, trigger initial preview
+    if (s3Key) {
+      setInitialPreviewKey(s3Key);
+    }
+  }, [s3Key]);
 
   return (
     <div className="my-16 mx-auto container">
@@ -256,7 +276,7 @@ const ApplicationsTable = () => {
                 formOfBusiness || fallback.formOfBusiness || "N/A";
             }
             author = author || "N/A";
-
+            const isMatch = file.key === initialPreviewKey;
             return (
               <TableRow key={file.id}>
                 <TableCell>{businessName}</TableCell>
@@ -272,7 +292,7 @@ const ApplicationsTable = () => {
                       fileName={`${businessName} ${formOfBusiness} Application`}
                       onDelete={handleFileDeleted}
                     />
-                    <ViewFileButton file={file} />
+                    <ViewFileButton file={file} autoOpen={isMatch} />
                   </div>
                 </TableCell>
               </TableRow>

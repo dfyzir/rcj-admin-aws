@@ -14,6 +14,7 @@ import {
 import { ViewIcon } from "../icons/ViewIcon";
 import { DownloadIcon } from "../icons/DownloadIcon";
 import { parseKeyFallbackForDriversApplications } from "@/utils/stringMod";
+import { useRouter } from "next/router";
 
 // Define your FileMetadata type if not shared already
 export interface FileMetadata {
@@ -22,12 +23,17 @@ export interface FileMetadata {
   lastModified?: Date;
   metadata?: { [key: string]: string };
 }
+export interface ViewButtonProps {
+  file: FileMetadata;
+  autoOpen?: boolean;
+}
 
 const DynamicPDFViewer = dynamic(() => import("../pdfViewer/PDFViewer"), {
   ssr: false,
 });
 
-const ViewFileButton: React.FC<{ file: FileMetadata }> = ({ file }) => {
+const ViewFileButton = ({ file, autoOpen }: ViewButtonProps) => {
+  const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [fileUrl, setFileUrl] = useState<string>();
   let firstName = file.metadata?.firstname;
@@ -43,6 +49,18 @@ const ViewFileButton: React.FC<{ file: FileMetadata }> = ({ file }) => {
       parseKeyFallbackForDriversApplications(file?.key);
     firstName = fallbackFirstName;
   }
+  const clearKeyQuery = () => {
+    const { key, ...rest } = router.query;
+    router.replace({ pathname: router.pathname, query: rest }, undefined, {
+      shallow: true,
+    });
+  };
+
+  useEffect(() => {
+    if (autoOpen) {
+      onOpen();
+    }
+  }, [autoOpen]);
 
   // Fetch a signed URL for the file using aws-amplify/storage's getUrl
   useEffect(() => {
@@ -150,7 +168,10 @@ const ViewFileButton: React.FC<{ file: FileMetadata }> = ({ file }) => {
                     className="text-2xl"
                     variant="light"
                     color="danger"
-                    onPress={onClose}>
+                    onPress={() => {
+                      onClose();
+                      clearKeyQuery();
+                    }}>
                     Close
                   </Button>
                 </div>

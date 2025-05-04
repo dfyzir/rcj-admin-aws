@@ -60,6 +60,7 @@ const ViewButtonAWS = ({ trailer }: ViewButtonAWSProps) => {
     };
     getSignedLinks();
   }, [trailer.inspectionFile, trailer.registrationFile]);
+
   //EmptyDiv is used when no files in storage for current chassis
   const EmptyDiv = useMemo(() => {
     return (
