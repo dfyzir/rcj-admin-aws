@@ -286,7 +286,6 @@ const ApplicationsTable = () => {
     <div className="my-16 mx-auto container">
       <AWSSubscriptionDriverApplications
         setComments={setApplicationsComments}
-        setFilterValue={setFilterValue}
       />
       <Table
         aria-label="Files Metadata Table"
