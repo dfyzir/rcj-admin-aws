@@ -19,17 +19,19 @@ const draw = {
 
 export const DeleteIcon = ({
   size = 24,
-  width,
-  height,
+  width = 32,
+  height = 32,
   ...props
 }: IconSvgProps) => (
   <motion.svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 24 24"
+    viewBox={`0 0 ${size} ${size}`}
     strokeWidth="1.5"
     stroke="currentColor"
-    className="w-8 h-8"
+    // className="w-8 h-8"
+    height={height}
+    width={width}
     initial="hidden"
     animate="visible">
     <motion.path

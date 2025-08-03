@@ -15,40 +15,46 @@ import { RCJIcon } from "../icons/RCJIconcopy";
 import SignOutButton from "./SignOutButton";
 import ThemeToggle from "./ThemeToggle";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import {
-  fetchUserAttributes,
-  FetchUserAttributesOutput,
-} from "aws-amplify/auth";
-
+export const adminEmails = [
+  "dfyzir@gmail.com",
+  "rmelendez@rcjtransport.com",
+  "accounting@rcjtransport.com",
+];
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [currentUser, setCurrentUser] = useState<
-    FetchUserAttributesOutput | undefined
-  >(undefined);
+
   const { user } = useAuthenticator();
   const router = useRouter();
 
-  const menuItems = useMemo(() => [{ name: "Find Chassis", href: "/" }], []);
+  const [menuItems, setMenuItems] = useState([
+    { name: "Find Chassis", href: "/" },
+  ]);
   useEffect(() => {
-    if (user) {
-      menuItems.push(
+    if (!user) return;
+    setMenuItems((prev) => {
+      const existingHrefs = new Set(prev.map((i) => i.href));
+      const toAdd = [
         { name: "Chassis List", href: "/chassis-list" },
         { name: "Yard Inventory", href: "/yard-inventory" },
-        {
-          name: "Credit Applications",
-          href: "/credit-applications",
-        }
-      );
-    }
-  }, [user, menuItems]);
+      ].filter((item) => !existingHrefs.has(item.href));
+      return existingHrefs.size === prev.length ? [...prev, ...toAdd] : prev;
+    });
+  }, [user]);
+
   useEffect(() => {
-    const getUserInfo = async () => {
-      if (user) {
-        const fetchedUser = await fetchUserAttributes();
-        setCurrentUser(fetchedUser);
-      }
-    };
-    getUserInfo();
+    if (
+      user &&
+      adminEmails.includes(user.signInDetails?.loginId?.toLowerCase() ?? "")
+    ) {
+      setMenuItems((prev) => {
+        const existingHrefs = new Set(prev.map((i) => i.href));
+        const toAdd = [
+          { name: "Credit Applications", href: "/credit-applications" },
+          { name: "Driver Applications", href: "/driver-applications" },
+        ].filter((item) => !existingHrefs.has(item.href));
+        return [...prev, ...toAdd];
+      });
+    }
   }, [user]);
 
   const { pathname } = router;
@@ -86,87 +92,19 @@ export default function NavBar() {
         <NavbarItem>
           <ThemeToggle />
         </NavbarItem>
-        <>
-          <NavbarItem isActive={pathname === "/" ? true : false}>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem
+            key={`${item}-${index}`}
+            isActive={pathname === item.href ? true : false}>
             <Link
-              href="/"
-              aria-current="page"
               className={`uppercase ${
-                pathname === "/" ? "text-blue-500 underline" : ""
-              }`}>
-              Find Chassis
+                pathname === item.href ? "text-blue-500 underline" : ""
+              }`}
+              href={item.href}>
+              {item.name}
             </Link>
-          </NavbarItem>
-          {user && (
-            <NavbarItem isActive={pathname === "/chassis-list" ? true : false}>
-              <Link
-                href="/chassis-list"
-                aria-current="page"
-                className={`uppercase ${
-                  pathname === "/chassis-list" ? "text-blue-500 underline" : ""
-                }`}>
-                Chassis List
-              </Link>
-            </NavbarItem>
-          )}
-        </>
-        {user && (
-          <>
-            <NavbarItem
-              isActive={pathname === "/yard-inventory" ? true : false}>
-              <Link
-                color="foreground"
-                href="/yard-inventory"
-                className={`uppercase ${
-                  pathname === "/yard-inventory"
-                    ? "text-blue-500 underline"
-                    : ""
-                }`}>
-                Yard Inventory
-              </Link>
-            </NavbarItem>
-
-            {currentUser &&
-              (currentUser.email === "dfyzir@gmail.com" ||
-                currentUser.email?.toLowerCase() ===
-                  "Rmelendez@rcjtransport.com".toLowerCase() ||
-                currentUser.email?.toLowerCase() ===
-                  "accounting@rcjtransport.com".toLowerCase()) && (
-                <>
-                  <NavbarItem
-                    isActive={
-                      pathname === "/credit-applications" ? true : false
-                    }>
-                    <Link
-                      href="/credit-applications"
-                      aria-current="page"
-                      className={`uppercase ${
-                        pathname === "/credit-applications"
-                          ? "text-blue-500 underline"
-                          : ""
-                      }`}>
-                      Credit Applications
-                    </Link>
-                  </NavbarItem>
-                  <NavbarItem
-                    isActive={
-                      pathname === "/driver-applications" ? true : false
-                    }>
-                    <Link
-                      href="/driver-applications"
-                      aria-current="page"
-                      className={`uppercase ${
-                        pathname === "/driver-applications"
-                          ? "text-blue-500 underline"
-                          : ""
-                      }`}>
-                      Driver Applications
-                    </Link>
-                  </NavbarItem>
-                </>
-              )}
-          </>
-        )}
+          </NavbarMenuItem>
+        ))}
       </NavbarContent>
 
       <NavbarContent justify="end" justify-content="between">

@@ -8,6 +8,108 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateDriverApplicationsComments = /* GraphQL */ `subscription OnCreateDriverApplicationsComments(
+  $filter: ModelSubscriptionDriverApplicationsCommentsFilterInput
+) {
+  onCreateDriverApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateDriverApplicationsCommentsSubscriptionVariables,
+  APITypes.OnCreateDriverApplicationsCommentsSubscription
+>;
+export const onUpdateDriverApplicationsComments = /* GraphQL */ `subscription OnUpdateDriverApplicationsComments(
+  $filter: ModelSubscriptionDriverApplicationsCommentsFilterInput
+) {
+  onUpdateDriverApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateDriverApplicationsCommentsSubscriptionVariables,
+  APITypes.OnUpdateDriverApplicationsCommentsSubscription
+>;
+export const onDeleteDriverApplicationsComments = /* GraphQL */ `subscription OnDeleteDriverApplicationsComments(
+  $filter: ModelSubscriptionDriverApplicationsCommentsFilterInput
+) {
+  onDeleteDriverApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteDriverApplicationsCommentsSubscriptionVariables,
+  APITypes.OnDeleteDriverApplicationsCommentsSubscription
+>;
+export const onCreateCreditApplicationsComments = /* GraphQL */ `subscription OnCreateCreditApplicationsComments(
+  $filter: ModelSubscriptionCreditApplicationsCommentsFilterInput
+) {
+  onCreateCreditApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateCreditApplicationsCommentsSubscriptionVariables,
+  APITypes.OnCreateCreditApplicationsCommentsSubscription
+>;
+export const onUpdateCreditApplicationsComments = /* GraphQL */ `subscription OnUpdateCreditApplicationsComments(
+  $filter: ModelSubscriptionCreditApplicationsCommentsFilterInput
+) {
+  onUpdateCreditApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateCreditApplicationsCommentsSubscriptionVariables,
+  APITypes.OnUpdateCreditApplicationsCommentsSubscription
+>;
+export const onDeleteCreditApplicationsComments = /* GraphQL */ `subscription OnDeleteCreditApplicationsComments(
+  $filter: ModelSubscriptionCreditApplicationsCommentsFilterInput
+) {
+  onDeleteCreditApplicationsComments(filter: $filter) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteCreditApplicationsCommentsSubscriptionVariables,
+  APITypes.OnDeleteCreditApplicationsCommentsSubscription
+>;
 export const onCreateNewDriverPersonalInfo = /* GraphQL */ `subscription OnCreateNewDriverPersonalInfo(
   $filter: ModelSubscriptionNewDriverPersonalInfoFilterInput
 ) {

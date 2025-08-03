@@ -21,6 +21,12 @@ import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
 import { parseKeyFallback } from "@/utils/stringMod";
 import { useRouter } from "next/router";
+import { generateClient } from "aws-amplify/api";
+import { CreditApplicationsComments } from "@/API";
+import { listCreditApplicationsComments } from "@/graphql/queries";
+import { deleteCreditApplicationsComments } from "@/graphql/mutations";
+import CommentButtonAWS from "./CommentsButton";
+import AWSSubscriptionCreditApplications from "./CreditApplicationsSubscriptions";
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
   td: [
@@ -40,6 +46,7 @@ interface FileMetadata {
   key: string;
   lastModified?: Date;
   metadata?: { [key: string]: string };
+  comments?: CreditApplicationsComments[];
 }
 
 type SortDescriptor = {
@@ -123,13 +130,59 @@ const ApplicationsTable = () => {
     fetchFilesAndMetadata();
   }, [fetchFilesAndMetadata]);
 
-  // When a file is deleted, remove it from the state.
-  const handleFileDeleted = useCallback((deletedPath: string) => {
-    setFiles((prevFiles) =>
-      prevFiles.filter((file) => file.key !== deletedPath)
-    );
+  const [applicationsComments, setApplicationsComments] = useState<
+    CreditApplicationsComments[]
+  >([]);
+
+  const getApplicationsComments = useCallback(async () => {
+    // Fetch trailers on component mount using GrapQL API
+
+    const client = generateClient();
+    const allComments: any = await client.graphql({
+      query: listCreditApplicationsComments,
+    });
+    const { data } = allComments;
+    setApplicationsComments(data?.listCreditApplicationsComments?.items ?? []);
   }, []);
 
+  useEffect(() => {
+    getApplicationsComments();
+  }, [getApplicationsComments]);
+
+  // When a file is deleted, remove it from the state.
+  // const handleFileDeleted = useCallback((deletedPath: string) => {
+  //   setFiles((prevFiles) =>
+  //     prevFiles.filter((file) => file.key !== deletedPath)
+  //   );
+
+  // }, []);
+  const handleFileDeleted = useCallback(
+    async (deletedPath: string) => {
+      // 1) Drop file from UI
+      setFiles((prev) => prev.filter((file) => file.key !== deletedPath));
+
+      // 2) Find all comments for that file
+      const commentsToDelete = applicationsComments.filter(
+        (c) => c.fileId === deletedPath
+      );
+
+      if (commentsToDelete.length) {
+        const client = generateClient();
+
+        // 3) Delete them in parallel against AppSync
+        await Promise.all(
+          commentsToDelete.map((c) =>
+            client.graphql({
+              query: deleteCreditApplicationsComments,
+              variables: { input: { id: c.id } },
+            })
+          )
+        );
+      }
+    },
+    // now depends on applicationsComments & setApplicationsComments
+    [applicationsComments]
+  );
   // Filter files based on search term.
   const filteredFiles = useMemo(() => {
     if (!filterValue.trim()) return files;
@@ -223,9 +276,20 @@ const ApplicationsTable = () => {
       setInitialPreviewKey(s3Key);
     }
   }, [s3Key]);
+  const itemsWithComments = useMemo(() => {
+    return paginatedFiles.map((file) => ({
+      ...file,
+      comments: applicationsComments.filter(
+        (comment) => comment?.fileId === file?.id
+      ),
+    }));
+  }, [paginatedFiles, applicationsComments]);
 
   return (
     <div className="my-16 mx-auto container">
+      <AWSSubscriptionCreditApplications
+        setComments={setApplicationsComments}
+      />
       <Table
         aria-label="Files Metadata Table"
         classNames={classNames}
@@ -261,7 +325,7 @@ const ApplicationsTable = () => {
           </TableColumn>
           <TableColumn>Actions</TableColumn>
         </TableHeader>
-        <TableBody items={paginatedFiles} emptyContent="No files found.">
+        <TableBody items={itemsWithComments} emptyContent="No files found.">
           {(file: FileMetadata) => {
             const submittedAt = file.lastModified
               ? format(new Date(file.lastModified), "PP")
@@ -293,6 +357,10 @@ const ApplicationsTable = () => {
                       onDelete={handleFileDeleted}
                     />
                     <ViewFileButton file={file} autoOpen={isMatch} />
+                    <CommentButtonAWS
+                      comments={file?.comments ?? []}
+                      fileId={file.id}
+                    />
                   </div>
                 </TableCell>
               </TableRow>

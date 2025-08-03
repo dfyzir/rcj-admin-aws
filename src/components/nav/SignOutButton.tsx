@@ -1,6 +1,6 @@
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
-import { Button, Modal, ModalBody } from "@nextui-org/react";
-import { signIn } from "@aws-amplify/auth";
+import { Button } from "@nextui-org/react";
+
 import { useState } from "react";
 import ReactDOM from "react-dom";
 

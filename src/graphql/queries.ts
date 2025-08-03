@@ -8,6 +8,90 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getDriverApplicationsComments = /* GraphQL */ `query GetDriverApplicationsComments($id: ID!) {
+  getDriverApplicationsComments(id: $id) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetDriverApplicationsCommentsQueryVariables,
+  APITypes.GetDriverApplicationsCommentsQuery
+>;
+export const listDriverApplicationsComments = /* GraphQL */ `query ListDriverApplicationsComments(
+  $filter: ModelDriverApplicationsCommentsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listDriverApplicationsComments(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      text
+      createdAt
+      author
+      fileId
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListDriverApplicationsCommentsQueryVariables,
+  APITypes.ListDriverApplicationsCommentsQuery
+>;
+export const getCreditApplicationsComments = /* GraphQL */ `query GetCreditApplicationsComments($id: ID!) {
+  getCreditApplicationsComments(id: $id) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetCreditApplicationsCommentsQueryVariables,
+  APITypes.GetCreditApplicationsCommentsQuery
+>;
+export const listCreditApplicationsComments = /* GraphQL */ `query ListCreditApplicationsComments(
+  $filter: ModelCreditApplicationsCommentsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCreditApplicationsComments(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      text
+      createdAt
+      author
+      fileId
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListCreditApplicationsCommentsQueryVariables,
+  APITypes.ListCreditApplicationsCommentsQuery
+>;
 export const getNewDriverPersonalInfo = /* GraphQL */ `query GetNewDriverPersonalInfo($id: ID!) {
   getNewDriverPersonalInfo(id: $id) {
     id

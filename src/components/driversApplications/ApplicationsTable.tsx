@@ -21,6 +21,12 @@ import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
 import { parseKeyFallbackForDriversApplications } from "@/utils/stringMod";
 import { useRouter } from "next/router";
+import { generateClient } from "aws-amplify/api";
+import { listDriverApplicationsComments } from "@/graphql/queries";
+import CommentButtonAWS from "./CommentsButton";
+import { DriverApplicationsComments } from "@/API";
+import AWSSubscriptionDriverApplications from "./DriverApplicationsSubscriptions";
+import { deleteDriverApplicationsComments } from "@/graphql/mutations";
 
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
@@ -41,6 +47,7 @@ interface FileMetadata {
   key: string;
   lastModified?: Date;
   metadata?: { [key: string]: string };
+  comments?: DriverApplicationsComments[];
 }
 
 type SortDescriptor = {
@@ -124,13 +131,52 @@ const ApplicationsTable = () => {
     fetchFilesAndMetadata();
   }, [fetchFilesAndMetadata]);
 
-  // When a file is deleted, remove it from the state.
-  const handleFileDeleted = useCallback((deletedPath: string) => {
-    setFiles((prevFiles) =>
-      prevFiles.filter((file) => file.key !== deletedPath)
-    );
+  const [applicationsComments, setApplicationsComments] = useState<
+    DriverApplicationsComments[]
+  >([]);
+
+  const getApplicationsComments = useCallback(async () => {
+    // Fetch trailers on component mount using GrapQL API
+
+    const client = generateClient();
+    const allComments: any = await client.graphql({
+      query: listDriverApplicationsComments,
+    });
+    const { data } = allComments;
+    setApplicationsComments(data?.listDriverApplicationsComments?.items ?? []);
   }, []);
 
+  useEffect(() => {
+    getApplicationsComments();
+  }, [getApplicationsComments]);
+
+  const handleFileDeleted = useCallback(
+    async (deletedPath: string) => {
+      // 1) Drop file from UI
+      setFiles((prev) => prev.filter((file) => file.key !== deletedPath));
+
+      // 2) Find all comments for that file
+      const commentsToDelete = applicationsComments.filter(
+        (c) => c.fileId === deletedPath
+      );
+
+      if (commentsToDelete.length) {
+        const client = generateClient();
+
+        // 3) Delete them in parallel against AppSync
+        await Promise.all(
+          commentsToDelete.map((c) =>
+            client.graphql({
+              query: deleteDriverApplicationsComments,
+              variables: { input: { id: c.id } },
+            })
+          )
+        );
+      }
+    },
+    // now depends on applicationsComments & setApplicationsComments
+    [applicationsComments]
+  );
   // Filter files based on search term.
   const filteredFiles = useMemo(() => {
     if (!filterValue.trim()) return files;
@@ -227,9 +273,21 @@ const ApplicationsTable = () => {
       setInitialPreviewKey(s3Key);
     }
   }, [s3Key]);
+  const itemsWithComments = useMemo(() => {
+    return paginatedFiles.map((file) => ({
+      ...file,
+      comments: applicationsComments.filter(
+        (comment) => comment?.fileId === file?.id
+      ),
+    }));
+  }, [paginatedFiles, applicationsComments]);
 
   return (
     <div className="my-16 mx-auto container">
+      <AWSSubscriptionDriverApplications
+        setComments={setApplicationsComments}
+        setFilterValue={setFilterValue}
+      />
       <Table
         aria-label="Files Metadata Table"
         classNames={classNames}
@@ -260,7 +318,7 @@ const ApplicationsTable = () => {
           </TableColumn>
           <TableColumn>Actions</TableColumn>
         </TableHeader>
-        <TableBody items={paginatedFiles} emptyContent="No files found.">
+        <TableBody items={itemsWithComments} emptyContent="No files found.">
           {(file: FileMetadata) => {
             const submittedAt = file.lastModified
               ? format(new Date(file.lastModified), "PP")
@@ -289,6 +347,11 @@ const ApplicationsTable = () => {
                       onDelete={handleFileDeleted}
                     />
                     <ViewFileButton file={file} autoOpen={isMatch} />
+
+                    <CommentButtonAWS
+                      fileId={file.id}
+                      comments={file.comments ?? []}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
@@ -301,5 +364,3 @@ const ApplicationsTable = () => {
 };
 
 export default ApplicationsTable;
-
-//https://75tp5l3t.r.us-east-1.awstrack.me/L0/https:%2F%2Fmaster.d883d4yx0dfjd.amplifyapp.com%2Fdriver-applications%3Fkey=applications%252Fdrivers%252FJohn_ddfdf_RCJ_Driver_Application_1746319110086.pdf/1/0100019698bb0148-4b0b5461-65d6-4e62-9e45-0280011ad95a-000000/93bd1WocZRIzD5WKRnSBjuCZuFM=424

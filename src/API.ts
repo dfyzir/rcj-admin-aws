@@ -2,6 +2,126 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateDriverApplicationsCommentsInput = {
+  id?: string | null,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+};
+
+export type ModelDriverApplicationsCommentsConditionInput = {
+  text?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  author?: ModelStringInput | null,
+  fileId?: ModelStringInput | null,
+  and?: Array< ModelDriverApplicationsCommentsConditionInput | null > | null,
+  or?: Array< ModelDriverApplicationsCommentsConditionInput | null > | null,
+  not?: ModelDriverApplicationsCommentsConditionInput | null,
+};
+
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
+
+
+export type ModelSizeInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
+export type DriverApplicationsComments = {
+  __typename: "DriverApplicationsComments",
+  id: string,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+  updatedAt: string,
+};
+
+export type UpdateDriverApplicationsCommentsInput = {
+  id: string,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+};
+
+export type DeleteDriverApplicationsCommentsInput = {
+  id: string,
+};
+
+export type CreateCreditApplicationsCommentsInput = {
+  id?: string | null,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+};
+
+export type ModelCreditApplicationsCommentsConditionInput = {
+  text?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  author?: ModelStringInput | null,
+  fileId?: ModelStringInput | null,
+  and?: Array< ModelCreditApplicationsCommentsConditionInput | null > | null,
+  or?: Array< ModelCreditApplicationsCommentsConditionInput | null > | null,
+  not?: ModelCreditApplicationsCommentsConditionInput | null,
+};
+
+export type CreditApplicationsComments = {
+  __typename: "CreditApplicationsComments",
+  id: string,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+  updatedAt: string,
+};
+
+export type UpdateCreditApplicationsCommentsInput = {
+  id: string,
+  text?: string | null,
+  createdAt?: string | null,
+  author?: string | null,
+  fileId?: string | null,
+};
+
+export type DeleteCreditApplicationsCommentsInput = {
+  id: string,
+};
+
 export type CreateNewDriverPersonalInfoInput = {
   id?: string | null,
   firstName: string,
@@ -58,46 +178,6 @@ export type ModelNewDriverPersonalInfoConditionInput = {
   and?: Array< ModelNewDriverPersonalInfoConditionInput | null > | null,
   or?: Array< ModelNewDriverPersonalInfoConditionInput | null > | null,
   not?: ModelNewDriverPersonalInfoConditionInput | null,
-};
-
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
 };
 
 export type ModelIntInput = {
@@ -265,6 +345,56 @@ export type DeleteTrailerRCJInput = {
   id: string,
 };
 
+export type ModelDriverApplicationsCommentsFilterInput = {
+  id?: ModelIDInput | null,
+  text?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  author?: ModelStringInput | null,
+  fileId?: ModelStringInput | null,
+  and?: Array< ModelDriverApplicationsCommentsFilterInput | null > | null,
+  or?: Array< ModelDriverApplicationsCommentsFilterInput | null > | null,
+  not?: ModelDriverApplicationsCommentsFilterInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type ModelDriverApplicationsCommentsConnection = {
+  __typename: "ModelDriverApplicationsCommentsConnection",
+  items:  Array<DriverApplicationsComments | null >,
+  nextToken?: string | null,
+};
+
+export type ModelCreditApplicationsCommentsFilterInput = {
+  id?: ModelIDInput | null,
+  text?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  author?: ModelStringInput | null,
+  fileId?: ModelStringInput | null,
+  and?: Array< ModelCreditApplicationsCommentsFilterInput | null > | null,
+  or?: Array< ModelCreditApplicationsCommentsFilterInput | null > | null,
+  not?: ModelCreditApplicationsCommentsFilterInput | null,
+};
+
+export type ModelCreditApplicationsCommentsConnection = {
+  __typename: "ModelCreditApplicationsCommentsConnection",
+  items:  Array<CreditApplicationsComments | null >,
+  nextToken?: string | null,
+};
+
 export type ModelNewDriverPersonalInfoFilterInput = {
   id?: ModelIDInput | null,
   firstName?: ModelStringInput | null,
@@ -294,22 +424,6 @@ export type ModelNewDriverPersonalInfoFilterInput = {
   and?: Array< ModelNewDriverPersonalInfoFilterInput | null > | null,
   or?: Array< ModelNewDriverPersonalInfoFilterInput | null > | null,
   not?: ModelNewDriverPersonalInfoFilterInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type ModelNewDriverPersonalInfoConnection = {
@@ -354,34 +468,14 @@ export type ModelTrailerRCJConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionNewDriverPersonalInfoFilterInput = {
+export type ModelSubscriptionDriverApplicationsCommentsFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  firstName?: ModelSubscriptionStringInput | null,
-  lastName?: ModelSubscriptionStringInput | null,
-  middleName?: ModelSubscriptionStringInput | null,
-  datOfBirth?: ModelSubscriptionStringInput | null,
-  socialSecurityNumber?: ModelSubscriptionIntInput | null,
-  primaryPhoneNumber?: ModelSubscriptionStringInput | null,
-  altPhoneNumber?: ModelSubscriptionStringInput | null,
-  licenseNumber?: ModelSubscriptionIntInput | null,
-  licenseCategory?: ModelSubscriptionStringInput | null,
-  licenseState?: ModelSubscriptionStringInput | null,
-  licenseExpirationDate?: ModelSubscriptionStringInput | null,
-  primaryAddress?: ModelSubscriptionStringInput | null,
-  primaryCity?: ModelSubscriptionStringInput | null,
-  primaryState?: ModelSubscriptionStringInput | null,
-  primaryZip?: ModelSubscriptionIntInput | null,
-  secondaryAddress?: ModelSubscriptionStringInput | null,
-  secondaryCity?: ModelSubscriptionStringInput | null,
-  secondaryState?: ModelSubscriptionStringInput | null,
-  secondaryZip?: ModelSubscriptionIntInput | null,
-  drivingExperience?: ModelSubscriptionStringInput | null,
-  accidentHistory?: ModelSubscriptionStringInput | null,
-  criminalHistory?: ModelSubscriptionStringInput | null,
-  employmentHistory?: ModelSubscriptionStringInput | null,
-  emergencyContact?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
-  or?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
+  text?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  author?: ModelSubscriptionStringInput | null,
+  fileId?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionDriverApplicationsCommentsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionDriverApplicationsCommentsFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -412,6 +506,46 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionCreditApplicationsCommentsFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  text?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  author?: ModelSubscriptionStringInput | null,
+  fileId?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionCreditApplicationsCommentsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCreditApplicationsCommentsFilterInput | null > | null,
+};
+
+export type ModelSubscriptionNewDriverPersonalInfoFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  middleName?: ModelSubscriptionStringInput | null,
+  datOfBirth?: ModelSubscriptionStringInput | null,
+  socialSecurityNumber?: ModelSubscriptionIntInput | null,
+  primaryPhoneNumber?: ModelSubscriptionStringInput | null,
+  altPhoneNumber?: ModelSubscriptionStringInput | null,
+  licenseNumber?: ModelSubscriptionIntInput | null,
+  licenseCategory?: ModelSubscriptionStringInput | null,
+  licenseState?: ModelSubscriptionStringInput | null,
+  licenseExpirationDate?: ModelSubscriptionStringInput | null,
+  primaryAddress?: ModelSubscriptionStringInput | null,
+  primaryCity?: ModelSubscriptionStringInput | null,
+  primaryState?: ModelSubscriptionStringInput | null,
+  primaryZip?: ModelSubscriptionIntInput | null,
+  secondaryAddress?: ModelSubscriptionStringInput | null,
+  secondaryCity?: ModelSubscriptionStringInput | null,
+  secondaryState?: ModelSubscriptionStringInput | null,
+  secondaryZip?: ModelSubscriptionIntInput | null,
+  drivingExperience?: ModelSubscriptionStringInput | null,
+  accidentHistory?: ModelSubscriptionStringInput | null,
+  criminalHistory?: ModelSubscriptionStringInput | null,
+  employmentHistory?: ModelSubscriptionStringInput | null,
+  emergencyContact?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
+  or?: Array< ModelSubscriptionNewDriverPersonalInfoFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIntInput = {
@@ -446,6 +580,108 @@ export type ModelSubscriptionTrailerRCJFilterInput = {
   registrationFile?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionTrailerRCJFilterInput | null > | null,
   or?: Array< ModelSubscriptionTrailerRCJFilterInput | null > | null,
+};
+
+export type CreateDriverApplicationsCommentsMutationVariables = {
+  input: CreateDriverApplicationsCommentsInput,
+  condition?: ModelDriverApplicationsCommentsConditionInput | null,
+};
+
+export type CreateDriverApplicationsCommentsMutation = {
+  createDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateDriverApplicationsCommentsMutationVariables = {
+  input: UpdateDriverApplicationsCommentsInput,
+  condition?: ModelDriverApplicationsCommentsConditionInput | null,
+};
+
+export type UpdateDriverApplicationsCommentsMutation = {
+  updateDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteDriverApplicationsCommentsMutationVariables = {
+  input: DeleteDriverApplicationsCommentsInput,
+  condition?: ModelDriverApplicationsCommentsConditionInput | null,
+};
+
+export type DeleteDriverApplicationsCommentsMutation = {
+  deleteDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateCreditApplicationsCommentsMutationVariables = {
+  input: CreateCreditApplicationsCommentsInput,
+  condition?: ModelCreditApplicationsCommentsConditionInput | null,
+};
+
+export type CreateCreditApplicationsCommentsMutation = {
+  createCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateCreditApplicationsCommentsMutationVariables = {
+  input: UpdateCreditApplicationsCommentsInput,
+  condition?: ModelCreditApplicationsCommentsConditionInput | null,
+};
+
+export type UpdateCreditApplicationsCommentsMutation = {
+  updateCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteCreditApplicationsCommentsMutationVariables = {
+  input: DeleteCreditApplicationsCommentsInput,
+  condition?: ModelCreditApplicationsCommentsConditionInput | null,
+};
+
+export type DeleteCreditApplicationsCommentsMutation = {
+  deleteCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateNewDriverPersonalInfoMutationVariables = {
@@ -676,6 +912,82 @@ export type DeleteTrailerRCJMutation = {
   } | null,
 };
 
+export type GetDriverApplicationsCommentsQueryVariables = {
+  id: string,
+};
+
+export type GetDriverApplicationsCommentsQuery = {
+  getDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListDriverApplicationsCommentsQueryVariables = {
+  filter?: ModelDriverApplicationsCommentsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListDriverApplicationsCommentsQuery = {
+  listDriverApplicationsComments?:  {
+    __typename: "ModelDriverApplicationsCommentsConnection",
+    items:  Array< {
+      __typename: "DriverApplicationsComments",
+      id: string,
+      text?: string | null,
+      createdAt?: string | null,
+      author?: string | null,
+      fileId?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetCreditApplicationsCommentsQueryVariables = {
+  id: string,
+};
+
+export type GetCreditApplicationsCommentsQuery = {
+  getCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListCreditApplicationsCommentsQueryVariables = {
+  filter?: ModelCreditApplicationsCommentsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCreditApplicationsCommentsQuery = {
+  listCreditApplicationsComments?:  {
+    __typename: "ModelCreditApplicationsCommentsConnection",
+    items:  Array< {
+      __typename: "CreditApplicationsComments",
+      id: string,
+      text?: string | null,
+      createdAt?: string | null,
+      author?: string | null,
+      fileId?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetNewDriverPersonalInfoQueryVariables = {
   id: string,
 };
@@ -837,6 +1149,102 @@ export type ListTrailerRCJSQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateDriverApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionDriverApplicationsCommentsFilterInput | null,
+};
+
+export type OnCreateDriverApplicationsCommentsSubscription = {
+  onCreateDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateDriverApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionDriverApplicationsCommentsFilterInput | null,
+};
+
+export type OnUpdateDriverApplicationsCommentsSubscription = {
+  onUpdateDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteDriverApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionDriverApplicationsCommentsFilterInput | null,
+};
+
+export type OnDeleteDriverApplicationsCommentsSubscription = {
+  onDeleteDriverApplicationsComments?:  {
+    __typename: "DriverApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateCreditApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionCreditApplicationsCommentsFilterInput | null,
+};
+
+export type OnCreateCreditApplicationsCommentsSubscription = {
+  onCreateCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCreditApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionCreditApplicationsCommentsFilterInput | null,
+};
+
+export type OnUpdateCreditApplicationsCommentsSubscription = {
+  onUpdateCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCreditApplicationsCommentsSubscriptionVariables = {
+  filter?: ModelSubscriptionCreditApplicationsCommentsFilterInput | null,
+};
+
+export type OnDeleteCreditApplicationsCommentsSubscription = {
+  onDeleteCreditApplicationsComments?:  {
+    __typename: "CreditApplicationsComments",
+    id: string,
+    text?: string | null,
+    createdAt?: string | null,
+    author?: string | null,
+    fileId?: string | null,
+    updatedAt: string,
   } | null,
 };
 

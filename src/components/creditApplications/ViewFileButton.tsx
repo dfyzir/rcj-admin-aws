@@ -80,7 +80,7 @@ const ViewFileButton = ({ file, autoOpen }: ViewButtonProps) => {
   }, [fileUrl]);
 
   return (
-    <div className="container">
+    <div>
       <Button
         isIconOnly
         variant="light"

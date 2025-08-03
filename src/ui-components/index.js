@@ -6,6 +6,10 @@
 
 export { default as ChassisLocationCreateForm } from "./ChassisLocationCreateForm";
 export { default as ChassisLocationUpdateForm } from "./ChassisLocationUpdateForm";
+export { default as CreditApplicationsCommentsCreateForm } from "./CreditApplicationsCommentsCreateForm";
+export { default as CreditApplicationsCommentsUpdateForm } from "./CreditApplicationsCommentsUpdateForm";
+export { default as DriverApplicationsCommentsCreateForm } from "./DriverApplicationsCommentsCreateForm";
+export { default as DriverApplicationsCommentsUpdateForm } from "./DriverApplicationsCommentsUpdateForm";
 export { default as NewDriverPersonalInfoCreateForm } from "./NewDriverPersonalInfoCreateForm";
 export { default as NewDriverPersonalInfoUpdateForm } from "./NewDriverPersonalInfoUpdateForm";
 export { default as TrailerRCJCreateForm } from "./TrailerRCJCreateForm";

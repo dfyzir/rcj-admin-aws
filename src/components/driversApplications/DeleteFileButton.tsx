@@ -28,10 +28,11 @@ const DeleteFileButton: React.FC<DeleteFileButtonProps> = ({
     try {
       await remove({
         path: filePath,
+      }).then(() => {
+        if (onDelete) {
+          onDelete(filePath);
+        }
       });
-      if (onDelete) {
-        onDelete(filePath);
-      }
     } catch (error) {
       console.error("Error deleting file:", error);
     }

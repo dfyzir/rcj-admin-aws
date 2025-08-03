@@ -20,23 +20,19 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersionaeeda145": {
+    "LambdaLayerVersion974e88b5": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
         "Content": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
+          "S3Key": "amplify-builds/awsrcjlayer50525934-LambdaLayerVersion974e88b5-build.zip"
         },
-        "Description": {
-          "Ref": "description"
-        },
+        "Description": "Updated layer version 2025-05-04T00:59:59.438Z",
         "LayerName": {
           "Fn::Sub": [
             "awsrcjlayer50525934-${env}",
@@ -51,13 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivateaeeda145": {
+    "LambdaLayerPermissionPrivate974e88b5": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersionaeeda145"
-        },
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:491554107211:layer:awsrcjlayer50525934-dev:54",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -67,7 +61,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersionaeeda145"
+        "Ref": "LambdaLayerVersion974e88b5"
       }
     }
   }

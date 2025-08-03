@@ -8,6 +8,114 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createDriverApplicationsComments = /* GraphQL */ `mutation CreateDriverApplicationsComments(
+  $input: CreateDriverApplicationsCommentsInput!
+  $condition: ModelDriverApplicationsCommentsConditionInput
+) {
+  createDriverApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateDriverApplicationsCommentsMutationVariables,
+  APITypes.CreateDriverApplicationsCommentsMutation
+>;
+export const updateDriverApplicationsComments = /* GraphQL */ `mutation UpdateDriverApplicationsComments(
+  $input: UpdateDriverApplicationsCommentsInput!
+  $condition: ModelDriverApplicationsCommentsConditionInput
+) {
+  updateDriverApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateDriverApplicationsCommentsMutationVariables,
+  APITypes.UpdateDriverApplicationsCommentsMutation
+>;
+export const deleteDriverApplicationsComments = /* GraphQL */ `mutation DeleteDriverApplicationsComments(
+  $input: DeleteDriverApplicationsCommentsInput!
+  $condition: ModelDriverApplicationsCommentsConditionInput
+) {
+  deleteDriverApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteDriverApplicationsCommentsMutationVariables,
+  APITypes.DeleteDriverApplicationsCommentsMutation
+>;
+export const createCreditApplicationsComments = /* GraphQL */ `mutation CreateCreditApplicationsComments(
+  $input: CreateCreditApplicationsCommentsInput!
+  $condition: ModelCreditApplicationsCommentsConditionInput
+) {
+  createCreditApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateCreditApplicationsCommentsMutationVariables,
+  APITypes.CreateCreditApplicationsCommentsMutation
+>;
+export const updateCreditApplicationsComments = /* GraphQL */ `mutation UpdateCreditApplicationsComments(
+  $input: UpdateCreditApplicationsCommentsInput!
+  $condition: ModelCreditApplicationsCommentsConditionInput
+) {
+  updateCreditApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateCreditApplicationsCommentsMutationVariables,
+  APITypes.UpdateCreditApplicationsCommentsMutation
+>;
+export const deleteCreditApplicationsComments = /* GraphQL */ `mutation DeleteCreditApplicationsComments(
+  $input: DeleteCreditApplicationsCommentsInput!
+  $condition: ModelCreditApplicationsCommentsConditionInput
+) {
+  deleteCreditApplicationsComments(input: $input, condition: $condition) {
+    id
+    text
+    createdAt
+    author
+    fileId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteCreditApplicationsCommentsMutationVariables,
+  APITypes.DeleteCreditApplicationsCommentsMutation
+>;
 export const createNewDriverPersonalInfo = /* GraphQL */ `mutation CreateNewDriverPersonalInfo(
   $input: CreateNewDriverPersonalInfoInput!
   $condition: ModelNewDriverPersonalInfoConditionInput
