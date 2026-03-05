@@ -5,17 +5,17 @@
 
 export const useCheckDate = () => {
   const currentDate = new Date().toISOString();
-  let sevenDaysAhead = new Date();
-  const sevenDaysFromNow = new Date(
-    sevenDaysAhead.setDate(sevenDaysAhead.getDate() + 7)
+  let thirtyDaysAhead = new Date();
+  const thirtyDaysFromNow = new Date(
+    thirtyDaysAhead.setDate(thirtyDaysAhead.getDate() + 30)
   ).toISOString();
   //isExpired: Determines if the provided date is expired (before the current date).
   const isExpired = (date: string) => {
     return date < currentDate;
   };
-  //isExpireSoon: Determines if the provided date is within the next 7 days from the current date.
+  //isExpireSoon: Determines if the provided date is within the next 30 days from the current date.
   const isExpireSoon = (date: string) => {
-    return date < sevenDaysFromNow && date > currentDate;
+    return date < thirtyDaysFromNow && date > currentDate;
   };
 
   return { isExpired, isExpireSoon };

@@ -38,6 +38,25 @@ const AWSSubscriptionEvents = ({
   setTrailers,
   setFilterValue,
 }: AWSSubscriptionEventsProps) => {
+  const removeStorageFile = async (filePath?: string | null) => {
+    if (!filePath) return;
+    try {
+      await remove({ path: filePath });
+      return;
+    } catch (err) {
+      if (!filePath.startsWith("public/")) {
+        try {
+          await remove({ path: `public/${filePath}` });
+          return;
+        } catch (fallbackErr) {
+          console.warn("Failed to delete storage file:", fallbackErr);
+          return;
+        }
+      }
+      console.warn("Failed to delete storage file:", err);
+    }
+  };
+
   // Set up AppSync subscription when the component mounts
   useEffect(() => {
     const client = generateClient();
@@ -84,10 +103,10 @@ const AWSSubscriptionEvents = ({
           setFilterValue("");
 
           const { inspectionFile } = data?.onDeleteTrailerRCJ!;
-          await remove({ key: inspectionFile as string });
+          await removeStorageFile(inspectionFile);
 
           const { registrationFile } = data?.onDeleteTrailerRCJ!;
-          await remove({ key: registrationFile as string });
+          await removeStorageFile(registrationFile);
 
           toast.success("Trailer deleted successfully");
         },

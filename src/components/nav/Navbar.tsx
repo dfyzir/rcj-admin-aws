@@ -9,7 +9,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Link from "next/link";
 import { RCJIcon } from "../icons/RCJIconcopy";
 import SignOutButton from "./SignOutButton";

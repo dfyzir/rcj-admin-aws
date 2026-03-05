@@ -13,7 +13,7 @@ import {
   TableRow,
   getKeyValue,
   Selection,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import BottomContent from "@/components/locationsTable/TablePagination";
 import TopContentLocations from "@/components/locationsTable/TopContentLocations";

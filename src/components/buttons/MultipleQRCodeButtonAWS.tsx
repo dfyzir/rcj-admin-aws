@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import QRCode from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { Button, CircularProgress } from "@nextui-org/react";
+import { jsPDF } from "jspdf";
+import { Button, CircularProgress } from "@heroui/react";
 import { DownloadIcon } from "../icons/DownloadIcon";
 import ReactDOM from "react-dom/client";
 import QRCodeIcon from "../icons/QRCodeIcon";
@@ -40,7 +40,7 @@ const MultipleQrCodeButton = ({
       const root = ReactDOM.createRoot(container);
       root.render(
         <div id={`qrCodeContainer-${i}`}>
-          <QRCode
+          <QRCodeSVG
             value={`https://master.d883d4yx0dfjd.amplifyapp.com/?search=${chassisNumber}`}
             size={200} // Adjust size as needed
           />

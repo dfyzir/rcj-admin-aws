@@ -9,7 +9,7 @@ import {
   DropdownTrigger,
   Input,
   Selection,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import AddLocationButtonAWS from "./buttons/AddLocationButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";

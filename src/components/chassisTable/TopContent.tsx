@@ -1,7 +1,7 @@
 import { SetStateAction, useCallback } from "react";
 import { TrailerRCJ } from "@/API";
-import { Key } from "@react-types/shared";
-import { Input } from "@nextui-org/react";
+import { Key, Selection } from "@react-types/shared";
+import { Input } from "@heroui/react";
 import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
@@ -20,7 +20,7 @@ type TopContentProps = {
   setPage: (value: SetStateAction<number>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
   setRowsPerPage: (value: SetStateAction<number>) => void;
-  selectedKeys: "all" | Iterable<Key> | undefined;
+  selectedKeys: Selection;
 };
 
 const TopContent = ({
@@ -58,9 +58,10 @@ const TopContent = ({
     setPage(1);
   }, [setFilterValue, setPage]);
 
-  const selectedKeysArray: string[] = selectedKeys
-    ? Array.from(selectedKeys as Set<Key>).map((key) => String(key))
-    : [];
+  const selectedKeysArray: string[] =
+    selectedKeys === "all"
+      ? []
+      : Array.from(selectedKeys as Set<Key>).map((key) => String(key));
 
   return (
     <div className="flex flex-col gap-4 mt-5 w-full ">

@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   divider,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 /*ExpireSoonButton Component:
  

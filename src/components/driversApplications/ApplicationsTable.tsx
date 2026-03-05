@@ -6,13 +6,12 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   ListObjectsCommand,
   GetObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
 import config from "@/amplifyconfiguration.json";
 import { format } from "date-fns";
 import BottomContent from "@/components/chassisTable/TablePagination";
@@ -27,6 +26,7 @@ import CommentButtonAWS from "./CommentsButton";
 import { DriverApplicationsComments } from "@/API";
 import AWSSubscriptionDriverApplications from "./DriverApplicationsSubscriptions";
 import { deleteDriverApplicationsComments } from "@/graphql/mutations";
+import { fetchAuthSession } from "aws-amplify/auth";
 
 const classNames = {
   th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
@@ -79,12 +79,14 @@ const ApplicationsTable = () => {
   });
 
   const fetchFilesAndMetadata = useCallback(async () => {
+    const session = await fetchAuthSession();
+    if (!session.credentials) {
+      throw new Error("Missing authenticated credentials for S3 access");
+    }
+
     const client = new S3Client({
       region: config.aws_project_region,
-      credentials: fromCognitoIdentityPool({
-        clientConfig: { region: config.aws_cognito_region },
-        identityPoolId: config.aws_cognito_identity_pool_id,
-      }),
+      credentials: session.credentials,
     });
 
     try {

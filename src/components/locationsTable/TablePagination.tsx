@@ -1,5 +1,5 @@
 import { SetStateAction, useCallback, useState } from "react";
-import { Button, Divider, Pagination } from "@nextui-org/react";
+import { Button, Divider, Pagination } from "@heroui/react";
 
 /*
   TablePagination Component

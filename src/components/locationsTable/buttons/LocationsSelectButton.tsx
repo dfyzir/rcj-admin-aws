@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Selection,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { SetStateAction } from "react";
 
 type LocationButtonProps = {

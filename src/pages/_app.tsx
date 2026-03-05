@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "@aws-amplify/ui-react/styles.css";
 
 import { ToastContainer } from "react-toastify";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import NavBar from "@/components/nav/Navbar";
@@ -22,7 +22,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <Authenticator.Provider>
       <ThemeProvider>
-        <NextUIProvider>
+        <HeroUIProvider>
           <ToastContainer />
           <Head>
             {/* Add other global metadata tags here */}
@@ -38,7 +38,7 @@ function App({ Component, pageProps }: AppProps) {
           </Head>
           <NavBar />
           <Component {...pageProps} />
-        </NextUIProvider>
+        </HeroUIProvider>
       </ThemeProvider>
     </Authenticator.Provider>
   );

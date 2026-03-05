@@ -6,7 +6,14 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField, useTheme } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  TextField,
+  useTheme,
+} from "@aws-amplify/ui-react";
+import * as AmplifyUIInternal from "@aws-amplify/ui-react/internal";
 import { StorageManager } from "@aws-amplify/ui-react-storage";
 import {
   fetchByPath,
@@ -16,7 +23,7 @@ import {
 } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createTrailerRCJ } from "../graphql/mutations";
-import { Field } from "@aws-amplify/ui-react/internal";
+const { Field } = AmplifyUIInternal;
 const client = generateClient();
 export default function TrailerRCJCreateForm(props) {
   const {

@@ -8,7 +8,7 @@ import {
   ModalBody,
   Button,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { EditIcon } from "../../icons/EditIcon";
 import ChassisLocationUpdateForm from "@/ui-components/ChassisLocationUpdateForm";

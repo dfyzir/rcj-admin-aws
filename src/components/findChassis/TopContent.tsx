@@ -1,7 +1,7 @@
 import { SetStateAction, useCallback, useEffect } from "react";
 import { TrailerRCJ } from "@/API";
 
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";

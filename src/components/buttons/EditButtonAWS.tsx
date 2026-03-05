@@ -10,7 +10,7 @@ import {
   ModalBody,
   Button,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { EditIcon } from "../icons/EditIcon";
 import TrailerRCJUpdateForm from "@/ui-components/TrailerRCJUpdateForm";
@@ -39,6 +39,26 @@ const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
       file,
       key: `${fileParts.join(".").toUpperCase()}.${uniqueString}.${ext}`,
     };
+  };
+
+  const removeStorageFile = async (filePath: string) => {
+    if (!filePath) return;
+    try {
+      await remove({ path: filePath });
+      return;
+    } catch (err) {
+      // Some legacy records are stored without the public/ prefix.
+      if (!filePath.startsWith("public/")) {
+        try {
+          await remove({ path: `public/${filePath}` });
+          return;
+        } catch (fallbackErr) {
+          console.warn("Failed to delete storage file:", fallbackErr);
+          return;
+        }
+      }
+      console.warn("Failed to delete storage file:", err);
+    }
   };
 
   return (
@@ -83,15 +103,19 @@ const EditButtonAWS = ({ trailer, isView }: EditButtonAWSProps) => {
                         }
                       });
                       //if updatedFiles dont match previous files - delete previous files from storage
-                      trailer.inspectionFile &&
-                      trailer.inspectionFile !== updatedFields.inspectionFile
-                        ? remove({ key: trailer.inspectionFile })
-                        : null;
-                      trailer.registrationFile &&
-                      trailer.registrationFile !==
-                        updatedFields.registrationFile
-                        ? remove({ key: trailer.registrationFile })
-                        : null;
+                      if (
+                        trailer.inspectionFile &&
+                        trailer.inspectionFile !== updatedFields.inspectionFile
+                      ) {
+                        void removeStorageFile(trailer.inspectionFile);
+                      }
+                      if (
+                        trailer.registrationFile &&
+                        trailer.registrationFile !==
+                          updatedFields.registrationFile
+                      ) {
+                        void removeStorageFile(trailer.registrationFile);
+                      }
                       return updatedFields;
                     }}
                     overrides={{

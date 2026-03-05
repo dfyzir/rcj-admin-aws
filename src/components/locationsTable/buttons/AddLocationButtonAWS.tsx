@@ -5,7 +5,7 @@ import {
   ModalBody,
   Button,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { PlusIcon } from "../../icons/PlusIcon";
 import ChassisLoctionCreateForm from "@/ui-components/ChassisLocationCreateForm";
 import { v4 as uuidv4 } from "uuid";

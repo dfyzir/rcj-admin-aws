@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
   getKeyValue,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import DeleteButtonAWS from "@/components/buttons/DeleteButtonAWS";
 import EditButtonAWS from "@/components/buttons/EditButtonAWS";
@@ -24,7 +24,7 @@ import TopContent from "@/components/chassisTable/TopContent";
 import AWSSubscriptionEvents from "@/components/chassisTable/AWSSubscriptionEvents";
 import { useCheckDate } from "@/hooks/useCheckDate";
 import { ExpireSoonWarningIcon } from "@/components/icons/ExpireSoonWarningIcon";
-import { Key } from "@react-types/shared";
+import { Key, Selection } from "@react-types/shared";
 
 //ChassisTable Component:
 
@@ -135,15 +135,13 @@ const ChassisTable = () => {
       "group-data-[last=true]:last:before:rounded-none",
     ],
   };
-  const [selectedKeys, setSelectedKeys] = useState<
-    "all" | Iterable<Key> | undefined
-  >(new Set<Key>([]));
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
 
-  const handleSelectionChange = (keys: "all" | Iterable<Key> | undefined) => {
+  const handleSelectionChange = (keys: Selection) => {
     if (keys === "all") {
       const allKeys = new Set(
         filteredItems.map((trailer) => trailer.chassisNumber)
-      ) as "all" | Iterable<Key> | undefined;
+      ) as Selection;
       setSelectedKeys(allKeys);
     } else {
       setSelectedKeys(keys);

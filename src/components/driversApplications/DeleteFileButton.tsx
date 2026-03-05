@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { DeleteIcon } from "../icons/DeleteIcon";
 
 type DeleteFileButtonProps = {

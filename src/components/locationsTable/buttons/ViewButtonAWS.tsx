@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ViewIcon } from "../../icons/ViewIcon";
 import EditButtonAWS from "./EditButtonAWS";
 

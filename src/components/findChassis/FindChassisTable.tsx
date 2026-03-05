@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
   getKeyValue,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import ViewButtonAWS from "./buttons/ViewButtonAWS";
 import { ExpiredWarningIcon } from "@/components/icons/ExpiredWarningIcon";

@@ -11,7 +11,7 @@ import {
   ModalContent,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { DownloadIcon } from "../../icons/DownloadIcon";
 

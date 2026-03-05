@@ -10,7 +10,7 @@ import {
   ModalContent,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ViewIcon } from "../icons/ViewIcon";
 import { DownloadIcon } from "../icons/DownloadIcon";
 import { useRouter } from "next/router";

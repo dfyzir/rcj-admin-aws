@@ -7,7 +7,7 @@ import {
   useDisclosure,
   Textarea,
   Badge,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { PlusIcon } from "../icons/PlusIcon";
 import { useState } from "react";

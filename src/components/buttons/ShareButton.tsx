@@ -1,6 +1,6 @@
 import React from "react";
 import { ShareIcon } from "../icons/ShareIcon";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 
 type ShareButtonProps = {
   text: string;

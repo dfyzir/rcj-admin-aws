@@ -3,7 +3,7 @@ import {
   deleteCreditApplicationsComments,
   updateCreditApplicationsComments,
 } from "@/graphql/mutations";
-import { Button, Textarea } from "@nextui-org/react";
+import { Button, Textarea } from "@heroui/react";
 import { generateClient } from "aws-amplify/api";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";

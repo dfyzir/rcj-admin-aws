@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import QRCode from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { Button, Spinner } from "@nextui-org/react";
+import { jsPDF } from "jspdf";
+import { Button, Spinner } from "@heroui/react";
 import QRCodeIcon from "../icons/QRCodeIcon";
 import { DownloadIcon } from "../icons/DownloadIcon";
 import ReactDOM from "react-dom/client";
@@ -39,7 +39,7 @@ const QrCodeButton = ({ chassisNumber }: QRCodeButtonProps) => {
     // Clean up any existing React root and recreate it
     const root = ReactDOM.createRoot(qrCodeContainer);
     root.render(
-      <QRCode
+      <QRCodeSVG
         value={`https://master.d883d4yx0dfjd.amplifyapp.com/?search=${chassisNumber}`}
         size={200}
       />
