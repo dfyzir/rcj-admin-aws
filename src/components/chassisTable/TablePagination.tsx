@@ -46,8 +46,8 @@ const TablePagination = ({
         <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl">
           <div
             ref={scrollRef}
-            className="overflow-x-auto overflow-y-hidden py-1 overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden">
-            <div className="inline-flex min-w-max pr-1">
+            className="overflow-x-auto overflow-y-hidden py-1 overscroll-x-contain select-none [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden">
+            <div className={`inline-flex min-w-max ${mobileAction ? "pr-4" : "pr-1"}`}>
               <Pagination
                 size="lg"
                 showShadow
