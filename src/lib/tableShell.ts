@@ -39,6 +39,15 @@ export const tablePaginationClassNames = {
 export const tablePaginationButtonClassName =
   "border border-slate-300 bg-white text-slate-800 shadow-sm shadow-slate-200/70 transition hover:border-[#316BAD]/38 hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.14)_0%,rgba(0,141,193,0.24)_50%,rgba(49,107,173,0.14)_100%)] hover:text-[#174E81] hover:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.12),0_12px_24px_-16px_rgba(0,141,193,0.24)] data-[hover=true]:border-[#316BAD]/38 data-[hover=true]:bg-[linear-gradient(90deg,rgba(49,107,173,0.14)_0%,rgba(0,141,193,0.24)_50%,rgba(49,107,173,0.14)_100%)] data-[hover=true]:text-[#174E81] data-[hover=true]:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.12),0_12px_24px_-16px_rgba(0,141,193,0.24)] data-[disabled=true]:border-slate-300 data-[disabled=true]:bg-slate-200 data-[disabled=true]:text-slate-500 data-[disabled=true]:shadow-none data-[disabled=true]:opacity-100 dark:border-white/12 dark:bg-white/[0.07] dark:text-white/90 dark:shadow-black/20 dark:hover:border-[#316BAD]/34 dark:hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.18)_0%,rgba(0,141,193,0.30)_50%,rgba(49,107,173,0.18)_100%)] dark:hover:text-white dark:hover:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.16),0_14px_26px_-16px_rgba(0,141,193,0.30)] dark:data-[hover=true]:border-[#316BAD]/34 dark:data-[hover=true]:bg-[linear-gradient(90deg,rgba(49,107,173,0.18)_0%,rgba(0,141,193,0.30)_50%,rgba(49,107,173,0.18)_100%)] dark:data-[hover=true]:text-white dark:data-[hover=true]:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.16),0_14px_26px_-16px_rgba(0,141,193,0.30)] dark:data-[disabled=true]:border-white/12 dark:data-[disabled=true]:bg-white/[0.05] dark:data-[disabled=true]:text-white/40 dark:data-[disabled=true]:shadow-none dark:data-[disabled=true]:opacity-100";
 
+export const tablePaginationPageButtonBaseClassName =
+  "flex h-11 min-w-11 items-center justify-center rounded-xl px-3 text-base font-medium transition";
+
+export const tablePaginationPageButtonClassName =
+  "border border-slate-200/80 bg-white text-slate-700 shadow-none hover:border-[#316BAD]/28 hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.10)_0%,rgba(0,141,193,0.20)_50%,rgba(49,107,173,0.10)_100%)] hover:text-[#1E5B92] hover:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.10),0_10px_20px_-16px_rgba(0,141,193,0.20)] dark:border-white/10 dark:bg-white/[0.04] dark:text-white/80 dark:hover:border-[#316BAD]/32 dark:hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.16)_0%,rgba(0,141,193,0.28)_50%,rgba(49,107,173,0.16)_100%)] dark:hover:text-white dark:hover:shadow-[inset_0_0_0_1px_rgba(49,107,173,0.16),0_12px_22px_-16px_rgba(0,141,193,0.28)]";
+
+export const tablePaginationPageButtonActiveClassName =
+  "border-transparent bg-gradient-to-r from-[#316BAD] via-[#008DC1] to-[#316BAD] text-white shadow-[0_12px_28px_-16px_rgba(0,141,193,0.45)]";
+
 export const tableDropdownMenuClassNames = {
   base: "min-w-[11rem]",
   list: "gap-1 p-1",

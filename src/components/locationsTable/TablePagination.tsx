@@ -3,6 +3,9 @@ import { Button, Pagination } from "@heroui/react";
 import {
   tablePaginationButtonClassName,
   tablePaginationClassNames,
+  tablePaginationPageButtonActiveClassName,
+  tablePaginationPageButtonBaseClassName,
+  tablePaginationPageButtonClassName,
 } from "@/lib/tableShell";
 import { useHorizontalScrollShadows } from "@/hooks/useHorizontalScrollShadows";
 import { useDraggableHorizontalScroll } from "@/hooks/useDraggableHorizontalScroll";
@@ -51,15 +54,40 @@ const TablePagination = ({
             className="cursor-grab overflow-x-auto overflow-y-hidden py-1 overscroll-x-contain select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [touch-action:pan-y] [&::-webkit-scrollbar]:hidden"
             {...dragScrollHandlers}>
             <div className={`inline-flex min-w-max ${mobileAction ? "pr-4" : "pr-1"}`}>
-              <Pagination
-                size="lg"
-                showShadow
-                color="secondary"
-                classNames={tablePaginationClassNames}
-                page={page}
-                total={totalPages}
-                onChange={(page) => setPage(page)}
-              />
+              <div className="md:hidden">
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    const isActive = pageNumber === page;
+
+                    return (
+                      <button
+                        key={pageNumber}
+                        type="button"
+                        onClick={() => setPage(pageNumber)}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`${tablePaginationPageButtonBaseClassName} ${
+                          isActive
+                            ? tablePaginationPageButtonActiveClassName
+                            : tablePaginationPageButtonClassName
+                        }`}>
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="hidden md:block">
+                <Pagination
+                  size="lg"
+                  showShadow
+                  color="secondary"
+                  classNames={tablePaginationClassNames}
+                  page={page}
+                  total={totalPages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
             </div>
           </div>
           <div
