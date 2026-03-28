@@ -8,8 +8,12 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  divider,
 } from "@heroui/react";
+import {
+  tableDropdownItemClassNames,
+  tableDropdownMenuClassNames,
+  tableFilterTriggerClassName,
+} from "@/lib/tableShell";
 
 /*ExpireSoonButton Component:
  
@@ -69,11 +73,15 @@ const ExpireSoonButton = ({
               variant="shadow"
               color="warning"
               size="lg"
-              className="text-xl font-semibold text-white ">
+              className={`${tableFilterTriggerClassName} text-white`}>
               {expiredItems.length} expire soon
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
+          <DropdownMenu
+            aria-label="Static Actions"
+            variant="light"
+            classNames={tableDropdownMenuClassNames}
+            itemClasses={tableDropdownItemClassNames}>
             {expiredItems.map((item) => (
               <DropdownItem
                 key={item.id}
@@ -83,7 +91,7 @@ const ExpireSoonButton = ({
                 }}>
                 <div
                   title="Show chassis in the table"
-                  className="text-center font-semibold text-xl ">
+                  className="text-center text-[0.85rem] font-medium uppercase tracking-[0.08em] sm:text-sm">
                   {item.chassisNumber}
                 </div>
               </DropdownItem>

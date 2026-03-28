@@ -2,12 +2,17 @@ import { SetStateAction, useCallback, useEffect } from "react";
 import { TrailerRCJ } from "@/API";
 
 import { Input } from "@heroui/react";
-import AddTrailerButtonAWS from "../buttons/AddTrailerButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
 import ExpireSoonButton from "../buttons/ExpireSoonButton";
 import ExpiredButton from "../buttons/ExpiredButton";
 import useScreenWidth from "@/hooks/useScreenWidth";
 import { useRouter } from "next/router";
+import RowsPerPageDropdown from "../common/RowsPerPageDropdown";
+import {
+  tableSearchInputClassNames,
+  tableStatsRowClassName,
+  tableStatsTextClassName,
+} from "@/lib/tableShell";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -20,6 +25,7 @@ type TopContentProps = {
   setPage: (value: SetStateAction<number>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
   setRowsPerPage: (value: SetStateAction<number>) => void;
+  rowsPerPage: number;
 };
 
 const TopContent = ({
@@ -28,14 +34,8 @@ const TopContent = ({
   setPage,
   setFilterValue,
   setRowsPerPage,
+  rowsPerPage,
 }: TopContentProps) => {
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    [setPage, setRowsPerPage]
-  );
   const router = useRouter();
   const { replace } = useRouter();
   const { search } = router.query;
@@ -67,21 +67,21 @@ const TopContent = ({
   }, [replace, setFilterValue, setPage]);
 
   return (
-    <div className="flex flex-col gap-4 mt-5 w-full ">
-      <div className="flex flex-col md:flex-row justify-between gap-7 text-large ">
-        <div className="mt-auto md:w-1/2">
+    <div className="mt-3 flex w-full flex-col gap-3 sm:mt-4 sm:gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div className="md:w-1/2">
           <Input
             size="sm"
             isClearable
-            className=""
-            placeholder="Search by chassis#..."
+            placeholder="Search by chassis, VIN, or plate..."
             startContent={<SearchIcon />}
+            classNames={tableSearchInputClassNames}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
         </div>
-        <div className="flex flex-col md:flex-row gap-7">
+        <div className="flex flex-col gap-4 md:flex-row">
           <div
             className={`flex ${
               screenWidth < 370 ? "flex-col" : "flex-row"
@@ -103,20 +103,18 @@ const TopContent = ({
         </div>
       </div>
 
-      <div className="flex justify-between items-center">
-        <span className="text-default-400 text-large">
+      <div className={tableStatsRowClassName}>
+        <span className={tableStatsTextClassName}>
           Total {trailers?.length} trailers
         </span>
-        <label className="flex items-center text-default-400 text-large">
-          Rows per page:
-          <select
-            className="bg-transparent outline-none text-default-400 text-large"
-            onChange={onRowsPerPageChange}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
-        </label>
+        <RowsPerPageDropdown
+          value={rowsPerPage}
+          onChange={(value) => {
+            setRowsPerPage(value);
+            setPage(1);
+          }}
+          labelClassName={tableStatsTextClassName}
+        />
       </div>
     </div>
   );

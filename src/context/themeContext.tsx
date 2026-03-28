@@ -13,6 +13,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const STORAGE_KEY = "rcj-theme";
 
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
@@ -23,30 +24,58 @@ export const useTheme = (): ThemeContextType => {
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("system");
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      setTheme(mediaQuery.matches ? "dark" : "light");
-    };
+    if (typeof window === "undefined") {
+      return;
+    }
 
-    // Initial check
-    handleChange();
+    const savedTheme = window.localStorage.getItem(STORAGE_KEY);
+    if (
+      savedTheme === "light" ||
+      savedTheme === "dark" ||
+      savedTheme === "system"
+    ) {
+      setTheme(savedTheme);
+      return;
+    }
 
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    setTheme(
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+    );
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.remove("light", "dark");
-    const effectiveTheme =
-      theme === "system"
-        ? window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light"
-        : theme;
-    document.documentElement.classList.add(effectiveTheme);
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const root = document.documentElement;
+
+    const applyTheme = () => {
+      root.classList.remove("light", "dark");
+      const effectiveTheme =
+        theme === "system"
+          ? mediaQuery.matches
+            ? "dark"
+            : "light"
+          : theme;
+      root.classList.add(effectiveTheme);
+    };
+
+    applyTheme();
+    window.localStorage.setItem(STORAGE_KEY, theme);
+
+    if (theme !== "system") {
+      return;
+    }
+
+    mediaQuery.addEventListener("change", applyTheme);
+    return () => mediaQuery.removeEventListener("change", applyTheme);
   }, [theme]);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>

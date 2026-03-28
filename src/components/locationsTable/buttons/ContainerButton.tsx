@@ -7,6 +7,11 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { SetStateAction } from "react";
+import {
+  tableDropdownItemClassNames,
+  tableDropdownMenuClassNames,
+  tableFilterTriggerClassName,
+} from "@/lib/tableShell";
 
 type ContainerButtonProps = {
   locations: ChassisLocation[];
@@ -30,23 +35,26 @@ const ContainerButton = ({
               variant="shadow"
               color="warning"
               size="lg"
-              className="text-xl font-semibold text-white">
+              className={`${tableFilterTriggerClassName} text-white`}>
               {containers.length}{" "}
               {containers.length === 1 ? "Container" : "Containers"}
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
+          <DropdownMenu
+            aria-label="Static Actions"
+            variant="light"
+            classNames={tableDropdownMenuClassNames}
+            itemClasses={tableDropdownItemClassNames}>
             {containers.map((item) => (
               <DropdownItem
                 key={item.id}
-                className="text-3xl"
                 onPress={() => {
                   setFilterValue(item.chassisNumber!);
                   setPage(1);
                 }}>
                 <div
                   title="Show chassis in the table"
-                  className="text-center font-semibold text-xl ">
+                  className="text-center text-[0.85rem] font-medium uppercase tracking-[0.08em] sm:text-sm">
                   {item.container}
                 </div>
               </DropdownItem>

@@ -1,24 +1,17 @@
 import { SetStateAction, useCallback } from "react";
 import { ChassisLocation } from "@/API";
-
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Selection,
-} from "@heroui/react";
+import { Button, Input, Selection } from "@heroui/react";
 import AddLocationButtonAWS from "./buttons/AddLocationButtonAWS";
 import { SearchIcon } from "../icons/SearchIcon";
-import { ChevronDownIcon } from "../icons/ChevronDownIcon";
-import { capitalize } from "@/lib/utils";
 import ContainerButton from "./buttons/ContainerButton";
-import useTwoDaysDifference from "@/hooks/useCheckContainerDate";
 import ExpiredContainerButton from "./buttons/ExpiredContainerButton";
 import LocationButton from "./buttons/LocationsSelectButton";
-import useScreenWidth from "@/hooks/useScreenWidth";
+import RowsPerPageDropdown from "../common/RowsPerPageDropdown";
+import {
+  tableSearchInputClassNames,
+  tableStatsRowClassName,
+  tableStatsTextClassName,
+} from "@/lib/tableShell";
 
 /*TopContent Component
  This component represents the top section of a table, including search functionality,
@@ -31,6 +24,7 @@ type TopContentProps = {
   setPage: (value: SetStateAction<number>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
   setRowsPerPage: (value: SetStateAction<number>) => void;
+  rowsPerPage: number;
   locationFilter: Selection;
   setLocationFilter: (keys: Selection) => void;
   locationOptions: string[];
@@ -42,22 +36,11 @@ const TopContentLocations = ({
   setPage,
   setFilterValue,
   setRowsPerPage,
+  rowsPerPage,
   locationFilter,
   setLocationFilter,
   locationOptions,
 }: TopContentProps) => {
-  const { isContainerExpired } = useTwoDaysDifference();
-
-  const screenWidth = useScreenWidth();
-
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    [setPage, setRowsPerPage]
-  );
-
   const onSearchChange = useCallback(
     (value?: string) => {
       if (value) {
@@ -67,7 +50,7 @@ const TopContentLocations = ({
         setFilterValue("");
       }
     },
-    [setFilterValue, setPage]
+    [setFilterValue, setPage],
   );
 
   const onClear = useCallback(() => {
@@ -75,26 +58,70 @@ const TopContentLocations = ({
     setPage(1);
   }, [setFilterValue, setPage]);
 
+  const selectedLocationKeys =
+    locationFilter === "all"
+      ? locationOptions
+      : Array.from(locationFilter).map(String);
+
+  const isAllLocationsSelected =
+    locationFilter === "all" ||
+    selectedLocationKeys.length === locationOptions.length;
+
+  const onLocationChipPress = useCallback(
+    (location: string) => {
+      const currentSelection = isAllLocationsSelected
+        ? [...locationOptions]
+        : [...selectedLocationKeys];
+
+      const nextSelection = currentSelection.includes(location)
+        ? currentSelection.filter((key) => key !== location)
+        : [...currentSelection, location];
+
+      if (nextSelection.length === 0) {
+        return;
+      }
+
+      setLocationFilter(
+        nextSelection.length === locationOptions.length
+          ? "all"
+          : new Set(nextSelection),
+      );
+      setPage(1);
+    },
+    [
+      isAllLocationsSelected,
+      locationOptions,
+      selectedLocationKeys,
+      setLocationFilter,
+      setPage,
+    ],
+  );
+
+  const mobileLocationFilters = locationOptions.map((location) => ({
+    key: location,
+    label: location
+      .replace(/ YARD$/i, "")
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase()),
+  }));
+
   return (
-    <div className="flex flex-col gap-4 mt-5 w-full ">
-      <div className="flex flex-col lg:flex-row justify-between gap-7 text-large ">
-        <div className="mt-auto md:w-1/2">
+    <div className="mt-3 flex w-full flex-col gap-3 sm:mt-4 sm:gap-4 lg:mt-5">
+      <div className="flex flex-col gap-4 text-large xl:flex-row xl:items-center xl:justify-between">
+        <div className="mt-auto w-full xl:max-w-xl">
           <Input
             size="sm"
             isClearable
-            className=""
             placeholder="Search by chassis#..."
             startContent={<SearchIcon />}
+            classNames={tableSearchInputClassNames}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
         </div>
-        <div className="flex flex-col lg:flex-row gap-7">
-          <div
-            className={`flex ${
-              screenWidth < 370 ? "flex-col" : "flex-row"
-            } gap-3`}>
+        <div className="flex min-w-0 w-full flex-wrap items-center justify-start gap-2 sm:gap-3 xl:flex-1 xl:justify-end">
+          <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 xl:justify-end max-[370px]:w-full max-[370px]:flex-col">
             <ContainerButton
               locations={locations}
               setFilterValue={setFilterValue}
@@ -106,12 +133,8 @@ const TopContentLocations = ({
               setPage={setPage}
             />
           </div>
-          <div
-            className={`flex ${
-              screenWidth < 370 ? "flex-col" : "flex-row"
-            } gap-3`}>
+          <div className="hidden md:flex md:flex-wrap md:items-center md:justify-end md:gap-2 lg:gap-3">
             <LocationButton
-              locations={locations}
               locationFilter={locationFilter}
               setLocationFilter={setLocationFilter}
               locationOptions={locationOptions}
@@ -121,20 +144,41 @@ const TopContentLocations = ({
         </div>
       </div>
 
-      <div className="flex justify-between items-center">
-        <span className="text-default-400 text-large">
+      <div className="-mx-1 flex flex-wrap gap-2 px-1 md:hidden">
+        {mobileLocationFilters.map(({ key, label }) => {
+          const isActive = selectedLocationKeys.includes(key);
+
+          return (
+            <Button
+              key={key}
+              size="sm"
+              radius="full"
+              variant={isActive ? "solid" : "bordered"}
+              color={isActive ? "secondary" : "default"}
+              className={`min-w-0 px-4 text-sm font-medium ${
+                isActive
+                  ? "border-transparent text-white"
+                  : "border-slate-300/70 bg-transparent text-default-500 dark:border-white/15 dark:text-default-400"
+              }`}
+              onPress={() => onLocationChipPress(key)}>
+              {label}
+            </Button>
+          );
+        })}
+      </div>
+
+      <div className={tableStatsRowClassName}>
+        <span className={`min-w-0 ${tableStatsTextClassName}`}>
           Total {locations?.length} trailers
         </span>
-        <label className="flex items-center text-default-400 text-large">
-          Rows per page:
-          <select
-            className="bg-transparent outline-none text-default-400 text-large"
-            onChange={onRowsPerPageChange}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
-        </label>
+        <RowsPerPageDropdown
+          value={rowsPerPage}
+          onChange={(value) => {
+            setRowsPerPage(value);
+            setPage(1);
+          }}
+          labelClassName={tableStatsTextClassName}
+        />
       </div>
     </div>
   );

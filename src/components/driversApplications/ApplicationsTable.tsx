@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@heroui/react";
-import {
   ListObjectsCommand,
   GetObjectCommand,
   S3Client,
@@ -16,6 +8,7 @@ import config from "@/amplifyconfiguration.json";
 import { format } from "date-fns";
 import BottomContent from "@/components/chassisTable/TablePagination";
 import TopContent from "./TableSearch";
+import CollapsibleTableControls from "@/components/common/CollapsibleTableControls";
 import ViewFileButton from "./ViewFileButton";
 import DeleteFileButton from "./DeleteFileButton";
 import { parseKeyFallbackForDriversApplications } from "@/utils/stringMod";
@@ -27,20 +20,34 @@ import { DriverApplicationsComments } from "@/API";
 import AWSSubscriptionDriverApplications from "./DriverApplicationsSubscriptions";
 import { deleteDriverApplicationsComments } from "@/graphql/mutations";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { usePersistedRowsPerPage } from "@/hooks/usePersistedRowsPerPage";
+import { useTableScrollShadows } from "@/hooks/useTableScrollShadows";
+import {
+  tableHoverRowClassName,
+  tablePageShellClassName,
+  tableScrollFrameClassName,
+  tableScrollRegionClassName,
+} from "@/lib/tableShell";
 
-const classNames = {
-  th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-  td: [
-    "text-xl",
-    "py-7",
-    "px-1",
-    "group-data-[first=true]:first:before:rounded-none",
-    "group-data-[first=true]:last:before:rounded-none",
-    "group-data-[middle=true]:before:rounded-none",
-    "group-data-[last=true]:first:before:rounded-none",
-    "group-data-[last=true]:last:before:rounded-none",
-  ],
-};
+const headerGridClassName =
+  "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_8.5rem] gap-x-4 gap-y-3 px-6 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-default-500 md:text-sm md:tracking-[0.16em] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(9rem,0.85fr)_8.5rem]";
+
+const rowGridClassName =
+  "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_8.5rem] items-center gap-x-4 gap-y-4 px-6 py-5 text-[1rem] leading-snug md:gap-x-6 md:py-6 md:text-xl md:leading-normal lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(9rem,0.85fr)_8.5rem]";
+
+const shadowOverlayClassName =
+  "pointer-events-none absolute inset-x-0 inset-y-0 z-10";
+
+const stripedRowClassName = "bg-slate-100/95 dark:bg-slate-900/60";
+
+const topShadowClassName =
+  "absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-black/45 to-transparent transition-opacity duration-200 ease-out dark:from-white/25";
+
+const bottomShadowClassName =
+  "absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/45 to-transparent transition-opacity duration-200 ease-out dark:from-white/25";
+
+const sortableHeaderButtonClassName =
+  "inline-flex items-center gap-2 text-left text-sm font-semibold uppercase tracking-[0.16em] text-default-500 transition-colors hover:text-foreground";
 
 interface FileMetadata {
   id: string;
@@ -67,14 +74,14 @@ const ApplicationsTable = () => {
   const s3Key = parts[0] + ".pdf";
 
   const [initialPreviewKey, setInitialPreviewKey] = useState<string | null>(
-    null
+    null,
   );
   const [files, setFiles] = useState<FileMetadata[]>([]);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = usePersistedRowsPerPage();
   const [filterValue, setFilterValue] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "submitedAt",
+    column: "submittedAt",
     direction: "descending",
   });
 
@@ -96,12 +103,12 @@ const ApplicationsTable = () => {
           Bucket: config.aws_user_files_s3_bucket,
           Prefix: "applications/drivers/",
           Delimiter: "/",
-        })
+        }),
       );
 
       // Filter out folder placeholder objects.
       const fileObjects = (listResponse.Contents || []).filter(
-        (obj) => obj.Key !== "applications/drivers/"
+        (obj) => obj.Key !== "applications/drivers/",
       );
 
       const fileMetadataPromises = fileObjects.map(async (file) => {
@@ -110,7 +117,7 @@ const ApplicationsTable = () => {
             Bucket: config.aws_user_files_s3_bucket,
             Key: file.Key!,
             Range: "bytes=0-0",
-          })
+          }),
         );
 
         return {
@@ -159,7 +166,7 @@ const ApplicationsTable = () => {
 
       // 2) Find all comments for that file
       const commentsToDelete = applicationsComments.filter(
-        (c) => c.fileId === deletedPath
+        (c) => c.fileId === deletedPath,
       );
 
       if (commentsToDelete.length) {
@@ -171,13 +178,13 @@ const ApplicationsTable = () => {
             client.graphql({
               query: deleteDriverApplicationsComments,
               variables: { input: { id: c.id } },
-            })
-          )
+            }),
+          ),
         );
       }
     },
     // now depends on applicationsComments & setApplicationsComments
-    [applicationsComments]
+    [applicationsComments],
   );
   // Filter files based on search term.
   const filteredFiles = useMemo(() => {
@@ -279,87 +286,141 @@ const ApplicationsTable = () => {
     return paginatedFiles.map((file) => ({
       ...file,
       comments: applicationsComments.filter(
-        (comment) => comment?.fileId === file?.id
+        (comment) => comment?.fileId === file?.id,
       ),
     }));
   }, [paginatedFiles, applicationsComments]);
+  const { scrollRef, showTopShadow, showBottomShadow } =
+    useTableScrollShadows("driver-applications", [
+      itemsWithComments.length,
+      page,
+      rowsPerPage,
+    ]);
 
   return (
-    <div className="my-16 mx-auto container">
+    <div className={tablePageShellClassName}>
       <AWSSubscriptionDriverApplications
         setComments={setApplicationsComments}
       />
-      <Table
-        aria-label="Files Metadata Table"
-        classNames={classNames}
-        topContent={
-          <TopContent
-            files={files}
-            filterValue={filterValue}
-            setFilterValue={setFilterValue}
-            setPage={setPage}
-            setRowsPerPage={setRowsPerPage}
-          />
-        }
-        bottomContent={
+      <CollapsibleTableControls>
+        <TopContent
+          files={files}
+          filterValue={filterValue}
+          setFilterValue={setFilterValue}
+          setPage={setPage}
+          setRowsPerPage={setRowsPerPage}
+          rowsPerPage={rowsPerPage}
+        />
+      </CollapsibleTableControls>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className={`${tableScrollFrameClassName} flex min-h-0 flex-col`}>
+        <div className="shrink-0 border-b border-slate-200/80 bg-white dark:border-white/10 dark:bg-slate-950">
+          <div className={headerGridClassName}>
+            <button
+              className={sortableHeaderButtonClassName}
+              type="button"
+              onClick={() => handleSort("firstName")}>
+              First Name
+              {renderSortArrow("firstName")}
+            </button>
+            <button
+              className={sortableHeaderButtonClassName}
+              type="button"
+              onClick={() => handleSort("lastName")}>
+              Last Name
+              {renderSortArrow("lastName")}
+            </button>
+            <button
+              className={`hidden lg:inline-flex ${sortableHeaderButtonClassName}`}
+              type="button"
+              onClick={() => handleSort("submittedAt")}>
+              Submitted At
+              {renderSortArrow("submittedAt")}
+            </button>
+            <div className="justify-self-end">Actions</div>
+          </div>
+        </div>
+        <div className="relative min-h-0 flex-1">
+          <div ref={scrollRef} className={tableScrollRegionClassName}>
+            {itemsWithComments.length === 0 ? (
+              <div className="flex min-h-full items-center justify-center px-6 py-16 text-lg text-default-400">
+                No files found.
+              </div>
+            ) : (
+              <div className="min-h-full">
+                {itemsWithComments.map((file, index) => {
+                  const submittedAt = file.lastModified
+                    ? format(new Date(file.lastModified), "PP")
+                    : "N/A";
+                  let firstName = file.metadata?.firstname;
+                  let lastName = file.metadata?.lastName;
+
+                  if (!firstName || !lastName) {
+                    const fallback = parseKeyFallbackForDriversApplications(
+                      file.key
+                    );
+                    firstName = firstName || fallback.firstName || "N/A";
+                    lastName = lastName || fallback.lastName || "N/A";
+                  }
+
+                  const isMatch = file.key === initialPreviewKey;
+
+                  return (
+                    <div
+                      key={file.id}
+                      className={`${rowGridClassName} ${
+                        index % 2 === 1 ? stripedRowClassName : ""
+                      } ${tableHoverRowClassName}`}>
+                      <div className="min-w-0 break-words">{firstName}</div>
+                      <div className="min-w-0 break-words">
+                        {lastName}
+                        <div className="mt-1 text-sm text-default-400 lg:hidden">
+                          {submittedAt}
+                        </div>
+                      </div>
+                      <div className="hidden min-w-0 whitespace-nowrap lg:block">
+                        {submittedAt}
+                      </div>
+                      <div className="justify-self-end">
+                        <div className="flex flex-row gap-2 sm:gap-3">
+                          <DeleteFileButton
+                            filePath={file.key}
+                            fileName={`${firstName} ${lastName} Application`}
+                            onDelete={handleFileDeleted}
+                          />
+                          <ViewFileButton file={file} autoOpen={isMatch} />
+                          <CommentButtonAWS
+                            fileId={file.id}
+                            comments={file.comments ?? []}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <div className={shadowOverlayClassName}>
+            <div
+              aria-hidden="true"
+              className={`${topShadowClassName} ${
+                showTopShadow ? "opacity-100" : "opacity-0"
+              }`}
+            />
+            <div
+              aria-hidden="true"
+              className={`${bottomShadowClassName} ${
+                showBottomShadow ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </div>
+        </div>
+        </div>
+        <div className="mt-auto shrink-0">
           <BottomContent page={page} pages={totalPages} setPage={setPage} />
-        }
-        isStriped>
-        <TableHeader>
-          <TableColumn onClick={() => handleSort("firstName")}>
-            First Name{renderSortArrow("firstName")}
-          </TableColumn>
-          <TableColumn onClick={() => handleSort("lastName")}>
-            Last Name{renderSortArrow("lastName")}
-          </TableColumn>
-          <TableColumn
-            className="hidden sm:table-cell"
-            onClick={() => handleSort("submittedAt")}>
-            Submitted At{renderSortArrow("submittedAt")}
-          </TableColumn>
-          <TableColumn>Actions</TableColumn>
-        </TableHeader>
-        <TableBody items={itemsWithComments} emptyContent="No files found.">
-          {(file: FileMetadata) => {
-            const submittedAt = file.lastModified
-              ? format(new Date(file.lastModified), "PP")
-              : "N/A";
-            let firstName = file.metadata?.firstname;
-            let lastName = file.metadata?.lastName;
-            if (!firstName || !lastName) {
-              const fallback = parseKeyFallbackForDriversApplications(file.key);
-              firstName = firstName || fallback.firstName || "N/A";
-              lastName = lastName || fallback.lastName || "N/A";
-            }
-            const isMatch = file.key === initialPreviewKey;
-
-            return (
-              <TableRow key={file.id}>
-                <TableCell className="!pl-4">{firstName}</TableCell>
-                <TableCell className="!pl-4">{lastName}</TableCell>
-                <TableCell className="!pl-4 hidden sm:table-cell">
-                  {submittedAt}
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-row gap-2 sm:gap-3">
-                    <DeleteFileButton
-                      filePath={file.key}
-                      fileName={`${firstName} ${lastName} Application`}
-                      onDelete={handleFileDeleted}
-                    />
-                    <ViewFileButton file={file} autoOpen={isMatch} />
-
-                    <CommentButtonAWS
-                      fileId={file.id}
-                      comments={file.comments ?? []}
-                    />
-                  </div>
-                </TableCell>
-              </TableRow>
-            );
-          }}
-        </TableBody>
-      </Table>
+        </div>
+      </div>
     </div>
   );
 };

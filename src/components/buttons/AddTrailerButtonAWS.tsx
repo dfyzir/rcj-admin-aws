@@ -29,7 +29,15 @@ import { useTheme } from "@/context/themeContext";
 //This component represents a button to add a new trailer, triggering the display of a modal
 //with a form for creating a new trailer using TRailerRCJCreateForm  AWS UI component. It uses NextUI components and AWS services.
 
-const AddTrailerButtonAWS = () => {
+type AddTrailerButtonAWSProps = {
+  className?: string;
+  size?: "sm" | "md" | "lg";
+};
+
+const AddTrailerButtonAWS = ({
+  className = "text-sm font-semibold sm:text-base",
+  size = "lg",
+}: AddTrailerButtonAWSProps) => {
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { theme } = useTheme();
@@ -47,12 +55,13 @@ const AddTrailerButtonAWS = () => {
       key: `${fileParts.join(".").toUpperCase()}.${uniqueString}.${ext}`,
     };
   };
+  const buttonClassName = `h-10 px-4 text-sm font-semibold sm:h-11 sm:px-5 sm:text-[0.95rem] ${className}`;
 
   return (
-    <div className="container">
+    <div className="inline-flex shrink-0">
       <Button
-        className="text-xl"
-        size="lg"
+        className={buttonClassName}
+        size={size}
         color="primary"
         endContent={<PlusIcon />}
         onPress={onOpen}>

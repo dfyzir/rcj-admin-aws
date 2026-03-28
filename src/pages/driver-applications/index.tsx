@@ -25,7 +25,7 @@ function ApplicationsList() {
   }, [user, router, toSignIn]);
 
   return (
-    <div className="h-full w-full">
+    <div className="flex h-full min-h-0 w-full flex-col">
       <ApplicationsTable />
     </div>
   );

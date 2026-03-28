@@ -9,6 +9,11 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import useTwoDaysDifference from "@/hooks/useCheckContainerDate";
+import {
+  tableDropdownItemClassNames,
+  tableDropdownMenuClassNames,
+  tableFilterTriggerClassName,
+} from "@/lib/tableShell";
 
 //ExpiredButton Component:
 
@@ -62,22 +67,25 @@ const ExpiredContainerButton = ({
               variant="shadow"
               color="danger"
               size="lg"
-              className="text-xl font-semibold text-white">
+              className={`${tableFilterTriggerClassName} text-white`}>
               {expiredItems.length} expired
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
+          <DropdownMenu
+            aria-label="Static Actions"
+            variant="light"
+            classNames={tableDropdownMenuClassNames}
+            itemClasses={tableDropdownItemClassNames}>
             {expiredItems.map((item) => (
               <DropdownItem
                 key={item.id}
-                className="text-3xl"
                 onPress={() => {
                   setFilterValue(item.chassisNumber!);
                   setPage(1);
                 }}>
                 <div
                   title="Show chassis in the table"
-                  className="text-center font-semibold text-xl ">
+                  className="text-center text-[0.85rem] font-medium uppercase tracking-[0.08em] sm:text-sm">
                   {item.container}
                 </div>
               </DropdownItem>

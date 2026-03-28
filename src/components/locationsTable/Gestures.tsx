@@ -1,22 +1,37 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChassisLocation } from "@/API";
 import { updateChassisLocation } from "@/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 import { motion } from "framer-motion";
-import { CheckedCircleIcon } from "../icons/CheckedCIrcleIcon";
 
 const DragGesture = ({
   index,
   item,
+  onReadyChange,
+  onCommit,
 }: {
   index: string;
   item: ChassisLocation;
+  onReadyChange?: (ready: boolean) => void;
+  onCommit?: () => void;
 }) => {
-  const [divWidth, setDivWidth] = useState(30);
-  const [draggedDistance, setDraggedDistance] = useState(0);
+  const minWidth = 34;
+  const successOffset = 110;
+  const maxWidth = 168;
+
+  const [divWidth, setDivWidth] = useState(minWidth);
+  const [isReady, setIsReady] = useState(false);
+
+  const setGestureReady = (ready: boolean) => {
+    setIsReady(ready);
+  };
+
+  useEffect(() => {
+    onReadyChange?.(isReady);
+  }, [isReady, onReadyChange]);
 
   const handleDragEvent = async () => {
-    if (divWidth >= 160) {
+    if (divWidth >= minWidth + successOffset) {
       const client = generateClient();
       await client.graphql({
         query: updateChassisLocation,
@@ -26,24 +41,27 @@ const DragGesture = ({
           },
         },
       });
+      onCommit?.();
     }
-    setDivWidth(30);
+    setGestureReady(false);
+    setDivWidth(minWidth);
   };
 
   const draggableVariants = useMemo(() => {
     return {
       initial: {
         width: `${divWidth}px`,
-        height: "105px",
-        opacity: 0.5,
+        height: "100%",
+        opacity: 0.7,
         padding: 0,
         top: 0,
-        zIndex: 20,
+        left: 0,
+        zIndex: 30,
       },
       whileDrag: {
         opacity: 1,
         background:
-          "linear-gradient(to right, rgba(165, 243, 252, 0.5), rgba(96, 165, 250,0.8))",
+          "linear-gradient(to right, rgba(165, 243, 252, 0.45), rgba(96, 165, 250, 0.75))",
       },
 
       animate: {
@@ -60,41 +78,42 @@ const DragGesture = ({
       variants={draggableVariants}
       style={{
         position: "absolute",
-        borderTopRightRadius: "12px",
-        borderBottomRightRadius: "12px",
+        borderTopRightRadius: "16px",
+        borderBottomRightRadius: "16px",
+        touchAction: "pan-y",
       }}
       initial="initial"
       animate="animate"
       whileDrag="whileDrag"
-      onDrag={(event: MouseEvent) => {
-        if (event.x <= 165) {
-          setDivWidth(Math.max(event.x, 30));
-        }
+      onDrag={(event, info) => {
+        const nextWidth = Math.min(
+          maxWidth,
+          Math.max(minWidth, minWidth + info.offset.x),
+        );
+
+        setDivWidth(nextWidth);
+        setGestureReady(info.offset.x >= successOffset);
       }}
       onDragEnd={(event, info) => {
-        if (info.point.x > 160) {
+        if (info.offset.x >= successOffset) {
           handleDragEvent();
+          return;
         }
+        setGestureReady(false);
+        setDivWidth(minWidth);
       }}
-      onTouchEnd={() => setDivWidth(30)}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragMomentum={false}
       dragElastic={0.0}
-      className="items-center">
-      <div className=" w-[20px] h-full flex items-center absolute ml-2">
-        <CheckedCircleIcon
-          fill={`${
-            divWidth < 60
-              ? "transparent"
-              : divWidth < 100
-              ? "rgba(60, 179, 113, 0.2)"
-              : divWidth < 130
-              ? "rgba(60, 179, 113, 0.6)"
-              : "rgba(60, 179, 113, 1)"
-          }`}
-          className="transition duration-1000"
-        />
+      className="inset-y-0 left-0 touch-pan-y bg-[linear-gradient(90deg,rgba(49,107,173,0.12)_0%,rgba(0,141,193,0.08)_60%,rgba(49,107,173,0.02)_100%)] shadow-[inset_-1px_0_0_rgba(49,107,173,0.10)] dark:bg-[linear-gradient(90deg,rgba(148,163,184,0.14)_0%,rgba(148,163,184,0.05)_60%,rgba(148,163,184,0.02)_100%)] dark:shadow-[inset_-1px_0_0_rgba(255,255,255,0.04)]">
+      <div className="pointer-events-none absolute inset-y-0 left-2 flex items-center text-slate-400/80 dark:text-white/25">
+        <span
+          className={`text-xs font-semibold tracking-[0.2em] transition-colors duration-150 ${
+            isReady ? "text-emerald-500 dark:text-emerald-400" : ""
+          }`}>
+          {">>"}
+        </span>
       </div>
     </motion.div>
   );

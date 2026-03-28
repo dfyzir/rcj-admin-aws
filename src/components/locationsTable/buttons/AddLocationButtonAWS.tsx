@@ -9,7 +9,6 @@ import {
 import { PlusIcon } from "../../icons/PlusIcon";
 import ChassisLoctionCreateForm from "@/ui-components/ChassisLocationCreateForm";
 import { v4 as uuidv4 } from "uuid";
-import useScreenWidth from "@/hooks/useScreenWidth";
 import { useState } from "react";
 import { ChassisLocation } from "@/API";
 import { generateClient } from "aws-amplify/api";
@@ -21,12 +20,19 @@ import { Flex, HighlightMatch } from "@aws-amplify/ui-react";
 //This component represents a button to add a new trailer, triggering the display of a modal
 //with a form for creating a new trailer using TRailerRCJCreateForm  AWS UI component. It uses NextUI components and AWS services.
 
-const AddLocationButtonAWS = () => {
+type AddLocationButtonAWSProps = {
+  className?: string;
+  size?: "sm" | "md" | "lg";
+};
+
+const AddLocationButtonAWS = ({
+  className = "text-sm font-semibold sm:text-base",
+  size = "lg",
+}: AddLocationButtonAWSProps) => {
   const [inventory, setInventory] = useState<ChassisLocation>();
   const [hasMatch, setHasMatch] = useState(false);
   // Use the useDisclosure hook to manage modal visibility
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const screenWidth = useScreenWidth();
 
   const renderOptions = (options: any, value: any) => {
     const { label } = options;
@@ -38,17 +44,18 @@ const AddLocationButtonAWS = () => {
       </Flex>
     );
   };
+  const buttonClassName = `h-10 px-4 text-sm font-semibold sm:h-11 sm:px-5 sm:text-[0.95rem] ${className}`;
 
   //processFile processes and formats file data before submission.
   return (
-    <div className="container">
+    <div className="inline-flex shrink-0">
       <Button
-        className="text-xl"
-        size="lg"
+        className={buttonClassName}
+        size={size}
         color="primary"
         endContent={<PlusIcon />}
         onPress={onOpen}>
-        Add {screenWidth >= 402 ? "New" : null}
+        Add New
       </Button>
       <Modal
         isOpen={isOpen}

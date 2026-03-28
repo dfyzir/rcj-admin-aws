@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html
       lang="en"
+      data-scroll-behavior="smooth"
       className=" bg-gradient-to-r from-cyan-200/50 to-blue-400/80 overflow-x-hidden  ">
       <Head />
       <body>

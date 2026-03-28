@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-950 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-50;
+}
+
 .amplify-storagemanager__dropzone {
   @apply dark:!bg-gray-800;
 }
@@ -41,3 +51,14 @@
 .amplify-field__error-message {
   @apply dark:!text-red-400;
 }
+
+.table-scroll-region {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.table-scroll-region::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+

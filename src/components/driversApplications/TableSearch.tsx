@@ -1,6 +1,12 @@
 import { SetStateAction, useCallback } from "react";
 import { Input } from "@heroui/react";
 import { SearchIcon } from "../icons/SearchIcon";
+import RowsPerPageDropdown from "../common/RowsPerPageDropdown";
+import {
+  tableSearchInputClassNames,
+  tableStatsRowClassName,
+  tableStatsTextClassName,
+} from "@/lib/tableShell";
 
 // If you have a shared FileMetadata type, import it; otherwise, define it here:
 export type FileMetadata = {
@@ -16,6 +22,7 @@ type TopContentProps = {
   setPage: (value: SetStateAction<number>) => void;
   setFilterValue: (value: SetStateAction<string>) => void;
   setRowsPerPage: (value: SetStateAction<number>) => void;
+  rowsPerPage: number;
 };
 
 const TopContent = ({
@@ -24,15 +31,8 @@ const TopContent = ({
   setPage,
   setFilterValue,
   setRowsPerPage,
+  rowsPerPage,
 }: TopContentProps) => {
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    [setPage, setRowsPerPage]
-  );
-
   const onSearchChange = useCallback(
     (value?: string) => {
       if (value) {
@@ -59,6 +59,7 @@ const TopContent = ({
             isClearable
             placeholder="Search file"
             startContent={<SearchIcon />}
+            classNames={tableSearchInputClassNames}
             value={filterValue}
             onClear={onClear}
             onValueChange={onSearchChange}
@@ -66,20 +67,18 @@ const TopContent = ({
         </div>
         {/* Optionally, add filter buttons here if needed */}
       </div>
-      <div className="flex justify-between items-center">
-        <span className="text-default-400 text-large">
+      <div className={tableStatsRowClassName}>
+        <span className={tableStatsTextClassName}>
           Total {files?.length} files
         </span>
-        <label className="flex items-center text-default-400 text-large">
-          Rows per page:
-          <select
-            className="bg-transparent outline-none text-default-400 text-large ml-2"
-            onChange={onRowsPerPageChange}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
-        </label>
+        <RowsPerPageDropdown
+          value={rowsPerPage}
+          onChange={(value) => {
+            setRowsPerPage(value);
+            setPage(1);
+          }}
+          labelClassName={tableStatsTextClassName}
+        />
       </div>
     </div>
   );

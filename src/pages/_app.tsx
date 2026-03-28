@@ -23,7 +23,6 @@ function App({ Component, pageProps }: AppProps) {
     <Authenticator.Provider>
       <ThemeProvider>
         <HeroUIProvider>
-          <ToastContainer />
           <Head>
             {/* Add other global metadata tags here */}
             <title>RCJ Admin</title>
@@ -36,8 +35,13 @@ function App({ Component, pageProps }: AppProps) {
               content="width=device-width, initial-scale=1.0"
             />
           </Head>
-          <NavBar />
-          <Component {...pageProps} />
+          <div className="flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-slate-50 text-slate-950 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-50 lg:h-screen lg:flex-row">
+            <NavBar />
+            <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+              <ToastContainer />
+              <Component {...pageProps} />
+            </main>
+          </div>
         </HeroUIProvider>
       </ThemeProvider>
     </Authenticator.Provider>
