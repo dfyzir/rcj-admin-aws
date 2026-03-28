@@ -5,6 +5,7 @@ import {
   tablePaginationClassNames,
 } from "@/lib/tableShell";
 import { useHorizontalScrollShadows } from "@/hooks/useHorizontalScrollShadows";
+import { useDraggableHorizontalScroll } from "@/hooks/useDraggableHorizontalScroll";
 
 /*
   TablePagination Component
@@ -27,6 +28,7 @@ const TablePagination = ({
   const totalPages = Math.max(pages, 1);
   const { scrollRef, showLeftShadow, showRightShadow } =
     useHorizontalScrollShadows([totalPages, page, mobileAction]);
+  const dragScrollHandlers = useDraggableHorizontalScroll();
 
   const onNextPage = useCallback(() => {
     if (page < totalPages) {
@@ -46,7 +48,8 @@ const TablePagination = ({
         <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl">
           <div
             ref={scrollRef}
-            className="overflow-x-auto overflow-y-hidden py-1 overscroll-x-contain select-none [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden">
+            className="cursor-grab overflow-x-auto overflow-y-hidden py-1 overscroll-x-contain select-none active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [touch-action:pan-y] [&::-webkit-scrollbar]:hidden"
+            {...dragScrollHandlers}>
             <div className={`inline-flex min-w-max ${mobileAction ? "pr-4" : "pr-1"}`}>
               <Pagination
                 size="lg"

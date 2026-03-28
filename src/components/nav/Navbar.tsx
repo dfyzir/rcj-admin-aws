@@ -28,8 +28,8 @@ type NavItem = {
 };
 
 const dividerClassName = "border-slate-200/80 dark:border-white/10";
-const mobileDrawerWidthClass = "w-[calc(100vw-2rem)] max-w-[320px]";
-const mobileDrawerInnerWidthClass = "w-[calc(100vw-4rem)] max-w-[288px]";
+const mobileDrawerWidthClass = "w-[calc(100vw-2rem)] max-w-[336px]";
+const mobileDrawerInnerWidthClass = "w-[calc(100vw-4rem)] max-w-[304px]";
 const sidebarMotionClass = "duration-200 ease-out";
 const sidebarBrandHoverExpandedClass =
   "hover:border-[#316BAD]/24 hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.08)_0%,rgba(0,141,193,0.16)_50%,rgba(49,107,173,0.08)_100%)] hover:text-slate-950 hover:shadow-[0_12px_26px_-22px_rgba(0,141,193,0.18)] dark:hover:border-[#316BAD]/30 dark:hover:bg-[linear-gradient(90deg,rgba(49,107,173,0.14)_0%,rgba(0,141,193,0.22)_50%,rgba(49,107,173,0.14)_100%)] dark:hover:text-white dark:hover:shadow-[0_14px_28px_-22px_rgba(0,141,193,0.26)]";
@@ -302,7 +302,9 @@ function NavLink({
       href={item.href}
       onClick={onNavigate}
       className={`group flex items-center rounded-3xl border px-4 py-3 transition ${
-        showLabel ? "justify-start gap-3" : "justify-center"
+        showLabel
+          ? "w-full min-w-0 justify-start gap-3 px-3 lg:px-4"
+          : "justify-center"
       } ${
         isActive
           ? activeClass
@@ -312,8 +314,10 @@ function NavLink({
         {item.icon}
       </span>
       <span
-        className={`overflow-hidden whitespace-nowrap text-sm font-semibold uppercase tracking-[0.14em] transition-all ${
-          showLabel ? "max-w-[180px] opacity-100" : "max-w-0 opacity-0"
+        className={`overflow-hidden whitespace-nowrap font-semibold uppercase transition-all ${
+          showLabel
+            ? "min-w-0 flex-1 text-[0.82rem] tracking-[0.11em] opacity-100 sm:text-sm sm:tracking-[0.13em]"
+            : "max-w-0 text-sm tracking-[0.14em] opacity-0"
         }`}>
         {item.name}
       </span>
