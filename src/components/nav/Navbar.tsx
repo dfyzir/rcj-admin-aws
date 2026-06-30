@@ -19,6 +19,7 @@ export const adminEmails = [
   "dfyzir@gmail.com",
   "rmelendez@rcjtransport.com",
   "accounting@rcjtransport.com",
+  "michael@rcjtransport.com",
 ];
 
 type NavItem = {
@@ -415,7 +416,9 @@ function AccountMenu({
       <button
         type="button"
         onClick={() => setShowAuthModal(true)}
-        className={showLabel ? expandedTriggerClassName : compactTriggerClassName}>
+        className={
+          showLabel ? expandedTriggerClassName : compactTriggerClassName
+        }>
         {showLabel ? expandedTriggerContent : avatarBadge}
       </button>
     );
@@ -453,10 +456,10 @@ function AccountMenu({
   }
 
   const dropdown = (
-      <Dropdown
-        placement={showLabel ? "top-start" : "right-end"}
-        onOpenChange={setIsDropdownOpen}>
-        <DropdownTrigger>{trigger}</DropdownTrigger>
+    <Dropdown
+      placement={showLabel ? "top-start" : "right-end"}
+      onOpenChange={setIsDropdownOpen}>
+      <DropdownTrigger>{trigger}</DropdownTrigger>
       <DropdownMenu
         aria-label="Account menu"
         classNames={{
